@@ -1,0 +1,39 @@
+{
+	"name": "app",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --host",
+		"build": "tsc -b && vite build",
+		"preview": "vite preview --host --port 5173",
+		"analyze": "npx vite-bundle-visualizer"
+	},
+	"dependencies": {
+		"@solid-primitives/i18n": "^2.2.1",
+		"@solidjs/router": "^0.15.4",
+		"@tanstack/solid-query": "^5.90.22",
+		"@telegram-apps/sdk-solid": "^3.0.31",
+		"animate.css": "^4.1.1",
+		"lottix": "^1.1.5",
+		"plausible-tracker": "^0.3.9",
+		"solid-icons": "^1.2.0",
+		"solid-js": "^1.9.10",
+		"solid-toast": "^0.5.0"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.11",
+		"@tailwindcss/vite": "^4.1.18",
+		"autoprefixer": "^10.4.23",
+		"postcss": "^8.5.6",
+		"postcss-reporter": "^7.1.0",
+		"sass": "^1.97.3",
+		"solid-devtools": "^0.34.5",
+		"tailwindcss": "^4.1.18",
+		"typescript": "~5.9.3",
+		"vite": "^7.3.1",
+		"vite-plugin-purgecss": "^0.2.13",
+		"vite-plugin-solid": "^2.11.10",
+		"vite-plugin-solid-svg": "^0.8.1"
+	}
+}

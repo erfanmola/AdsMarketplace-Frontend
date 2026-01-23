@@ -1,0 +1,64 @@
+:root {
+   --white: #ffffff;
+   --black: #000000;
+   --white-rgb: 255, 255, 255;
+   --black-rgb: 0, 0, 0;
+   --text-color: var(--black);
+   --text-color-rgb: var(--black-rgb);
+   --secondary-color: #efeff4;
+   --secondary-color-rgb: 239, 239, 244;
+   --bg-color: var(--secondary-color);
+   --bg-color-rgb: var(--secondary-color-rgb);
+
+   --bottom-bar-color: #f2f2f2;
+   --bottom-bar-color-rgb: 242, 242, 242;
+
+   --modal-bg: var(--bg-color);
+
+   --animate-duration: 0.5s;
+   --animate-delay: 0;
+   --animate-repeat: 1;
+
+   --accent: var(--tg-theme-accent-text-color);
+
+   --section-bg-color: #ffffff;
+
+   --shimmer-bg: #d0d0d2;
+   --shimmer-highlight: #e5e5e5;
+
+   --shimmer-section-bg: #d5d5d5;
+   --shimmer-section-highlight: #e5e5e5;
+
+   --bg-primary: var(--bg-color);
+   --bg-secondary: var(--section-bg-color);
+
+   --motion-multiplier: 1;
+}
+
+body[data-theme="dark"] {
+   color-scheme: dark;
+
+   --text-color: var(--white);
+   --text-color-rgb: var(--white-rgb);
+   --secondary-color: #000000;
+   --secondary-color-rgb: 0, 0, 0;
+
+   --section-bg-color: #1c1c1d;
+
+   --bg-color: var(--secondary-color);
+   --bg-color-rgb: var(--secondary-color-rgb);
+
+   --modal-bg: var(--bg-color);
+
+   --shimmer-bg: #2a2a2a;
+   --shimmer-highlight: #1a1a1a;
+
+   --shimmer-section-bg: #343435;
+   --shimmer-section-highlight: #252526;
+
+   --bg-primary: var(--section-bg-color);
+   --bg-secondary: var(--bg-color);
+
+   --bottom-bar-color: #1d1d1d;
+   --bottom-bar-color-rgb: 29, 29, 29;
+}
