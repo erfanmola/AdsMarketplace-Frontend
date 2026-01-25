@@ -187,3 +187,17 @@ input[type="number"] {
    transform: translateY(-0.375rem);
    filter: blur(2px);
 }
+
+.safe-area-top {
+   padding-top: calc(
+      var(--tg-viewport-safe-area-inset-top, 0) +
+         var(--tg-viewport-content-safe-area-inset-top, 0)
+   );
+}
+
+.safe-area-bottom {
+   padding-bottom: calc(
+      var(--tg-viewport-safe-area-inset-bottom, 1rem) +
+         var(--tg-viewport-content-safe-area-inset-bottom, 0)
+   );
+}

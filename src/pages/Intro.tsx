@@ -124,7 +124,7 @@ const PageIntro: Component = () => {
 				</div>
 			</div>
 
-			<footer>
+			<footer class="safe-area-bottom">
 				<CustomMainButton
 					onClick={() => {
 						invokeHapticFeedbackImpact("soft");
