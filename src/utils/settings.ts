@@ -17,6 +17,9 @@ export type Settings = {
 	haptic: {
 		enabled: boolean;
 	};
+	intro: {
+		done: boolean;
+	};
 };
 
 export const [settings, setSettingsStore] = createStore<Settings>({
@@ -26,6 +29,9 @@ export const [settings, setSettingsStore] = createStore<Settings>({
 	},
 	haptic: {
 		enabled: true,
+	},
+	intro: {
+		done: false,
 	},
 });
 

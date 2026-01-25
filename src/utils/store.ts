@@ -1,7 +1,16 @@
 import { createStore } from "solid-js/store";
 
+type StoreUser = {
+	first_name: string;
+	last_name?: string;
+	profile_photo?: string;
+	language?: string;
+	user_id: number;
+};
+
 export type Store = {
 	token?: string;
+	user?: StoreUser;
 	version?: string;
 };
 

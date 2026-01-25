@@ -12,12 +12,14 @@ import {
 	onMount,
 	Show,
 } from "solid-js";
+import { register as registerSwiper } from "swiper/element";
 import RouterRoot from "./components/RouterRoot.tsx";
 import {
 	type TranslationContextType,
 	TranslationProvider,
 } from "./contexts/TranslationContext.ts";
 import { dict as en_dict } from "./i18n/en.ts";
+import { LayoutAuthorize } from "./layouts/Authorize.tsx";
 import { fetchDictionary, type Locale, localeDirections } from "./locale";
 import PageError from "./pages/Error";
 import PageHome from "./pages/Home.tsx";
@@ -34,6 +36,8 @@ const queryClient = new QueryClient({
 });
 
 const App = () => {
+	registerSwiper();
+
 	const [locale, setLocale] = createSignal<Locale>("en");
 
 	const [dict] = createResource(locale, fetchDictionary, {
@@ -127,16 +131,18 @@ const App = () => {
 					}
 				>
 					<ErrorBoundary fallback={<PageError />}>
-						<Router root={RouterRoot}>
-							<Show when={import.meta.env.DEV}>
-								<Route
-									path="/debug"
-									component={lazy(() => import("./pages/Debug"))}
-								/>
-							</Show>
+						<LayoutAuthorize>
+							<Router root={RouterRoot}>
+								<Show when={import.meta.env.DEV}>
+									<Route
+										path="/debug"
+										component={lazy(() => import("./pages/Debug"))}
+									/>
+								</Show>
 
-							<Route path="/" component={PageHome} />
-						</Router>
+								<Route path="/" component={PageHome} />
+							</Router>
+						</LayoutAuthorize>
 					</ErrorBoundary>
 				</Show>
 			</QueryClientProvider>

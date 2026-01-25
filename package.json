@@ -12,17 +12,24 @@
 	"dependencies": {
 		"@solid-primitives/i18n": "^2.2.1",
 		"@solidjs/router": "^0.15.4",
-		"@tanstack/solid-query": "^5.90.22",
+		"@tanstack/solid-query": "^5.90.23",
+		"@tanstack/solid-virtual": "^3.13.18",
 		"@telegram-apps/sdk-solid": "^3.0.31",
+		"@tonconnect/sdk": "^3.3.1",
+		"@tonconnect/ui": "^2.3.1",
 		"animate.css": "^4.1.1",
+		"gsap": "^3.14.2",
 		"lottix": "^1.1.5",
 		"plausible-tracker": "^0.3.9",
+		"solid-charts": "^0.0.2",
 		"solid-icons": "^1.2.0",
-		"solid-js": "^1.9.10",
-		"solid-toast": "^0.5.0"
+		"solid-js": "^1.9.11",
+		"solid-toast": "^0.5.0",
+		"solid-transition-group": "^0.3.0",
+		"swiper": "^12.0.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.11",
+		"@biomejs/biome": "^2.3.12",
 		"@tailwindcss/vite": "^4.1.18",
 		"autoprefixer": "^10.4.23",
 		"postcss": "^8.5.6",
