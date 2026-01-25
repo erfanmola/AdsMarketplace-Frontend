@@ -3,9 +3,15 @@ import { batch, onMount, type ParentComponent, Show } from "solid-js";
 import { createStore } from "solid-js/store";
 import { apiAuthUser } from "../api";
 import PageIntro from "../pages/Intro";
+import { Color } from "../utils/color";
 import { preloadPipeline } from "../utils/preload";
 import { settings } from "../utils/settings";
 import { setStore } from "../utils/store";
+import {
+	setBackgroundColor,
+	setBottomBarColor,
+	setHeaderColor,
+} from "../utils/telegram";
 
 export const LayoutAuthorize: ParentComponent = (props) => {
 	const [pipeline, setPipeline] = createStore({
@@ -31,6 +37,12 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 				});
 			}
 		});
+
+		const color = new Color(getComputedStyle(document.body).backgroundColor);
+
+		setHeaderColor(color.toHex() as any);
+		setBackgroundColor(color.toHex() as any, false);
+		setBottomBarColor(color.toHex() as any);
 	});
 
 	const SectionLoader = () => (
