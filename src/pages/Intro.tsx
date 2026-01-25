@@ -54,7 +54,7 @@ const PageIntro: Component = () => {
 		);
 
 		return (
-			<Transition name="slide-fade">
+			<Transition name="transition-slide-fade">
 				<Show when={toggle()}>
 					<LottiePlayer
 						src={animations[step()].url}
