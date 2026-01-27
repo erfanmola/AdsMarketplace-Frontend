@@ -12,6 +12,7 @@ import {
 	setHeaderColor,
 } from "../utils/telegram";
 import PlausibleTracker from "./misc/PlausibleTracker";
+import RootBottomBar from "./RootBottomBar";
 import SettingsButton from "./tma/SettingsButton";
 
 const RouterRoot: Component<RouteSectionProps<unknown>> = (props) => {
@@ -69,6 +70,8 @@ const RouterRoot: Component<RouteSectionProps<unknown>> = (props) => {
 	return (
 		<>
 			{props.children}
+
+			<RootBottomBar />
 
 			<For each={Object.values(modals).filter((modal) => modal.open)}>
 				{(modal) => <Dynamic component={modal.component} />}

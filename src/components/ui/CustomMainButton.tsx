@@ -1,7 +1,7 @@
 import "./CustomMainButton.scss";
-import { TbOutlineLoader2 } from "solid-icons/tb";
 import { type Component, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
+import { SVGSymbol } from "../SVG";
 
 type CustomMainButtonProps = {
 	onClick: () => void;
@@ -40,7 +40,7 @@ const CustomMainButton: Component<CustomMainButtonProps> = (props) => {
 				</div>
 			</Show>
 			<span>{props.text}</span>
-			<TbOutlineLoader2 />
+			<SVGSymbol id="TbOutlineLoader2" />
 		</button>
 	);
 };

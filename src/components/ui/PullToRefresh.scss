@@ -1,0 +1,27 @@
+.container-pull-to-refresh {
+   position: relative;
+}
+
+.container-pull-to-refresh-indicator {
+   display: flex;
+   width: 100%;
+   align-items: center;
+   justify-content: center;
+   padding-bottom: 1rem;
+
+   > svg {
+      font-size: 1.625rem;
+      animation: ios-spin 1s linear infinite;
+      transform-origin: center;
+      opacity: 0.75;
+   }
+}
+
+@keyframes ios-spin {
+   from {
+      transform: rotate(0deg);
+   }
+   to {
+      transform: rotate(360deg);
+   }
+}

@@ -21,8 +21,11 @@ import {
 import { dict as en_dict } from "./i18n/en.ts";
 import { LayoutAuthorize } from "./layouts/Authorize.tsx";
 import { fetchDictionary, type Locale, localeDirections } from "./locale";
+import PageAdvertisers from "./pages/Advertisers.tsx";
 import PageError from "./pages/Error";
 import PageHome from "./pages/Home.tsx";
+import PageProfile from "./pages/Profile.tsx";
+import PagePublishers from "./pages/Publishers.tsx";
 import { setIsRTL } from "./utils/i18n.ts";
 import { initializeSettings, settings } from "./utils/settings.ts";
 import { initializeTMA, postEvent } from "./utils/telegram.ts";
@@ -141,6 +144,12 @@ const App = () => {
 								</Show>
 
 								<Route path="/" component={PageHome} />
+
+								<Route path="/advertisers" component={PageAdvertisers} />
+
+								<Route path="/publishers" component={PagePublishers} />
+
+								<Route path="/profile" component={PageProfile} />
 							</Router>
 						</LayoutAuthorize>
 					</ErrorBoundary>

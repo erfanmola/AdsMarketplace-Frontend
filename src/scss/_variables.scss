@@ -33,6 +33,11 @@
    --bg-secondary: var(--section-bg-color);
 
    --motion-multiplier: 1;
+
+   --glass-bg: rgba(var(--bg-color-rgb), 0.5);
+   --glass-shadow: rgba(192, 192, 192, 0.25);
+   --glass-text-color: #323232;
+   --glass-text-color-rgb: 50, 50, 50;
 }
 
 body[data-theme="dark"] {
@@ -61,4 +66,9 @@ body[data-theme="dark"] {
 
    --bottom-bar-color: #1d1d1d;
    --bottom-bar-color-rgb: 29, 29, 29;
+
+   --glass-bg: rgba(48, 48, 48, 0.5);
+   --glass-shadow: rgba(64, 64, 64, 0.25);
+   --glass-text-color: var(--white);
+   --glass-text-color-rgb: var(--white-rgb);
 }

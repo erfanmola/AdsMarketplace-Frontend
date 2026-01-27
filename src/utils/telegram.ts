@@ -230,4 +230,9 @@ export const initializeTMA = async () => {
 			postEvent("web_app_request_fullscreen");
 		}
 	}
+
+	document.body.setAttribute(
+		"data-platform",
+		lp?.tgWebAppPlatform.toLowerCase() ?? "unknown",
+	);
 };

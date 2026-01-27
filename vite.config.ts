@@ -37,6 +37,7 @@ export default defineConfig((config) => {
 						/data-theme/,
 						/lottie-animation/,
 						/transition-/,
+						/container-pull-to-refresh-/,
 					],
 				},
 				defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],

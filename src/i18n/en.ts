@@ -56,6 +56,31 @@ const dict = {
 				start: "Let's Start",
 			},
 		},
+		home: {},
+		advertisers: {},
+		publishers: {},
+		profile: {},
+	},
+	components: {
+		bottomBar: {
+			items: {
+				home: {
+					title: "Home",
+				},
+				advertisers: {
+					title: "Advertisers",
+				},
+				publishers: {
+					title: "Publishers",
+				},
+				profile: {
+					title: "Profile",
+				},
+			},
+			search: {
+				title: "Search",
+			},
+		},
 	},
 	modals: {},
 };
