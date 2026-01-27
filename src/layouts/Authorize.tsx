@@ -1,22 +1,32 @@
 import "./Authorize.scss";
-import { batch, onMount, type ParentComponent, Show } from "solid-js";
+import {
+	batch,
+	createEffect,
+	on,
+	onMount,
+	type ParentComponent,
+	Show,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 import { apiAuthUser } from "../api";
 import PageIntro from "../pages/Intro";
 import { Color } from "../utils/color";
 import { preloadPipeline } from "../utils/preload";
 import { settings } from "../utils/settings";
-import { setStore } from "../utils/store";
+import { setStore, store } from "../utils/store";
 import {
 	setBackgroundColor,
 	setBottomBarColor,
 	setHeaderColor,
 } from "../utils/telegram";
+import { ws } from "../utils/ws";
 
 export const LayoutAuthorize: ParentComponent = (props) => {
 	const [pipeline, setPipeline] = createStore({
 		preload: false,
 		user: false,
+		ws: false,
+		wsAuth: false,
 	});
 
 	onMount(async () => {
@@ -44,6 +54,36 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 		setBackgroundColor(color.toHex() as any, false);
 		setBottomBarColor(color.toHex() as any);
 	});
+
+	createEffect(() => {
+		if (pipeline.ws && !pipeline.wsAuth && pipeline.user) {
+			ws.authenticate(store.token!);
+		}
+	});
+
+	createEffect(
+		on(
+			ws.isConnected,
+			(connected) => {
+				setPipeline("ws", connected);
+			},
+			{
+				defer: true,
+			},
+		),
+	);
+
+	createEffect(
+		on(
+			ws.isAuthorized,
+			(authorized) => {
+				setPipeline("wsAuth", authorized);
+			},
+			{
+				defer: true,
+			},
+		),
+	);
 
 	const SectionLoader = () => (
 		<div id="layout-authorize-fallback">

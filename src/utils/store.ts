@@ -5,7 +5,7 @@ type StoreUser = {
 	last_name?: string;
 	profile_photo?: string;
 	language?: string;
-	user_id: number;
+	user_id: number | string;
 };
 
 export type Store = {
