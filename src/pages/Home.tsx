@@ -1,12 +1,13 @@
+import Page from "../layouts/Page";
 import "./Home.scss";
 
 import type { Component } from "solid-js";
 
 const PageHome: Component = () => {
 	return (
-		<div id="container-page-home" class="page">
-			Home!
-		</div>
+		<Page id="container-page-home" title="Home">
+			Home Content
+		</Page>
 	);
 };
 

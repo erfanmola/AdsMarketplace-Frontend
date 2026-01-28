@@ -15,6 +15,7 @@ import {
 	Show,
 } from "solid-js";
 import type Swiper from "swiper";
+import Page from "../layouts/Page";
 import { setSettings } from "../utils/settings";
 import { invokeHapticFeedbackImpact } from "../utils/telegram";
 
@@ -67,6 +68,18 @@ const PageIntro: Component = () => {
 		);
 	};
 
+	const Footer = () => {
+		return (
+			<CustomMainButton
+				onClick={() => {
+					invokeHapticFeedbackImpact("soft");
+					setSettings("intro", "done", true);
+				}}
+				text={t("pages.intro.button.start")}
+			/>
+		);
+	};
+
 	onMount(() => {
 		const slider: any = document.querySelector("#container-slider-intro");
 		if (!slider) return;
@@ -80,60 +93,46 @@ const PageIntro: Component = () => {
 	});
 
 	return (
-		<div id="container-page-intro" class="page">
+		<Page id="container-page-intro" footer={Footer}>
+			<header>
+				<Animation />
+			</header>
+
 			<div>
-				<header>
-					<Animation />
-				</header>
+				<swiper-container id="container-slider-intro" initial-slide={step()}>
+					<swiper-slide>
+						<h1>{t("pages.intro.sections.intro.title")}</h1>
+						<p> {t("pages.intro.sections.intro.description")}</p>
+					</swiper-slide>
 
-				<div>
-					<swiper-container id="container-slider-intro" initial-slide={step()}>
-						<swiper-slide>
-							<h1>{t("pages.intro.sections.intro.title")}</h1>
-							<p> {t("pages.intro.sections.intro.description")}</p>
-						</swiper-slide>
+					<swiper-slide>
+						<h1>{t("pages.intro.sections.advertisers.title")}</h1>
+						<p> {t("pages.intro.sections.advertisers.description")}</p>
+					</swiper-slide>
 
-						<swiper-slide>
-							<h1>{t("pages.intro.sections.advertisers.title")}</h1>
-							<p> {t("pages.intro.sections.advertisers.description")}</p>
-						</swiper-slide>
+					<swiper-slide>
+						<h1>{t("pages.intro.sections.publishers.title")}</h1>
+						<p> {t("pages.intro.sections.publishers.description")}</p>
+					</swiper-slide>
 
-						<swiper-slide>
-							<h1>{t("pages.intro.sections.publishers.title")}</h1>
-							<p> {t("pages.intro.sections.publishers.description")}</p>
-						</swiper-slide>
+					<swiper-slide>
+						<h1>{t("pages.intro.sections.flow.title")}</h1>
+						<p> {t("pages.intro.sections.flow.description")}</p>
+					</swiper-slide>
 
-						<swiper-slide>
-							<h1>{t("pages.intro.sections.flow.title")}</h1>
-							<p> {t("pages.intro.sections.flow.description")}</p>
-						</swiper-slide>
+					<swiper-slide>
+						<h1>{t("pages.intro.sections.done.title")}</h1>
+						<p> {t("pages.intro.sections.done.description")}</p>
+					</swiper-slide>
+				</swiper-container>
 
-						<swiper-slide>
-							<h1>{t("pages.intro.sections.done.title")}</h1>
-							<p> {t("pages.intro.sections.done.description")}</p>
-						</swiper-slide>
-					</swiper-container>
-
-					<ul>
-						<For each={Array.from(new Array(animations.length))}>
-							{(_, index) => (
-								<li classList={{ active: isActive(index()) }}></li>
-							)}
-						</For>
-					</ul>
-				</div>
+				<ul>
+					<For each={Array.from(new Array(animations.length))}>
+						{(_, index) => <li classList={{ active: isActive(index()) }}></li>}
+					</For>
+				</ul>
 			</div>
-
-			<footer class="safe-area-bottom">
-				<CustomMainButton
-					onClick={() => {
-						invokeHapticFeedbackImpact("soft");
-						setSettings("intro", "done", true);
-					}}
-					text={t("pages.intro.button.start")}
-				/>
-			</footer>
-		</div>
+		</Page>
 	);
 };
 

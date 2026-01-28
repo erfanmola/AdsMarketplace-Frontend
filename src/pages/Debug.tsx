@@ -1,11 +1,21 @@
+import { VsBracketError } from "solid-icons/vs";
+import Page from "../layouts/Page";
 import "./Debug.scss";
 import type { Component } from "solid-js";
 
 const PageDebug: Component = () => {
 	return (
-		<div id="container-page-debug" class="page">
-			<div>Debug</div>
-		</div>
+		<Page
+			id="container-page-debug"
+			title="Debug"
+			headerPrepend={() => (
+				<VsBracketError
+					style={{ "font-size": "1.75rem", color: "var(--accent)" }}
+				/>
+			)}
+		>
+			Debug Content
+		</Page>
 	);
 };
 

@@ -1,0 +1,50 @@
+.page {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   position: relative;
+   padding-top: calc(
+      var(--tg-viewport-safe-area-inset-top) +
+         var(--tg-viewport-content-safe-area-inset-top)
+   );
+   background-color: var(--bg-color);
+   overflow: hidden;
+
+   > header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      flex-shrink: 0;
+
+      > div {
+         display: flex;
+         height: 100%;
+         align-items: center;
+         flex-shrink: 0;
+      }
+
+      > h1 {
+         flex-grow: 1;
+         font-size: 1.75rem;
+         font-weight: 700;
+      }
+   }
+
+   > div {
+      flex-grow: 1;
+      overflow: hidden;
+   }
+
+   > footer {
+      flex-shrink: 0;
+      padding: 0.5rem 1rem
+         max(
+            1rem,
+            calc(
+               var(--tg-viewport-safe-area-inset-bottom) +
+                  var(--tg-viewport-content-safe-area-inset-bottom)
+            )
+         );
+   }
+}

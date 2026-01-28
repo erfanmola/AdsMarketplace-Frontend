@@ -1,12 +1,13 @@
+import Page from "../layouts/Page";
 import "./Publishers.scss";
 
 import type { Component } from "solid-js";
 
 const PagePublishers: Component = () => {
 	return (
-		<div id="container-page-publishers" class="page">
-			Publishers!
-		</div>
+		<Page id="container-page-publishers" title="Publishers">
+			Publishers Content
+		</Page>
 	);
 };
 

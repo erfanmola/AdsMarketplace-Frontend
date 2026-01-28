@@ -10,7 +10,6 @@
    user-select: none;
    -webkit-user-drag: none;
    line-height: normal;
-   overscroll-behavior: none;
 }
 
 :root {
@@ -45,7 +44,6 @@ body,
    width: 100vw;
    flex-direction: column;
    position: relative;
-   /* min-height: max(var(--ptg-viewport-height), 100vh); */
    pointer-events: auto !important;
    overflow: hidden;
 }
