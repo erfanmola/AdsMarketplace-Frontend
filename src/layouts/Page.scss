@@ -16,6 +16,7 @@
       gap: 0.5rem;
       padding: 1rem;
       flex-shrink: 0;
+      position: relative;
 
       > div {
          display: flex;
@@ -46,5 +47,31 @@
                   var(--tg-viewport-content-safe-area-inset-bottom)
             )
          );
+   }
+}
+
+ul.page-header-icons-list {
+   display: flex;
+   align-items: center;
+   height: 100%;
+   position: absolute;
+   inset-inline-end: 0;
+
+   > li {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-shrink: 0;
+      color: var(--accent);
+      padding: 0 0.5rem;
+
+      &:last-child {
+         padding-inline-end: calc(1rem + 0.5rem);
+      }
+
+      > svg {
+         font-size: 1.25rem;
+      }
    }
 }

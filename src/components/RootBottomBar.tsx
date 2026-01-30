@@ -31,10 +31,10 @@ const RootBottomBar = () => {
 						icon: () => <SVGSymbol id="HiSolidMegaphone" />,
 						title: t("components.bottomBar.items.publishers.title"),
 					},
-					{
-						icon: () => <SVGSymbol id="HiSolidUserCircle" />,
-						title: t("components.bottomBar.items.profile.title"),
-					},
+					// {
+					// 	icon: () => <SVGSymbol id="HiSolidUserCircle" />,
+					// 	title: t("components.bottomBar.items.profile.title"),
+					// },
 				]}
 				initialIndex={BottomBarValidPath.indexOf(location.pathname) ?? 0}
 				onIndexChange={(index) => {

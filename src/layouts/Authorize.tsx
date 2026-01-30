@@ -14,19 +14,15 @@ import { Color } from "../utils/color";
 import { preloadPipeline } from "../utils/preload";
 import { settings } from "../utils/settings";
 import { setStore, store } from "../utils/store";
-import {
-	setBackgroundColor,
-	setBottomBarColor,
-	setHeaderColor,
-} from "../utils/telegram";
+import { setBackgroundColor, setHeaderColor } from "../utils/telegram";
 import { ws } from "../utils/ws";
 
 export const LayoutAuthorize: ParentComponent = (props) => {
 	const [pipeline, setPipeline] = createStore({
 		preload: false,
 		user: false,
-		ws: false,
-		wsAuth: false,
+		ws: ws.isConnected(),
+		wsAuth: ws.isAuthorized(),
 	});
 
 	onMount(async () => {
@@ -48,11 +44,12 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 			}
 		});
 
-		const color = new Color(getComputedStyle(document.body).backgroundColor);
+		setTimeout(() => {
+			const color = new Color(getComputedStyle(document.body).backgroundColor);
 
-		setHeaderColor(color.toHex() as any);
-		setBackgroundColor(color.toHex() as any, false);
-		setBottomBarColor(color.toHex() as any);
+			setHeaderColor(color.toHex() as any);
+			setBackgroundColor(color.toHex() as any);
+		});
 	});
 
 	createEffect(() => {

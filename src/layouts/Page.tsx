@@ -1,4 +1,4 @@
-import { type Component, type ParentComponent, Show } from "solid-js";
+import { type Component, For, type ParentComponent, Show } from "solid-js";
 import "./Page.scss";
 import { Dynamic } from "solid-js/web";
 
@@ -42,6 +42,34 @@ const Page: ParentComponent<PageProps> = (props) => {
 				</footer>
 			</Show>
 		</div>
+	);
+};
+
+type PageHeaderIconListItem = {
+	component: Component;
+	onClick?: () => void;
+};
+
+type PageHeaderIconListProps = {
+	items: PageHeaderIconListItem[];
+};
+
+export const PageHeaderIconList: Component<PageHeaderIconListProps> = (
+	props,
+) => {
+	return (
+		<ul class="page-header-icons-list">
+			<For each={props.items}>
+				{(item) => (
+					<li
+						classList={{ clickable: item.onClick && true }}
+						onClick={item.onClick}
+					>
+						<Dynamic component={item.component} />
+					</li>
+				)}
+			</For>
+		</ul>
 	);
 };
 

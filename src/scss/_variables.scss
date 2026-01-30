@@ -10,6 +10,10 @@
    --bg-color: var(--secondary-color);
    --bg-color-rgb: var(--secondary-color-rgb);
 
+   --text-secondary: rgba(var(--text-color-rgb), 0.75);
+   --text-hint: rgba(var(--text-color-rgb), 0.625);
+   --text-semitransparent: rgba(var(--text-color-rgb), 0.5);
+
    --bottom-bar-color: #f2f2f2;
    --bottom-bar-color-rgb: 242, 242, 242;
 
@@ -52,6 +56,10 @@ body[data-theme="dark"] {
 
    --bg-color: var(--secondary-color);
    --bg-color-rgb: var(--secondary-color-rgb);
+
+   --text-secondary: rgba(var(--text-color-rgb), 0.75);
+   --text-hint: rgba(var(--text-color-rgb), 0.625);
+   --text-semitransparent: rgba(var(--text-color-rgb), 0.5);
 
    --modal-bg: var(--bg-color);
 

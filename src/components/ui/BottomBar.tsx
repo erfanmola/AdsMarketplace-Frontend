@@ -101,6 +101,16 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 		let previousCloset: HTMLElement | undefined;
 		const DRAG_THRESHOLD = 8;
 
+		const updateDistance = () => {
+			const ulRect = ulRef.getBoundingClientRect();
+			const containerRect = ulRef.parentElement!.getBoundingClientRect();
+
+			ulRef.style.setProperty(
+				"--pill-distance",
+				`${-1 * (ulRect.left - containerRect.left)}px`,
+			);
+		};
+
 		const updateIndicator = () => {
 			const active = ulRef.querySelector("li.active") as HTMLElement;
 			if (!active) return;
@@ -151,8 +161,14 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 		};
 
 		onMount(() => {
+			updateDistance();
 			updateIndicator();
-			window.addEventListener("resize", updateIndicator);
+			window.addEventListener("resize", updateIndicator, {
+				passive: true,
+			});
+			window.addEventListener("resize", updateDistance, {
+				passive: true,
+			});
 
 			const down = (e: PointerEvent) => {
 				pressed = true;
@@ -255,6 +271,7 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 
 			onCleanup(() => {
 				window.removeEventListener("resize", updateIndicator);
+				window.removeEventListener("resize", updateDistance);
 				ulRef.removeEventListener("pointerdown", down);
 				ulRef.removeEventListener("pointermove", move);
 				ulRef.removeEventListener("pointerup", up);

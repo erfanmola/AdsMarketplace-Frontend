@@ -1,0 +1,64 @@
+.modal-publishers-add {
+   display: flex;
+   flex-grow: 1;
+   flex-direction: column;
+   align-items: center;
+   padding-inline: 1rem;
+
+   > div.lottie-animation {
+      margin-top: 1rem;
+      width: 8rem;
+      height: 8rem;
+   }
+
+   > h1 {
+      margin-top: 1rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+   }
+
+   > p {
+      margin-top: 0.875rem;
+      font-size: 1rem;
+      text-align: center;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+   }
+
+   > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 2.25rem;
+      flex-grow: 1;
+      padding-inline: 1.25rem;
+      margin-top: 3rem;
+      width: 100%;
+
+      > li {
+         display: flex;
+         align-items: center;
+         gap: 0.75rem;
+
+         > svg {
+            font-size: 1.625rem;
+         }
+
+         > div {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            > span {
+               font-size: 0.875rem;
+               font-weight: 500;
+            }
+
+            > p {
+               font-size: 0.875rem;
+               color: var(--text-secondary);
+            }
+         }
+      }
+   }
+}

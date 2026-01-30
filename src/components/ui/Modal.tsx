@@ -1,6 +1,7 @@
 import { Portal } from "solid-js/web";
 import "./Modal.scss";
 
+import { IoClose } from "solid-icons/io";
 import {
 	createSignal,
 	createUniqueId,
@@ -8,7 +9,9 @@ import {
 	onCleanup,
 	onMount,
 	type ParentComponent,
+	Show,
 } from "solid-js";
+import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 
 const DEFAULT_THRESHOLD = 64;
 
@@ -17,6 +20,9 @@ type ModalProps = {
 	containerClass?: string;
 	onClose: () => void;
 	portalParent?: Element;
+	withCloseButton?: boolean;
+	title?: string;
+	type?: "fullscreen" | "fullheight" | "normal";
 };
 
 const Modal: ParentComponent<ModalProps> = (props) => {
@@ -123,7 +129,15 @@ const Modal: ParentComponent<ModalProps> = (props) => {
 
 	return (
 		<Portal mount={props.portalParent ?? document.body}>
-			<div class={props.containerClass}>
+			<div
+				class={["modal", props.containerClass].filter(Boolean).join(" ")}
+				classList={{
+					fullscreen: props.type === "fullscreen",
+					fullheight: props.type === "fullheight",
+					withCloseButton: props.withCloseButton,
+					withTitle: Boolean(props.title),
+				}}
+			>
 				<div class="modal-overlay" id={id} onClick={onOverlayClick}>
 					<div
 						classList={{
@@ -164,6 +178,21 @@ const Modal: ParentComponent<ModalProps> = (props) => {
 						>
 							<div class="modal-handle" />
 						</div>
+						<Show when={props.withCloseButton}>
+							<button
+								type="button"
+								class="modal-close clickable"
+								onClick={() => {
+									invokeHapticFeedbackImpact("heavy");
+									setIsClosing(true);
+								}}
+							>
+								<IoClose />
+							</button>
+						</Show>
+						<Show when={props.title}>
+							<span class="modal-title">{props.title}</span>
+						</Show>
 						<div class={props.class}>{props.children}</div>
 					</div>
 				</div>

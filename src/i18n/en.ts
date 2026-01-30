@@ -58,7 +58,9 @@ const dict = {
 		},
 		home: {},
 		advertisers: {},
-		publishers: {},
+		publishers: {
+			title: "Publishers",
+		},
 		profile: {},
 	},
 	components: {
@@ -82,7 +84,35 @@ const dict = {
 			},
 		},
 	},
-	modals: {},
+	modals: {
+		publishersAdd: {
+			title: "Monetize Your Channel",
+			description:
+				"Add the bot as an admin to your channel and grant the following permissions:",
+			permissions: {
+				post: {
+					title: "Post Messages",
+					description: "Allows automated launch of ads.",
+				},
+				edit: {
+					title: "Edit Messages",
+					description: "Used to edit ads if needed.",
+				},
+				delete: {
+					title: "Delete Messages",
+					description: "Used to remove ads when necessary.",
+				},
+				promote: {
+					title: "Add New Admins",
+					description: "Required to add the analytics bot.",
+				},
+			},
+
+			button: {
+				text: "Connect a Channel",
+			},
+		},
+	},
 };
 
 export { dict };

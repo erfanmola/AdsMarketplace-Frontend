@@ -1,4 +1,5 @@
 import { CgSearch } from "solid-icons/cg";
+import { FaSolidPlus } from "solid-icons/fa";
 import {
 	HiSolidHome,
 	HiSolidMegaphone,
@@ -71,6 +72,10 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "IoClose",
 			component: IoClose,
+		},
+		{
+			id: "FaSolidPlus",
+			component: FaSolidPlus,
 		},
 	];
 
