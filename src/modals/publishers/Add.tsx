@@ -40,6 +40,10 @@ const ModalPublishersAdd: Component = () => {
 				edit_messages: true,
 			}),
 		);
+
+		setTimeout(() => {
+			setModals("publishersAdd", "open", false);
+		});
 	};
 
 	return (
