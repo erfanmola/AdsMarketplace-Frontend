@@ -1,0 +1,25 @@
+@keyframes shimmer {
+   0% {
+      background-position: -200% 0;
+   }
+   100% {
+      background-position: 200% 0;
+   }
+}
+
+.shimmer,
+.container-shimmer *:not(:has(> *)) {
+   background: linear-gradient(
+      90deg,
+      var(--shimmer-bg) 0%,
+      var(--shimmer-highlight) 50%,
+      var(--shimmer-bg) 100%
+   );
+   background-size: 200% 100%;
+   animation: shimmer var(--shimmer-duration, 2s) infinite linear;
+}
+
+.shimmer-tint {
+   --shimmer-bg: var(--shimmer-tint-bg);
+   --shimmer-highlight: var(--shimmer-tint-highlight);
+}

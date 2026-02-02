@@ -38,6 +38,7 @@ export default defineConfig((config) => {
 						/lottie-animation/,
 						/transition-/,
 						/container-pull-to-refresh-/,
+						/shimmer/,
 					],
 				},
 				defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],

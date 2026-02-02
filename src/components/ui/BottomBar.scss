@@ -2,7 +2,8 @@
    --pill-x: 0px;
    --pill-w: 5rem;
    --pill-h: 100%;
-   --pill-s: 1;
+   --pill-sx: 1;
+   --pill-sy: 1;
    --pill-distance: 0;
 
    flex-shrink: 0;
@@ -15,6 +16,7 @@
    align-items: center;
    justify-content: center;
    color: var(--glass-text-color);
+   z-index: 10;
 
    > ul {
       display: flex;
@@ -63,11 +65,12 @@
       &::before {
          content: "";
          position: absolute;
-         left: 0;
+         inset-inline-start: 0;
          top: 0.25rem;
          width: var(--pill-w);
          height: var(--pill-h);
-         transform: translateX(var(--pill-x)) scale(var(--pill-s));
+         transform: translateX(var(--pill-x))
+            scale(var(--pill-sx), var(--pill-sy));
          border-radius: 10rem;
          backdrop-filter: saturate(180%);
          background-color: rgba(var(--glass-text-color-rgb), 0.125);

@@ -91,31 +91,6 @@ textarea {
    }
 }
 
-@keyframes shimmer {
-   0% {
-      background-position: -200% 0;
-   }
-   100% {
-      background-position: 200% 0;
-   }
-}
-
-.shimmer {
-   background: linear-gradient(
-      90deg,
-      var(--shimmer-bg) 0%,
-      var(--shimmer-highlight) 50%,
-      var(--shimmer-bg) 100%
-   );
-   background-size: 200% 100%;
-   animation: shimmer var(--shimmer-duration, 2s) infinite linear;
-}
-
-.shimmer-section-bg {
-   --shimmer-bg: var(--shimmer-section-bg);
-   --shimmer-highlight: var(--shimmer-section-highlight);
-}
-
 select {
    appearance: none;
    -webkit-appearance: none;
@@ -134,30 +109,6 @@ select {
 
    &:focus-visible {
       outline: none;
-   }
-}
-
-.clickable {
-   cursor: pointer;
-   touch-action: manipulation;
-   transform: scale(1);
-   transition:
-      transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
-      opacity 0.15s ease;
-   will-change: transform;
-
-   &:not(.disabled) {
-      &:active {
-         opacity: 0.75;
-         transform: scale(0.94);
-      }
-   }
-
-   &.disabled {
-      cursor: not-allowed;
-      pointer-events: none;
-      opacity: 0.475;
-      transform: scale(1);
    }
 }
 
@@ -205,4 +156,8 @@ input[type="number"] {
             var(--tg-viewport-content-safe-area-inset-bottom, 0)
       )
    );
+}
+
+.safe-area-bottombar {
+   padding-bottom: 5.5rem;
 }

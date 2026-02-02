@@ -31,6 +31,12 @@ class WebSocketSingleton {
 	private messageListeners = new Set<MessageHandler>();
 	private typedListeners = new Map<WSIncomingType, Set<(data: any) => void>>();
 
+	private pingInterval?: number;
+	private pongTimeout?: number;
+
+	private readonly PING_EVERY = 15_000;
+	private readonly PONG_TIMEOUT = 8_000;
+
 	private constructor() {
 		this.connect();
 
@@ -88,39 +94,41 @@ class WebSocketSingleton {
 		this.ws.onopen = async () => {
 			this.reconnectAttempts = 0;
 			this.connectionSignal[1](true);
+			this.startHeartbeat();
 
-			for (const fn of this.openListeners) {
-				fn();
-			}
+			for (const fn of this.openListeners) fn();
 		};
 
 		this.ws.onmessage = (ev) => {
 			const msg = JSON.parse(ev.data) as WSServerMessage;
 
-			// raw listeners
-			for (const fn of this.messageListeners) {
-				fn(ev);
+			if (msg.type === "pong") {
+				// this.lastPongAt = Date.now();
+				clearTimeout(this.pongTimeout);
+				return;
 			}
+
+			// raw listeners
+			for (const fn of this.messageListeners) fn(ev);
 
 			// typed listeners
 			const listeners = this.typedListeners.get(msg.type);
 			if (listeners) {
-				for (const fn of listeners) {
-					fn(msg.data);
-				}
+				for (const fn of listeners) fn(msg.data);
 			}
 		};
 
 		this.ws.onclose = () => {
+			this.stopHeartbeat();
 			this.connectionSignal[1](false);
 			this.authorizationSignal[1](false);
-			for (const fn of this.closeListeners) {
-				fn();
-			}
+
+			for (const fn of this.closeListeners) fn();
 			this.scheduleReconnect();
 		};
 
 		this.ws.onerror = () => {
+			this.stopHeartbeat();
 			this.ws?.close();
 		};
 	}
@@ -132,6 +140,29 @@ class WebSocketSingleton {
 		this.reconnectTimer = window.setTimeout(() => {
 			this.connect();
 		}, delay);
+	}
+
+	private startHeartbeat() {
+		this.stopHeartbeat();
+
+		this.pingInterval = window.setInterval(() => {
+			if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+
+			const ts = Date.now();
+			this.send({ type: "ping", data: { ts } });
+
+			// wait for pong
+			clearTimeout(this.pongTimeout);
+			this.pongTimeout = window.setTimeout(() => {
+				console.warn("WS pong timeout → reconnecting");
+				this.ws?.close();
+			}, this.PONG_TIMEOUT);
+		}, this.PING_EVERY);
+	}
+
+	private stopHeartbeat() {
+		clearInterval(this.pingInterval);
+		clearTimeout(this.pongTimeout);
 	}
 
 	public async authenticate(token: string) {

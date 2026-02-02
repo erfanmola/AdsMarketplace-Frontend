@@ -60,6 +60,20 @@ const dict = {
 		advertisers: {},
 		publishers: {
 			title: "Publishers",
+			tabs: {
+				all: "All",
+				active: "Active",
+				inactive: "Inactive",
+				pending: "Pending",
+			},
+			items: {
+				empty: {
+					title: "Nothing here yet",
+					subtitle: "Nothing to see here",
+					description: "Let’s add your channel/supergroup.",
+					button: "Start Monetizing",
+				},
+			},
 		},
 		profile: {},
 	},
@@ -88,7 +102,7 @@ const dict = {
 		publishersAdd: {
 			title: "Monetize Your Channel",
 			description:
-				"Add the bot as an admin to your channel and grant the following permissions:",
+				"Add the bot as an admin to your chat and grant the following permissions:",
 			permissions: {
 				post: {
 					title: "Post Messages",

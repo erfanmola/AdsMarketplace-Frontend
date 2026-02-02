@@ -30,18 +30,15 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 			setPipeline("preload", true);
 		});
 
-		apiAuthUser().then((data) => {
-			if (data) {
-				const { result } = data;
-
-				batch(() => {
-					setStore({
-						token: result.token,
-						user: result.user,
-					});
-					setPipeline("user", true);
+		apiAuthUser().then((result) => {
+			batch(() => {
+				setStore({
+					token: result.token,
+					user: result.user,
 				});
-			}
+
+				setPipeline("user", true);
+			});
 		});
 
 		setTimeout(() => {

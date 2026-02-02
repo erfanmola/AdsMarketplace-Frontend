@@ -179,7 +179,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 				longpressTimer = setTimeout(() => {
 					invokeHapticFeedbackImpact("light");
 					dragging = true;
-					ulRef.style.setProperty("--pill-s", "1.25");
+					ulRef.style.setProperty("--pill-sx", "1.25");
+					ulRef.style.setProperty("--pill-sy", "1.375");
 					movePillToX(e.clientX);
 
 					const ulRect = ulRef.getBoundingClientRect();
@@ -214,7 +215,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 
 					invokeHapticFeedbackImpact("light");
 					dragging = true;
-					ulRef.style.setProperty("--pill-s", "1.25");
+					ulRef.style.setProperty("--pill-sx", "1.25");
+					ulRef.style.setProperty("--pill-sy", "1.375");
 					ulRef.classList.add("dragging");
 				}
 
@@ -250,7 +252,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 				dragging = false;
 				startX = 0;
 				previousCloset = undefined;
-				ulRef.style.setProperty("--pill-s", "1");
+				ulRef.style.setProperty("--pill-sx", "1");
+				ulRef.style.setProperty("--pill-sy", "1");
 				ulRef.classList.remove("dragging");
 				ulRef.releasePointerCapture(e.pointerId);
 				onRelease(e.clientX);

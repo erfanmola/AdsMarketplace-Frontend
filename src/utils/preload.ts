@@ -1,3 +1,4 @@
+import { BiSolidErrorCircle } from "solid-icons/bi";
 import { CgSearch } from "solid-icons/cg";
 import { FaSolidPlus } from "solid-icons/fa";
 import {
@@ -76,6 +77,10 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "FaSolidPlus",
 			component: FaSolidPlus,
+		},
+		{
+			id: "BiSolidErrorCircle",
+			component: BiSolidErrorCircle,
 		},
 	];
 

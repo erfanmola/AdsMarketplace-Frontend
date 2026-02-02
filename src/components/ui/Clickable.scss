@@ -1,0 +1,23 @@
+.clickable {
+   cursor: pointer;
+   touch-action: manipulation;
+   transform: scale(1);
+   transition:
+      transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.15s ease;
+   will-change: transform;
+
+   &:not(.disabled) {
+      &:active {
+         opacity: 0.75;
+         transform: scale(0.94);
+      }
+   }
+
+   &.disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.475;
+      transform: scale(1);
+   }
+}

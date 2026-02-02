@@ -1,0 +1,105 @@
+.container-tabbar {
+   --pill-x: 0px;
+   --pill-w: 1rem;
+   --pill-h: 100%;
+   --pill-sx: 1;
+   --pill-sy: 1;
+   --pill-distance: 0;
+
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   width: 100%;
+   overflow: hidden;
+   height: 100%;
+   position: relative;
+   padding-top: 0.5rem;
+
+   > ul {
+      display: flex;
+
+      > li {
+         position: relative;
+         cursor: pointer;
+
+         > span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            > span {
+               opacity: 0.5;
+            }
+         }
+      }
+   }
+
+   > swiper-container {
+      flex-grow: 1;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+
+      > swiper-slide {
+         overflow: hidden;
+         width: 100%;
+         height: 100%;
+      }
+   }
+
+   &.tabbar-glass {
+      > ul {
+         padding: 0.25rem;
+         z-index: 2;
+         position: sticky;
+         top: 0;
+         inset-inline: 1rem;
+         width: calc(100% - 2rem);
+         border-radius: 10rem;
+         background-color: var(--glass-bg);
+         backdrop-filter: blur(0.25rem) saturate(180%);
+         padding: 0.25rem;
+         height: var(--tabbar-glass-height);
+         box-shadow:
+            inset 0.125rem 0.125rem 0.0625rem 0 var(--glass-shadow),
+            inset -0.0625rem -0.0625rem 0.0625rem 0.0625rem var(--glass-shadow);
+
+         > li {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            flex-grow: 1;
+
+            > span {
+               font-size: 0.875rem;
+               font-weight: 500;
+            }
+         }
+
+         &::before {
+            content: "";
+            position: absolute;
+            inset-inline-start: 0;
+            top: 0.25rem;
+            width: var(--pill-w);
+            height: var(--pill-h);
+            transform: translateX(var(--pill-x))
+               scale(var(--pill-sx), var(--pill-sy));
+            border-radius: 10rem;
+            backdrop-filter: saturate(180%);
+            background-color: rgba(var(--glass-text-color-rgb), 0.125);
+            transition: transform calc(0.25s * var(--motion-multiplier))
+               cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
+            pointer-events: none;
+         }
+      }
+
+      > swiper-container {
+         position: absolute;
+         inset: 0;
+         z-index: 0;
+      }
+   }
+}

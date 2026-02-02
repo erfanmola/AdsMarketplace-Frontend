@@ -1,2 +1,10 @@
 #container-page-publishers {
+   > div {
+      display: flex;
+      flex-direction: column;
+
+      > div.container-pull-to-refresh {
+         flex-grow: 1;
+      }
+   }
 }
