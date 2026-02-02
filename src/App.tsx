@@ -20,6 +20,7 @@ import {
 } from "./contexts/TranslationContext.ts";
 import { dict as en_dict } from "./i18n/en.ts";
 import { LayoutAuthorize } from "./layouts/Authorize.tsx";
+import { LayoutNotifications } from "./layouts/Notifications.tsx";
 import { fetchDictionary, type Locale, localeDirections } from "./locale";
 import PageAdvertisers from "./pages/Advertisers.tsx";
 import PageError from "./pages/Error";
@@ -134,24 +135,26 @@ const App = () => {
 					}
 				>
 					<ErrorBoundary fallback={<PageError />}>
-						<LayoutAuthorize>
-							<Router root={RouterRoot}>
-								<Show when={import.meta.env.DEV}>
-									<Route
-										path="/debug"
-										component={lazy(() => import("./pages/Debug"))}
-									/>
-								</Show>
+						<LayoutNotifications>
+							<LayoutAuthorize>
+								<Router root={RouterRoot}>
+									<Show when={import.meta.env.DEV}>
+										<Route
+											path="/debug"
+											component={lazy(() => import("./pages/Debug"))}
+										/>
+									</Show>
 
-								<Route path="/" component={PageHome} />
+									<Route path="/" component={PageHome} />
 
-								<Route path="/advertisers" component={PageAdvertisers} />
+									<Route path="/advertisers" component={PageAdvertisers} />
 
-								<Route path="/publishers" component={PagePublishers} />
+									<Route path="/publishers" component={PagePublishers} />
 
-								<Route path="/profile" component={PageProfile} />
-							</Router>
-						</LayoutAuthorize>
+									<Route path="/profile" component={PageProfile} />
+								</Router>
+							</LayoutAuthorize>
+						</LayoutNotifications>
 					</ErrorBoundary>
 				</Show>
 			</QueryClientProvider>
