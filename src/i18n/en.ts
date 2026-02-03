@@ -7,7 +7,10 @@ const dict = {
 		ru: "Русский",
 		hi: "हिन्दी",
 	},
-	general: {},
+	general: {
+		members: "{count} members",
+		subscribers: "{count} subscribers",
+	},
 	pages: {
 		error: {
 			title: "Error",
@@ -64,7 +67,7 @@ const dict = {
 				all: "All",
 				active: "Active",
 				inactive: "Inactive",
-				pending: "Pending",
+				verified: "Verified",
 			},
 			items: {
 				empty: {
@@ -72,6 +75,10 @@ const dict = {
 					subtitle: "Nothing to see here",
 					description: "Let’s add your channel/supergroup.",
 					button: "Start Monetizing",
+					search: {
+						title: "Not Found",
+						description: "No results found for {query}.",
+					},
 				},
 			},
 		},

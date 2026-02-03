@@ -2,6 +2,8 @@ import { createSignal } from "solid-js";
 import type { WSClientMessage, WSServerMessage } from "../ws";
 import { store } from "./store";
 
+/* ---------------- types ---------------- */
+
 type MessageHandler = (ev: MessageEvent) => void;
 type VoidHandler = () => void;
 
@@ -11,6 +13,21 @@ type WSIncomingData<T extends WSIncomingType> = Extract<
 	WSServerMessage,
 	{ type: T }
 >["data"];
+
+type Unsubscribe = () => void;
+
+/* ------------- small helpers ------------ */
+
+function addListener<T extends Function>(set: Set<T>, cb: T): Unsubscribe {
+	set.add(cb);
+	return () => set.delete(cb);
+}
+
+function emit<T extends Function>(set: Set<T>, ...args: any[]) {
+	for (const fn of [...set]) fn(...args);
+}
+
+/* ------------- singleton class ----------- */
 
 class WebSocketSingleton {
 	private static instance: WebSocketSingleton;
@@ -40,6 +57,7 @@ class WebSocketSingleton {
 	private constructor() {
 		this.connect();
 
+		// auto-mark authorized
 		this.on("auth", (data) => {
 			if (Number(data.user_id) === Number(store.user?.user_id)) {
 				this.authorizationSignal[1](true);
@@ -54,31 +72,59 @@ class WebSocketSingleton {
 		return WebSocketSingleton.instance;
 	}
 
+	/* -------- public event API -------- */
+
 	onOpen(cb: VoidHandler) {
-		this.openListeners.add(cb);
-		return () => this.openListeners.delete(cb);
+		return addListener(this.openListeners, cb);
 	}
 
 	onClose(cb: VoidHandler) {
-		this.closeListeners.add(cb);
-		return () => this.closeListeners.delete(cb);
+		return addListener(this.closeListeners, cb);
 	}
 
 	onMessage(cb: MessageHandler) {
-		this.messageListeners.add(cb);
-		return () => this.messageListeners.delete(cb);
+		return addListener(this.messageListeners, cb);
 	}
 
 	on<T extends WSIncomingType>(type: T, cb: (data: WSIncomingData<T>) => void) {
 		if (!this.typedListeners.has(type)) {
 			this.typedListeners.set(type, new Set());
 		}
-
 		const set = this.typedListeners.get(type)!;
-		set.add(cb as any);
-
-		return () => set.delete(cb as any);
+		return addListener(set, cb as any);
 	}
+
+	once<T extends WSIncomingType>(
+		type: T,
+		cb: (data: WSIncomingData<T>) => void,
+	) {
+		const off = this.on(type, (data) => {
+			off();
+			cb(data);
+		});
+		return off;
+	}
+
+	off<T extends WSIncomingType>(
+		type: T,
+		cb: (data: WSIncomingData<T>) => void,
+	) {
+		this.typedListeners.get(type)?.delete(cb as any);
+	}
+
+	offOpen(cb: VoidHandler) {
+		this.openListeners.delete(cb);
+	}
+
+	offClose(cb: VoidHandler) {
+		this.closeListeners.delete(cb);
+	}
+
+	offMessage(cb: MessageHandler) {
+		this.messageListeners.delete(cb);
+	}
+
+	/* -------- socket controls -------- */
 
 	send(data: WSClientMessage) {
 		if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return false;
@@ -91,39 +137,32 @@ class WebSocketSingleton {
 
 		this.ws = new WebSocket(import.meta.env.VITE_WS_BASE_URL);
 
-		this.ws.onopen = async () => {
+		this.ws.onopen = () => {
 			this.reconnectAttempts = 0;
 			this.connectionSignal[1](true);
 			this.startHeartbeat();
-
-			for (const fn of this.openListeners) fn();
+			emit(this.openListeners);
 		};
 
 		this.ws.onmessage = (ev) => {
 			const msg = JSON.parse(ev.data) as WSServerMessage;
 
 			if (msg.type === "pong") {
-				// this.lastPongAt = Date.now();
 				clearTimeout(this.pongTimeout);
 				return;
 			}
 
-			// raw listeners
-			for (const fn of this.messageListeners) fn(ev);
+			emit(this.messageListeners, ev);
 
-			// typed listeners
 			const listeners = this.typedListeners.get(msg.type);
-			if (listeners) {
-				for (const fn of listeners) fn(msg.data);
-			}
+			if (listeners) emit(listeners, msg.data);
 		};
 
 		this.ws.onclose = () => {
 			this.stopHeartbeat();
 			this.connectionSignal[1](false);
 			this.authorizationSignal[1](false);
-
-			for (const fn of this.closeListeners) fn();
+			emit(this.closeListeners);
 			this.scheduleReconnect();
 		};
 
@@ -151,7 +190,6 @@ class WebSocketSingleton {
 			const ts = Date.now();
 			this.send({ type: "ping", data: { ts } });
 
-			// wait for pong
 			clearTimeout(this.pongTimeout);
 			this.pongTimeout = window.setTimeout(() => {
 				console.warn("WS pong timeout → reconnecting");
@@ -165,12 +203,10 @@ class WebSocketSingleton {
 		clearTimeout(this.pongTimeout);
 	}
 
-	public async authenticate(token: string) {
+	public authenticate(token: string) {
 		this.send({
 			type: "auth",
-			data: {
-				token,
-			},
+			data: { token },
 		});
 	}
 }

@@ -10,6 +10,7 @@
 		"analyze": "npx vite-bundle-visualizer"
 	},
 	"dependencies": {
+		"@nozbe/microfuzz": "^1.0.0",
 		"@solid-primitives/i18n": "^2.2.1",
 		"@solidjs/router": "^0.15.4",
 		"@tanstack/solid-query": "^5.90.23",

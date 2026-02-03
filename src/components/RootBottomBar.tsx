@@ -7,13 +7,19 @@ import BottomBar from "./ui/BottomBar";
 const BottomBarValidPath = ["/", "/advertisers", "/publishers", "/profile"];
 const SearchValidPath = ["/advertisers", "/publishers"];
 
+export const [
+	rootBottomBarSearchQuery,
+	setRootBottomBarrootBottomBarSearchQuery,
+] = createSignal("");
+export const [
+	rootBottomBarSearchbarToggle,
+	setRootBottomBarrootBottomBarSearchbarToggle,
+] = createSignal(false);
+
 const RootBottomBar = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-
-	const [searchQuery, setSearchQuery] = createSignal("");
-	const [searchbarToggle, setSearchbarToggle] = createSignal(false);
 
 	return (
 		<Show when={BottomBarValidPath.includes(location.pathname)}>
@@ -42,15 +48,14 @@ const RootBottomBar = () => {
 				}}
 				search={SearchValidPath.includes(location.pathname)}
 				onSearchEnter={(value) => {
-					setSearchQuery(value);
-					setSearchbarToggle(false);
+					setRootBottomBarrootBottomBarSearchQuery(value.trim());
 				}}
 				onSearchInput={(value) => {
-					setSearchQuery(value);
+					setRootBottomBarrootBottomBarSearchQuery(value.trim());
 				}}
-				onSearchToggle={setSearchbarToggle}
-				searchToggle={searchbarToggle()}
-				initialSearchQuery={searchQuery()}
+				onSearchToggle={setRootBottomBarrootBottomBarSearchbarToggle}
+				searchToggle={rootBottomBarSearchbarToggle()}
+				initialSearchQuery={rootBottomBarSearchQuery()}
 			/>
 		</Show>
 	);

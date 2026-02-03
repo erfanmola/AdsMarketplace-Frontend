@@ -3,13 +3,15 @@ import type {
 	UseQueryResult,
 } from "@tanstack/solid-query";
 import { BiSolidErrorCircle } from "solid-icons/bi";
-import { createEffect, on } from "solid-js";
+import { createEffect, on, onCleanup } from "solid-js";
 import { toast } from "../components/ui/Toast";
 import { APIError } from "../utils/api";
 import {
 	invokeHapticFeedbackImpact,
 	invokeHapticFeedbackNotification,
 } from "../utils/telegram";
+import { ws } from "../utils/ws";
+import type { WSServerMessageRefetch } from "../ws";
 
 type QueryFeedbackProps = {
 	query: UseInfiniteQueryResult | UseQueryResult;
@@ -17,6 +19,7 @@ type QueryFeedbackProps = {
 		hapticOnError?: boolean;
 		toastOnError?: boolean;
 		hapticOnSuccess?: boolean;
+		refetchKey?: string;
 	};
 };
 
@@ -52,6 +55,20 @@ const useQueryFeedback = (props: QueryFeedbackProps) => {
 			},
 		),
 	);
+
+	if (props.options?.refetchKey) {
+		const onRefetch = (data: WSServerMessageRefetch["data"]) => {
+			if (data.scope === props.options?.refetchKey) {
+				props.query.refetch();
+			}
+		};
+
+		ws.on("refetch", onRefetch);
+
+		onCleanup(() => {
+			ws.off("refetch", onRefetch);
+		});
+	}
 };
 
 export default useQueryFeedback;

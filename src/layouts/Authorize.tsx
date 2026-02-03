@@ -14,7 +14,11 @@ import { Color } from "../utils/color";
 import { preloadPipeline } from "../utils/preload";
 import { settings } from "../utils/settings";
 import { setStore, store } from "../utils/store";
-import { setBackgroundColor, setHeaderColor } from "../utils/telegram";
+import {
+	postEvent,
+	setBackgroundColor,
+	setHeaderColor,
+} from "../utils/telegram";
 import { ws } from "../utils/ws";
 
 export const LayoutAuthorize: ParentComponent = (props) => {
@@ -30,16 +34,20 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 			setPipeline("preload", true);
 		});
 
-		apiAuthUser().then((result) => {
-			batch(() => {
-				setStore({
-					token: result.token,
-					user: result.user,
-				});
+		apiAuthUser()
+			.then((result) => {
+				batch(() => {
+					setStore({
+						token: result.token,
+						user: result.user,
+					});
 
-				setPipeline("user", true);
+					setPipeline("user", true);
+				});
+			})
+			.catch(() => {
+				postEvent("web_app_close");
 			});
-		});
 
 		setTimeout(() => {
 			const color = new Color(getComputedStyle(document.body).backgroundColor);

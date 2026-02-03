@@ -356,6 +356,7 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 								props.onSearchEnter?.(search());
 							}
 						}}
+						maxLength={64}
 					/>
 
 					<button

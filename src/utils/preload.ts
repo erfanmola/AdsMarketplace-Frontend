@@ -8,7 +8,11 @@ import {
 	HiSolidUserCircle,
 } from "solid-icons/hi";
 import { IoClose } from "solid-icons/io";
-import { RiSystemLoader2Fill } from "solid-icons/ri";
+import {
+	RiBusinessMegaphoneLine,
+	RiSystemLoader2Fill,
+	RiUserFacesGroupLine,
+} from "solid-icons/ri";
 import { TbOutlineLoader2 } from "solid-icons/tb";
 import type { Component } from "solid-js";
 import { CustomIconTON } from "../components/misc/CustomIcons";
@@ -81,6 +85,14 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "BiSolidErrorCircle",
 			component: BiSolidErrorCircle,
+		},
+		{
+			id: "RiUserFacesGroupLine",
+			component: RiUserFacesGroupLine,
+		},
+		{
+			id: "RiBusinessMegaphoneLine",
+			component: RiBusinessMegaphoneLine,
 		},
 	];
 

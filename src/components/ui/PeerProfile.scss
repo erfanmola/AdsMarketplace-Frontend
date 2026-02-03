@@ -8,6 +8,7 @@
    overflow: hidden;
    display: flex;
    color: white;
+   flex-shrink: 0;
 
    > span {
       flex-grow: 1;

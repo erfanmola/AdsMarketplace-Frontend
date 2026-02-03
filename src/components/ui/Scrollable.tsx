@@ -6,38 +6,52 @@ type ScrollableProps = {
 	id?: string;
 	setScrollingState?: (scrolling: boolean) => void;
 	scrollEndDelay?: number;
+	onEnd?: () => void;
+	endOffset?: number;
 };
 
 const Scrollable: ParentComponent<ScrollableProps> = (props) => {
 	let el: HTMLDivElement | undefined;
+	let scrollEndTimer: number | undefined;
+	let endLocked = false;
 
-	if (props.setScrollingState) {
-		const onScroll = () => {
-			props.setScrollingState?.(true);
-		};
+	const checkEnd = () => {
+		if (!el || !props.onEnd) return;
 
-		const onScrollEnd = () => {
-			setTimeout(() => {
-				props.setScrollingState?.(false);
-			}, props.scrollEndDelay ?? 250);
-		};
+		const offset = props.endOffset ?? 120;
+		const reached = el.scrollTop + el.clientHeight >= el.scrollHeight - offset;
 
-		onMount(() => {
-			el?.addEventListener("scroll", onScroll, {
-				passive: true,
-				capture: true,
-			});
-			el?.addEventListener("scrollend", onScrollEnd, {
-				passive: true,
-				capture: true,
-			});
+		if (reached && !endLocked) {
+			endLocked = true;
+			props.onEnd();
+		}
+
+		if (!reached) {
+			endLocked = false;
+		}
+	};
+
+	const onScroll = () => {
+		props.setScrollingState?.(true);
+		checkEnd();
+
+		clearTimeout(scrollEndTimer);
+		scrollEndTimer = window.setTimeout(() => {
+			props.setScrollingState?.(false);
+		}, props.scrollEndDelay ?? 250);
+	};
+
+	onMount(() => {
+		el?.addEventListener("scroll", onScroll, {
+			passive: true,
+			capture: true,
 		});
+	});
 
-		onCleanup(() => {
-			el?.removeEventListener("scrollend", onScrollEnd);
-			el?.removeEventListener("scroll", onScroll);
-		});
-	}
+	onCleanup(() => {
+		el?.removeEventListener("scroll", onScroll);
+		clearTimeout(scrollEndTimer);
+	});
 
 	return (
 		<div
