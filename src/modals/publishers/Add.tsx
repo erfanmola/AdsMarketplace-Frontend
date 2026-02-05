@@ -2,11 +2,16 @@ import "./Add.scss";
 import LottiePlayer from "lottix/solid/LottiePlayer";
 import {
 	TbOutlineEdit,
+	TbOutlineLifebuoy,
+	TbOutlinePinned,
 	TbOutlineSubtitlesEdit,
 	TbOutlineTrash,
 	TbOutlineUserStar,
 } from "solid-icons/tb";
-import { type Component, onMount } from "solid-js";
+import { type Component, createEffect, Match, onMount, Switch } from "solid-js";
+import { createStore } from "solid-js/store";
+import AnimatedText from "../../components/ui/AnimatedText";
+import Clickable from "../../components/ui/Clickable";
 import CustomMainButton from "../../components/ui/CustomMainButton";
 import Modal from "../../components/ui/Modal";
 import { useTranslation } from "../../contexts/TranslationContext";
@@ -21,8 +26,82 @@ import {
 const ModalPublishersAdd: Component = () => {
 	const { t } = useTranslation();
 
+	const [state, setState] = createStore<{
+		state: "channel" | "group";
+		title: string;
+		toggle: string;
+		button: string;
+		rowOne: {
+			title: string;
+			description: string;
+		};
+		rowTwo: {
+			title: string;
+			description: string;
+		};
+		rowThree: {
+			title: string;
+			description: string;
+		};
+		rowFour: {
+			title: string;
+			description: string;
+		};
+	}>({
+		state: "channel",
+		title: t(`modals.publishersAdd.title.channel`),
+		toggle: t(`modals.publishersAdd.toggle.channel`),
+		button: t(`modals.publishersAdd.button.channel`),
+		rowOne: {
+			title: t("modals.publishersAdd.permissions.post.title"),
+			description: t("modals.publishersAdd.permissions.post.description"),
+		},
+		rowTwo: {
+			title: t("modals.publishersAdd.permissions.edit.title"),
+			description: t("modals.publishersAdd.permissions.edit.description"),
+		},
+		rowThree: {
+			title: t("modals.publishersAdd.permissions.delete.title"),
+			description: t("modals.publishersAdd.permissions.delete.description"),
+		},
+		rowFour: {
+			title: t("modals.publishersAdd.permissions.promote.title"),
+			description: t("modals.publishersAdd.permissions.promote.description"),
+		},
+	});
+
 	onMount(() => {
 		invokeHapticFeedbackImpact("soft");
+	});
+
+	createEffect(() => {
+		setState("title", t(`modals.publishersAdd.title.${state.state}`));
+		setState("toggle", t(`modals.publishersAdd.toggle.${state.state}`));
+		setState("button", t(`modals.publishersAdd.button.${state.state}`));
+
+		if (state.state === "channel") {
+			setState("rowOne", {
+				title: t("modals.publishersAdd.permissions.post.title"),
+				description: t("modals.publishersAdd.permissions.post.description"),
+			});
+		} else if (state.state === "group") {
+			setState("rowOne", {
+				title: t("modals.publishersAdd.permissions.pin.title"),
+				description: t("modals.publishersAdd.permissions.pin.description"),
+			});
+		}
+
+		if (state.state === "channel") {
+			setState("rowTwo", {
+				title: t("modals.publishersAdd.permissions.edit.title"),
+				description: t("modals.publishersAdd.permissions.edit.description"),
+			});
+		} else if (state.state === "group") {
+			setState("rowTwo", {
+				title: t("modals.publishersAdd.permissions.restrict.title"),
+				description: t("modals.publishersAdd.permissions.restrict.description"),
+			});
+		}
 	});
 
 	const onClose = () => {
@@ -33,12 +112,25 @@ const ModalPublishersAdd: Component = () => {
 		invokeHapticFeedbackImpact("soft");
 
 		openLink(
-			getBotInviteAdminUrl({
-				add_admins: true,
-				post_messages: true,
-				delete_messages: true,
-				edit_messages: true,
-			}),
+			state.state === "channel"
+				? getBotInviteAdminUrl(
+						{
+							add_admins: true,
+							post_messages: true,
+							delete_messages: true,
+							edit_messages: true,
+						},
+						state.state,
+					)
+				: getBotInviteAdminUrl(
+						{
+							add_admins: true,
+							pin_messages: true,
+							delete_messages: true,
+							ban_users: true,
+						},
+						state.state,
+					),
 		);
 
 		setTimeout(() => {
@@ -62,26 +154,42 @@ const ModalPublishersAdd: Component = () => {
 				loop
 			/>
 
-			<h1>{t("modals.publishersAdd.title")}</h1>
+			<AnimatedText text={state.title} />
 
 			<p>{t("modals.publishersAdd.description")}</p>
 
 			<ul>
 				<li>
-					<TbOutlineEdit style={{ color: "#3b86f6" }} />
+					<Switch>
+						<Match when={state.state === "channel"}>
+							<TbOutlineEdit style={{ color: "#3b86f6" }} />
+						</Match>
+
+						<Match when={state.state === "group"}>
+							<TbOutlinePinned style={{ color: "#3b86f6" }} />
+						</Match>
+					</Switch>
 
 					<div>
-						<span>{t("modals.publishersAdd.permissions.post.title")}</span>
-						<p>{t("modals.publishersAdd.permissions.post.description")}</p>
+						<AnimatedText text={state.rowOne.title} />
+						<AnimatedText text={state.rowOne.description} />
 					</div>
 				</li>
 
 				<li>
-					<TbOutlineSubtitlesEdit style={{ color: "#a267eb" }} />
+					<Switch>
+						<Match when={state.state === "channel"}>
+							<TbOutlineSubtitlesEdit style={{ color: "#a267eb" }} />
+						</Match>
+
+						<Match when={state.state === "group"}>
+							<TbOutlineLifebuoy style={{ color: "#a267eb" }} />
+						</Match>
+					</Switch>
 
 					<div>
-						<span>{t("modals.publishersAdd.permissions.edit.title")}</span>
-						<p>{t("modals.publishersAdd.permissions.edit.description")}</p>
+						<AnimatedText text={state.rowTwo.title} />
+						<AnimatedText text={state.rowTwo.description} />
 					</div>
 				</li>
 
@@ -89,8 +197,8 @@ const ModalPublishersAdd: Component = () => {
 					<TbOutlineTrash style={{ color: "#d8664d" }} />
 
 					<div>
-						<span>{t("modals.publishersAdd.permissions.delete.title")}</span>
-						<p>{t("modals.publishersAdd.permissions.delete.description")}</p>
+						<AnimatedText text={state.rowThree.title} />
+						<AnimatedText text={state.rowThree.description} />
 					</div>
 				</li>
 
@@ -98,16 +206,22 @@ const ModalPublishersAdd: Component = () => {
 					<TbOutlineUserStar style={{ color: "#db374b" }} />
 
 					<div>
-						<span>{t("modals.publishersAdd.permissions.promote.title")}</span>
-						<p>{t("modals.publishersAdd.permissions.promote.description")}</p>
+						<AnimatedText text={state.rowFour.title} />
+						<AnimatedText text={state.rowFour.description} />
 					</div>
 				</li>
 			</ul>
 
-			<CustomMainButton
-				onClick={onClickButton}
-				text={t("modals.publishersAdd.button.text")}
-			/>
+			<Clickable
+				onClick={() => {
+					invokeHapticFeedbackImpact("soft");
+					setState("state", state.state === "channel" ? "group" : "channel");
+				}}
+			>
+				<AnimatedText text={state.toggle} />
+			</Clickable>
+
+			<CustomMainButton onClick={onClickButton} text={state.button} />
 		</Modal>
 	);
 };

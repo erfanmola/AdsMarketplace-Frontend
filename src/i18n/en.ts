@@ -111,7 +111,10 @@ const dict = {
 	},
 	modals: {
 		publishersAdd: {
-			title: "Monetize Your Channel",
+			title: {
+				channel: "Monetize Your Channel",
+				group: "Monetize Your Supergroup",
+			},
 			description:
 				"Add the bot as an admin to your chat and grant the following permissions:",
 			permissions: {
@@ -131,10 +134,22 @@ const dict = {
 					title: "Add New Admins",
 					description: "Required to add the analytics bot.",
 				},
+				pin: {
+					title: "Pin Messages",
+					description: "Required to pin ads.",
+				},
+				restrict: {
+					title: "Restrict Members",
+					description: "Required to access group analytics.",
+				},
 			},
-
+			toggle: {
+				channel: "Monetize a Supergroup instead?",
+				group: "Monetize a Channel instead?",
+			},
 			button: {
-				text: "Connect a Channel",
+				channel: "Connect a Channel",
+				group: "Connect a Supergroup",
 			},
 		},
 	},

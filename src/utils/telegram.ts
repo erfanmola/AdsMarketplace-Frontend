@@ -241,20 +241,23 @@ export const initializeTMA = async () => {
 	);
 };
 
-export const getBotInviteAdminUrl = (permissions: {
-	change_info?: boolean;
-	post_messages?: boolean;
-	edit_messages?: boolean;
-	add_admins?: boolean;
-	delete_messages?: boolean;
-	ban_users?: boolean;
-	invite_users?: boolean;
-	pin_messages?: boolean;
-	manage_call?: boolean;
-	other?: boolean;
-	anonymous?: boolean;
-	manage_topics?: boolean;
-}) => {
+export const getBotInviteAdminUrl = (
+	permissions: {
+		change_info?: boolean;
+		post_messages?: boolean;
+		edit_messages?: boolean;
+		add_admins?: boolean;
+		delete_messages?: boolean;
+		ban_users?: boolean;
+		invite_users?: boolean;
+		pin_messages?: boolean;
+		manage_call?: boolean;
+		other?: boolean;
+		anonymous?: boolean;
+		manage_topics?: boolean;
+	},
+	mode: "channel" | "group" = "channel",
+) => {
 	const MAP = {
 		change_info: ["change_info"],
 		post_messages: ["post_messages"],
@@ -274,6 +277,10 @@ export const getBotInviteAdminUrl = (permissions: {
 		.filter(([, v]) => v)
 		.flatMap(([k]) => MAP[k as keyof typeof MAP])
 		.join("+");
+
+	if (mode === "group") {
+		return `https://t.me/${import.meta.env.VITE_BOT_USERNAME}?startgroup=true&admin=${params}`;
+	}
 
 	return `https://t.me/${import.meta.env.VITE_BOT_USERNAME}?startchannel=true&admin=${params}`;
 };
