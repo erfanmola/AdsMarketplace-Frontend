@@ -31,3 +31,10 @@ export const apiEntitiesOwned = async (offset = 0) =>
 		{},
 		"GET",
 	) as Promise<ResponseEntitiesOwned>;
+
+type ResponseEntity = {
+	entity: [];
+};
+
+export const apiEntity = async (id: string) =>
+	requestAPI(`/entities/${id}`, {}, "GET") as Promise<ResponseEntity>;

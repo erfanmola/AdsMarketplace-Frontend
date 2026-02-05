@@ -104,6 +104,10 @@ const dict = {
 				title: "Search",
 			},
 		},
+		telegramChart: {
+			all: "All",
+			zoomOut: "Zoom Out",
+		},
 	},
 	modals: {
 		publishersAdd: {

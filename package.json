@@ -16,8 +16,8 @@
 		"@tanstack/solid-query": "^5.90.23",
 		"@tanstack/solid-virtual": "^3.13.18",
 		"@telegram-apps/sdk-solid": "^3.0.31",
-		"@tonconnect/sdk": "^3.4.0",
-		"@tonconnect/ui": "^2.4.0",
+		"@tonconnect/sdk": "^3.4.1",
+		"@tonconnect/ui": "^2.4.1",
 		"@types/pulltorefreshjs": "^0.1.7",
 		"animate.css": "^4.1.1",
 		"gsap": "^3.14.2",
@@ -32,7 +32,7 @@
 		"swiper": "^12.1.0"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.13",
+		"@biomejs/biome": "^2.3.14",
 		"@tailwindcss/vite": "^4.1.18",
 		"autoprefixer": "^10.4.24",
 		"postcss": "^8.5.6",

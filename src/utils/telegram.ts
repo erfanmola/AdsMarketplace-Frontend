@@ -15,9 +15,12 @@ import {
 	themeParams,
 	viewport,
 } from "@telegram-apps/sdk-solid";
+import { createSignal } from "solid-js";
 import { Color } from "./color";
 import { navigator } from "./navigator";
 import { settings } from "./settings";
+
+export const [theme, setTheme] = createSignal<"light" | "dark">("light");
 
 const retrieveLaunchParamsSafe = () => {
 	try {
@@ -98,8 +101,8 @@ export const isVersionAtLeast = (version: string) => {
 	let p1: number | undefined;
 	let p2: number | undefined;
 	for (let i = 0; i < a; i++) {
-		p1 = Number.parseInt(v1[i]) || 0;
-		p2 = Number.parseInt(v2[i]) || 0;
+		p1 = Number.parseInt(v1[i], 10) || 0;
+		p2 = Number.parseInt(v2[i], 10) || 0;
 		if (p1 === p2) continue;
 		if (p1 > p2) return true;
 		return false;
@@ -161,6 +164,7 @@ export const initializeTMA = async () => {
 		bindMiniAppCssVars();
 
 		const handleTheme = (isDark: boolean) => {
+			setTheme(isDark ? "dark" : "light");
 			document.body.setAttribute("data-theme", isDark ? "dark" : "light");
 
 			const current = navigator.getCurrentHistory();
@@ -295,7 +299,7 @@ export const normalizeTelegramPath = (input: string): string | null => {
 				rest.delete("domain");
 
 				const query = rest.toString();
-				return `/${domain}${query ? "?" + query : ""}`;
+				return `/${domain}${query ? `?${query}` : ""}`;
 			}
 
 			if (url.hostname === "join") {
@@ -306,7 +310,7 @@ export const normalizeTelegramPath = (input: string): string | null => {
 				rest.delete("invite");
 
 				const query = rest.toString();
-				return `/joinchat/${invite}${query ? "?" + query : ""}`;
+				return `/joinchat/${invite}${query ? `?${query}` : ""}`;
 			}
 
 			return null;

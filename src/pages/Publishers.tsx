@@ -6,7 +6,6 @@ import { setModals } from "../utils/modal";
 import "./Publishers.scss";
 
 import createFuzzySearch from "@nozbe/microfuzz";
-import { useNavigate } from "@solidjs/router";
 import LottiePlayer from "lottix/solid/LottiePlayer";
 import {
 	type Component,
@@ -31,11 +30,11 @@ import Tabbar, { type TabbarItem } from "../components/ui/Tabbar";
 import useQueryFeedback from "../hooks/useQueryFeedback";
 import { LottieAnimations } from "../utils/animations";
 import { match } from "../utils/helpers";
+import { navigator } from "../utils/navigator";
 import { formatTGCount } from "../utils/number";
 
 const PagePublishers: Component = () => {
 	const { t, td } = useTranslation();
-	const navigate = useNavigate();
 
 	const query = useInfiniteQuery(() => ({
 		queryKey: ["entities", "owned"],
@@ -129,7 +128,7 @@ const PagePublishers: Component = () => {
 					const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
 					const entity = items().find((i) => i.id === id);
 					if (!entity) return;
-					navigate(`/entity/${entity.id}`);
+					navigator.go(`/entity/${entity.id}`);
 				};
 
 				return (

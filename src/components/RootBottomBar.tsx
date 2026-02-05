@@ -1,6 +1,6 @@
-import { useLocation, useNavigate } from "@solidjs/router";
 import { createSignal, Show } from "solid-js";
 import { useTranslation } from "../contexts/TranslationContext";
+import { navigator } from "../utils/navigator";
 import { SVGSymbol } from "./SVG";
 import BottomBar from "./ui/BottomBar";
 
@@ -17,12 +17,10 @@ export const [
 ] = createSignal(false);
 
 const RootBottomBar = () => {
-	const location = useLocation();
-	const navigate = useNavigate();
 	const { t } = useTranslation();
 
 	return (
-		<Show when={BottomBarValidPath.includes(location.pathname)}>
+		<Show when={BottomBarValidPath.includes(navigator.location!.pathname)}>
 			<BottomBar
 				items={[
 					{
@@ -42,11 +40,15 @@ const RootBottomBar = () => {
 					// 	title: t("components.bottomBar.items.profile.title"),
 					// },
 				]}
-				initialIndex={BottomBarValidPath.indexOf(location.pathname) ?? 0}
+				initialIndex={
+					BottomBarValidPath.indexOf(navigator.location!.pathname) ?? 0
+				}
 				onIndexChange={(index) => {
-					navigate(BottomBarValidPath[index]);
+					navigator.go(BottomBarValidPath[index], {
+						backable: false,
+					});
 				}}
-				search={SearchValidPath.includes(location.pathname)}
+				search={SearchValidPath.includes(navigator.location!.pathname)}
 				onSearchEnter={(value) => {
 					setRootBottomBarrootBottomBarSearchQuery(value.trim());
 				}}
