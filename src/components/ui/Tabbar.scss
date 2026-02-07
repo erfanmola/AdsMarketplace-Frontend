@@ -52,7 +52,6 @@
 
    &.tabbar-glass {
       > ul {
-         padding: 0.25rem;
          z-index: 2;
          position: sticky;
          top: 0;
@@ -103,6 +102,17 @@
          position: absolute;
          inset: 0;
          z-index: 0;
+      }
+   }
+
+   &.tabbar-auto-height {
+      > swiper-container {
+         height: auto;
+
+         > swiper-slide {
+            overflow: unset;
+            height: auto;
+         }
       }
    }
 }

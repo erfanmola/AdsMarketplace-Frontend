@@ -1,4 +1,10 @@
-import { type Component, createSignal, onMount, Show } from "solid-js";
+import {
+	type Component,
+	createMemo,
+	createSignal,
+	onMount,
+	Show,
+} from "solid-js";
 import "./PeerProfile.scss";
 import { getNameInitials } from "../../utils/general";
 import ImageLoader from "./ImageLoader";
@@ -30,11 +36,15 @@ const PeerProfile: Component<PeerProfileProps> = (props) => {
 	const getIndex = (s: string, len: number) =>
 		Array.from(s).reduce((h, c) => (h * 31 + c.codePointAt(0)!) >>> 0, 0) % len;
 
-	let color = props.peerId
-		? PeerColors[Math.abs(+props.peerId) % PeerColors.length]
+	const peerId = createMemo(() =>
+		Number(String(props.peerId).replace("-100", "")),
+	);
+
+	let color = peerId()
+		? PeerColors[Math.abs(+peerId()) % PeerColors.length]
 		: PeerColors[getIndex(props.name ?? "", PeerColors.length)];
 
-	if (props.peerId === -1) {
+	if (peerId() === -1) {
 		color = PeerColorArchived;
 	}
 

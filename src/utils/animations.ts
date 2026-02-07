@@ -11,6 +11,7 @@ import OutlineDuckLaunchPlane from "../assets/outlines/duck-launch-plane-outline
 import OutlineDuckMoney from "../assets/outlines/duck-money-outline.svg?raw";
 import OutlineDuckPremiumCloak from "../assets/outlines/duck-premium-cloak-outline.svg?raw";
 import OutlineDuckTransparent from "../assets/outlines/duck-transparent-outline.svg?raw";
+import OutlineEmojiChart from "../assets/outlines/emoji-chart-outline.svg?raw";
 
 export type LottieAnimation = {
 	url: string;
@@ -72,6 +73,12 @@ export const LottieAnimations: {
 		money: {
 			url: "/assets/tgs/duck-money.tgs",
 			outline: OutlineDuckMoney,
+		},
+	},
+	emoji: {
+		chart: {
+			url: "/assets/tgs/emoji-chart.tgs",
+			outline: OutlineEmojiChart,
 		},
 	},
 };

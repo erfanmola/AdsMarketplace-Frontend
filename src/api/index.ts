@@ -2,7 +2,7 @@ import { retrieveRawInitData } from "@telegram-apps/sdk-solid";
 import { requestAPI } from "../utils/api";
 import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
-import type { OwnedEntity } from "./api";
+import type { Entity, OwnedEntity } from "./api";
 
 type ResponseAuthUser = {
 	token: string;
@@ -33,7 +33,7 @@ export const apiEntitiesOwned = async (offset = 0) =>
 	) as Promise<ResponseEntitiesOwned>;
 
 type ResponseEntity = {
-	entity: [];
+	entity: Entity;
 };
 
 export const apiEntity = async (id: string) =>

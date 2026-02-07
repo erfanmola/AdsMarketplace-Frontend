@@ -1,5 +1,5 @@
-import "./scss/tailwind.css";
 import "./scss/app.scss";
+import "./scss/tailwind.css";
 
 /* @refresh reload */
 import { render } from "solid-js/web";

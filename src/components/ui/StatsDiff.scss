@@ -1,0 +1,11 @@
+.stats-diff {
+   color: var(--text-secondary);
+
+   &.stats-diff-grow {
+      color: var(--text-green);
+   }
+
+   &.stats-diff-shrink {
+      color: var(--text-red);
+   }
+}

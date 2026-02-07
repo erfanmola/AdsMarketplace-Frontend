@@ -83,6 +83,122 @@ const dict = {
 			},
 		},
 		profile: {},
+		entity: {
+			tabs: {
+				overview: {
+					title: "Overview",
+				},
+				statistics: {
+					title: "Statistics",
+				},
+			},
+			overview: {
+				title: {
+					channel: "Channel Statistics",
+					group: "Group Statistics",
+				},
+				range: "{from} - {to}",
+				channel: {
+					followers: {
+						label: "Followers",
+					},
+					viewsPerPost: {
+						label: "Views Per Post",
+					},
+					reactionsPerPost: {
+						label: "Reactions Per Post",
+					},
+					sharesPerPost: {
+						label: "Shares Per Post",
+					},
+					viewsPerStory: {
+						label: "Views Per Story",
+					},
+					sharesPerStory: {
+						label: "Shares Per Story",
+					},
+					enabledNotifications: {
+						label: "Enabled Notifications",
+					},
+				},
+				group: {
+					members: {
+						label: "Members",
+					},
+					messages: {
+						label: "Messages",
+					},
+					viewingMembers: {
+						label: "Viewing Members",
+					},
+					postingMembers: {
+						label: "Posting Members",
+					},
+				},
+				empty: {
+					text: "Statistics not available yet.",
+				},
+			},
+			statistics: {
+				charts: {
+					channel: {
+						growth: {
+							title: "Growth",
+						},
+						followers: {
+							title: "Followers",
+						},
+						notifications: {
+							title: "Notifications",
+						},
+						viewsByHours: {
+							title: "Views By Hours (UTC)",
+						},
+						viewsBySource: {
+							title: "Views By Source",
+						},
+						followersBySource: {
+							title: "Followers By Source",
+						},
+						languages: {
+							title: "Languages",
+						},
+						interactions: {
+							title: "Interactions",
+						},
+						reactionsByEmotion: {
+							title: "Reactions By Emotion",
+						},
+					},
+					group: {
+						growth: {
+							title: "Growth",
+						},
+						members: {
+							title: "Group Members",
+						},
+						newMembersBySource: {
+							title: "New Members By Source",
+						},
+						membersPrimaryLanguage: {
+							title: "Members Primary Language",
+						},
+						messages: {
+							title: "Messages",
+						},
+						actions: {
+							title: "Actions",
+						},
+						topHours: {
+							title: "Top Hours",
+						},
+						topDaysOfWeek: {
+							title: "Top Days Of Week",
+						},
+					},
+				},
+			},
+		},
 	},
 	components: {
 		bottomBar: {

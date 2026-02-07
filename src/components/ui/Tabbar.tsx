@@ -31,6 +31,7 @@ type TabbarProps = {
 	gap?: number;
 	mode?: TabbarMode;
 	setScrollingState?: (value: boolean) => void;
+	autoHeight?: boolean;
 };
 
 const Tabbar: Component<TabbarProps> = (props) => {
@@ -138,6 +139,12 @@ const Tabbar: Component<TabbarProps> = (props) => {
 			passive: true,
 		});
 
+		slider.swiper.update();
+
+		setTimeout(() => {
+			slider.swiper.update();
+		});
+
 		onCleanup(() => {
 			window.removeEventListener("resize", updateIndicator);
 			window.removeEventListener("resize", updateDistance);
@@ -218,7 +225,12 @@ const Tabbar: Component<TabbarProps> = (props) => {
 	return (
 		<div
 			id={props.id}
-			class={["container-tabbar", `tabbar-${mode()}`, props.class]
+			class={[
+				"container-tabbar",
+				`tabbar-${mode()}`,
+				props.autoHeight && "tabbar-auto-height",
+				props.class,
+			]
 				.filter(Boolean)
 				.join(" ")}
 		>
@@ -241,6 +253,7 @@ const Tabbar: Component<TabbarProps> = (props) => {
 				initial-slide={getIndex(props.value)}
 				dir={isRTL() ? "rtl" : "ltr"}
 				space-between={props.gap ?? 0}
+				auto-height={props.autoHeight ?? false}
 			>
 				<For each={props.items}>
 					{(item) => (

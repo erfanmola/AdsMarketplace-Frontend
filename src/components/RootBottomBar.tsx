@@ -1,10 +1,21 @@
-import { createSignal, Show } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { useTranslation } from "../contexts/TranslationContext";
 import { navigator } from "../utils/navigator";
 import { SVGSymbol } from "./SVG";
 import BottomBar from "./ui/BottomBar";
 
-const BottomBarValidPath = ["/", "/advertisers", "/publishers", "/profile"];
+const BottomBarItems = ["/", "/advertisers", "/publishers", "/profile"];
+
+const BottomBarValidPath = [
+	"/",
+	"/advertisers",
+	"/publishers",
+	"/publishers/all",
+	"/publishers/active",
+	"/publishers/inactive",
+	"/publishers/verified",
+	"/profile",
+];
 const SearchValidPath = ["/advertisers", "/publishers"];
 
 export const [
@@ -18,6 +29,20 @@ export const [
 
 const RootBottomBar = () => {
 	const { t } = useTranslation();
+
+	const initialIndex = createMemo(() => {
+		const index = BottomBarItems.findIndex((i) =>
+			navigator
+				.location!.pathname.replace("/", "")
+				.startsWith(i.replace("/", "") || "/"),
+		);
+
+		if (index > -1) {
+			return index;
+		}
+
+		return 0;
+	});
 
 	return (
 		<Show when={BottomBarValidPath.includes(navigator.location!.pathname)}>
@@ -35,18 +60,10 @@ const RootBottomBar = () => {
 						icon: () => <SVGSymbol id="HiSolidMegaphone" />,
 						title: t("components.bottomBar.items.publishers.title"),
 					},
-					// {
-					// 	icon: () => <SVGSymbol id="HiSolidUserCircle" />,
-					// 	title: t("components.bottomBar.items.profile.title"),
-					// },
 				]}
-				initialIndex={
-					BottomBarValidPath.indexOf(navigator.location!.pathname) ?? 0
-				}
+				initialIndex={initialIndex()}
 				onIndexChange={(index) => {
-					navigator.go(BottomBarValidPath[index], {
-						backable: false,
-					});
+					navigator.go(BottomBarItems[index]);
 				}}
 				search={SearchValidPath.includes(navigator.location!.pathname)}
 				onSearchEnter={(value) => {

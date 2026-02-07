@@ -6,9 +6,11 @@ import { setModals } from "../utils/modal";
 import "./Publishers.scss";
 
 import createFuzzySearch from "@nozbe/microfuzz";
+import { useParams } from "@solidjs/router";
 import LottiePlayer from "lottix/solid/LottiePlayer";
 import {
 	type Component,
+	createEffect,
 	createMemo,
 	createSignal,
 	For,
@@ -29,12 +31,14 @@ import Shimmer from "../components/ui/Shimmer";
 import Tabbar, { type TabbarItem } from "../components/ui/Tabbar";
 import useQueryFeedback from "../hooks/useQueryFeedback";
 import { LottieAnimations } from "../utils/animations";
+import { oneOfOr } from "../utils/general";
 import { match } from "../utils/helpers";
 import { navigator } from "../utils/navigator";
 import { formatTGCount } from "../utils/number";
 
 const PagePublishers: Component = () => {
 	const { t, td } = useTranslation();
+	const params = useParams();
 
 	const query = useInfiniteQuery(() => ({
 		queryKey: ["entities", "owned"],
@@ -128,7 +132,9 @@ const PagePublishers: Component = () => {
 					const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
 					const entity = items().find((i) => i.id === id);
 					if (!entity) return;
-					navigator.go(`/entity/${entity.id}`);
+					navigator.go(`/entity/${entity.id}`, {
+						backable: true,
+					});
 				};
 
 				return (
@@ -139,7 +145,7 @@ const PagePublishers: Component = () => {
 					>
 						<PeerProfile
 							name={props.entity.name!}
-							peerId={Number(String(props.entity.chat_id).replace("-100", ""))}
+							peerId={Number(String(props.entity.chat_id))}
 							username={props.entity.username}
 						/>
 
@@ -218,7 +224,14 @@ const PagePublishers: Component = () => {
 			);
 		};
 
-		const [selectedTab, setSelectedTab] = createSignal("all");
+		const [selectedTab, setSelectedTab] = createSignal(
+			oneOfOr(params.tab!, ["all", "active", "inactive", "verified"], "all"),
+		);
+
+		createEffect(() => {
+			navigator.go(`/publishers/${selectedTab()}`);
+		});
+
 		const tabbar: TabbarItem[] = [
 			{
 				slug: "all",

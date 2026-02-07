@@ -150,9 +150,9 @@ const App = () => {
 
 									<Route path="/advertisers" component={PageAdvertisers} />
 
-									<Route path="/publishers" component={PagePublishers} />
+									<Route path="/publishers/:tab?" component={PagePublishers} />
 
-									<Route path="/entity/:id" component={PageEntity} />
+									<Route path="/entity/:id/:tab?" component={PageEntity} />
 
 									<Route path="/profile" component={PageProfile} />
 								</Router>

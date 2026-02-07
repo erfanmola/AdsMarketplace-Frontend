@@ -17,6 +17,7 @@ import { TbOutlineLoader2 } from "solid-icons/tb";
 import type { Component } from "solid-js";
 import { CustomIconTON } from "../components/misc/CustomIcons";
 import { symbolizeSVGComponent } from "../components/SVG";
+import { EntityPattern } from "../pages/Entity";
 import { LottieAnimations } from "./animations";
 
 const preloadURLs = async () => {
@@ -26,6 +27,7 @@ const preloadURLs = async () => {
 		LottieAnimations.duck.acceptMoney.url,
 		LottieAnimations.duck.transparent.url,
 		LottieAnimations.duck.hashtags.url,
+		EntityPattern,
 	];
 
 	return Promise.all(
