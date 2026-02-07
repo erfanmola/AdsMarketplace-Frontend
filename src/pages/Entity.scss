@@ -22,6 +22,8 @@
          rgba(var(--bg-color-rgb), 0.75)
       );
       pointer-events: none;
+      mask: linear-gradient(0deg, transparent, black);
+      backdrop-filter: blur(0.125rem);
    }
 
    .tw-wrap {
@@ -158,6 +160,12 @@
 
 .entity-section-statistics-overview {
    > section:not(.entity-section-statistics-empty) {
+      > span.title {
+         > span.subtitle {
+            font-size: 0.875rem;
+         }
+      }
+
       > div {
          > ul {
             display: grid;

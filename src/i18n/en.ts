@@ -120,6 +120,9 @@ const dict = {
 					enabledNotifications: {
 						label: "Enabled Notifications",
 					},
+					premiumAudience: {
+						label: "Premium Subscribers",
+					},
 				},
 				group: {
 					members: {
@@ -133,6 +136,9 @@ const dict = {
 					},
 					postingMembers: {
 						label: "Posting Members",
+					},
+					premiumAudience: {
+						label: "Premium Members",
 					},
 				},
 				empty: {

@@ -162,6 +162,22 @@ const PageEntity: Component = () => {
 						<Section
 							type="glass"
 							title={t("pages.entity.overview.title.channel")}
+							subtitle={td("pages.entity.overview.range", {
+								from: new Date(
+									props.entity.statistic.period.minDate * 1000,
+								).toLocaleDateString("en-US", {
+									year: "numeric",
+									month: "short",
+									day: "numeric",
+								}),
+								to: new Date(
+									props.entity.statistic.period.maxDate * 1000,
+								).toLocaleDateString("en-US", {
+									year: "numeric",
+									month: "short",
+									day: "numeric",
+								}),
+							})}
 						>
 							<ul>
 								<li>
@@ -264,7 +280,7 @@ const PageEntity: Component = () => {
 									</span>
 								</li>
 
-								{/*<li>
+								<li>
 									<b>
 										{formatTGCount(
 											props.entity.statistic.reactionsPerPost.current,
@@ -281,7 +297,38 @@ const PageEntity: Component = () => {
 									<span>
 										{t("pages.entity.overview.channel.reactionsPerPost.label")}
 									</span>
-								</li>*/}
+								</li>
+
+								<Show
+									when={
+										props.entity.statistic.premiumAudience.part &&
+										props.entity.statistic.premiumAudience.total
+									}
+								>
+									<li>
+										<b>
+											{props.entity.statistic.premiumAudience.total === 0
+												? "0"
+												: Math.trunc(
+														(props.entity.statistic.premiumAudience.part! /
+															props.entity.statistic.premiumAudience.total!) *
+															1000,
+													) / 10}
+											%
+											<Show
+												when={props.entity.statistic.premiumAudience.part! > 0}
+											>
+												<span class="stats-diff stats-diff-grow">
+													+{props.entity.statistic.premiumAudience.part}
+												</span>
+											</Show>
+										</b>
+
+										<span>
+											{t("pages.entity.overview.channel.premiumAudience.label")}
+										</span>
+									</li>
+								</Show>
 							</ul>
 						</Section>
 					);
@@ -295,6 +342,22 @@ const PageEntity: Component = () => {
 						<Section
 							type="glass"
 							title={t("pages.entity.overview.title.group")}
+							subtitle={td("pages.entity.overview.range", {
+								from: new Date(
+									props.entity.statistic.period.minDate * 1000,
+								).toLocaleDateString("en-US", {
+									year: "numeric",
+									month: "short",
+									day: "numeric",
+								}),
+								to: new Date(
+									props.entity.statistic.period.maxDate * 1000,
+								).toLocaleDateString("en-US", {
+									year: "numeric",
+									month: "short",
+									day: "numeric",
+								}),
+							})}
 						>
 							<ul>
 								<li>
@@ -352,6 +415,37 @@ const PageEntity: Component = () => {
 										{t("pages.entity.overview.group.postingMembers.label")}
 									</span>
 								</li>
+
+								<Show
+									when={
+										props.entity.statistic.premiumAudience.part &&
+										props.entity.statistic.premiumAudience.total
+									}
+								>
+									<li>
+										<b>
+											{props.entity.statistic.premiumAudience.total === 0
+												? "0"
+												: Math.trunc(
+														(props.entity.statistic.premiumAudience.part! /
+															props.entity.statistic.premiumAudience.total!) *
+															1000,
+													) / 10}
+											%
+											<Show
+												when={props.entity.statistic.premiumAudience.part! > 0}
+											>
+												<span class="stats-diff stats-diff-grow">
+													+{props.entity.statistic.premiumAudience.part}
+												</span>
+											</Show>
+										</b>
+
+										<span>
+											{t("pages.entity.overview.channel.premiumAudience.label")}
+										</span>
+									</li>
+								</Show>
 							</ul>
 						</Section>
 					);

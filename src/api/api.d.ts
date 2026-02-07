@@ -29,6 +29,10 @@ export type EntityBase<T, U> = {
 export type EntityChannel = EntityBase<
 	"channel",
 	{
+		premiumAudience: {
+			part?: number;
+			total?: number;
+		};
 		period: {
 			minDate: number;
 			maxDate: number;
@@ -79,6 +83,10 @@ export type EntityChannel = EntityBase<
 export type EntityGroup = EntityBase<
 	"supergroup",
 	{
+		premiumAudience: {
+			part?: number;
+			total?: number;
+		};
 		period: {
 			minDate: number;
 			maxDate: number;
