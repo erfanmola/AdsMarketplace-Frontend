@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 import TDrag from "./drag";
 import type { TChartUnitOptions } from "./types";
 import { isTouchDevice } from "./utils";
@@ -62,6 +63,8 @@ export default class TSwitchers {
 			}
 
 			$div.addEventListener("click", (e) => {
+				invokeHapticFeedbackImpact("soft");
+
 				if (this.preventClick) {
 					this.preventClick = false;
 					return;
@@ -71,6 +74,7 @@ export default class TSwitchers {
 
 				if (isActive && this.enabled === 1) {
 					$div.classList.add("tchart--switcher__denied");
+					invokeHapticFeedbackImpact("heavy");
 
 					clearTimeout(this.timeout!);
 					this.timeout = setTimeout(() => {

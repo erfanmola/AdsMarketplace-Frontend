@@ -158,8 +158,9 @@ export default class TAreas {
 		}
 
 		if (hasGapsInData || hasUnfocusedColumns) {
-			ctx.fillStyle = this.opts.settings.COLORS.background;
-			ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
+			// ctx.fillStyle = this.opts.settings.COLORS.background;
+			// ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
+			ctx.clearRect(0, 0, dims.w * dpi, dims.h * dpi);
 		}
 
 		let angles: TChartAngle[], radius: number, cx: number, cy: number;

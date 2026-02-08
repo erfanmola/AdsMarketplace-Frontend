@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 import TDrag from "./drag";
 import type {
 	TChartAngle,
@@ -716,6 +717,8 @@ export default class TTip {
 		}
 
 		if (this.prevXInd !== xInd || !params.isMove) {
+			invokeHapticFeedbackImpact("light");
+
 			this.$tip.classList.remove("tchart--tip__piemode");
 			this.$line && this.$line.classList.remove("tchart--line__piemode");
 

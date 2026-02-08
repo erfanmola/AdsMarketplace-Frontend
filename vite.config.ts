@@ -78,6 +78,7 @@ export default defineConfig((config) => {
 				output: {
 					manualChunks: {
 						svgAssets: ["solid-icons"],
+						tchart: ["src/lib/tchart/chart.ts"],
 					},
 				},
 			},

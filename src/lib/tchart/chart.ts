@@ -29,6 +29,7 @@ import type {
 } from "./types";
 import { getFormatter, getXIndex, roundRange, triggerEvent } from "./utils";
 import "./chart.scss";
+import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 
 export default class TChart {
 	private opts: TChartConstructorOptions;
@@ -1540,6 +1541,7 @@ export default class TChart {
 	}
 
 	toggleZoomSpecial(enabled: boolean, dt: number, details: TChartDataDetails) {
+		invokeHapticFeedbackImpact("soft");
 		var props: TChartAnimationProperty[] = [];
 
 		if (this.state.zoomModeSpecial === enabled) return;
@@ -1614,6 +1616,8 @@ export default class TChart {
 	}
 
 	toggleZoom = (enabled: boolean, dt?: number, data?: TChartData) => {
+		invokeHapticFeedbackImpact("soft");
+
 		// this.specialZoomTransition = true;
 		if (enabled) {
 			// this.specialZoomTransition = this.state.isSlowNow ? true : undefined;

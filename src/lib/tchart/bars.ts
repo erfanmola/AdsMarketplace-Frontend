@@ -26,7 +26,7 @@ export default class TBars {
 		// fillrect dramatically drops fps on iPhones after 5th (4s and 5 are ok, but 5s, SE, 7+ etc are freezing)
 		// on direct onscreen canvas draw, so for this case we should use offscreen canvas
 		this.$canvas = document.createElement("canvas");
-		this.ctx = this.$canvas.getContext("2d", { alpha: false })!;
+		this.ctx = this.$canvas.getContext("2d")!;
 	}
 
 	onResize() {
@@ -126,8 +126,9 @@ export default class TBars {
 		const xwDetail = this.opts.data.detailPeriodLen * xScale;
 
 		if (joinedHash !== this.cached) {
-			ctx.fillStyle = this.opts.settings.COLORS.background;
-			ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
+			// ctx.fillStyle = this.opts.settings.COLORS.background;
+			// ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
+			ctx.clearRect(0, 0, dims.w * dpi, dims.h * dpi);
 
 			let filteredInd = 0;
 
@@ -235,60 +236,53 @@ export default class TBars {
 
 		// tooltip selection
 		if (state.barInd > -1 && !mini) {
-			this.opts.ctx.fillStyle =
-				this.opts.settings.COLORS.barsSelectionBackground;
-			this.opts.ctx.globalAlpha = state.barO;
-			this.opts.ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
-			let yStart = 0;
-
-			for (i = 0; i < ysLength; i++) {
-				o = state[`o_${i}`];
-				if (o > 0) {
-					y = ys[i].y;
-					yFrom = ys[i].yFrom;
-					y1 = state["y1"] as number;
-					y2 = state["y2"] as number;
-					yScale = (dpi * (dims.h - pTop - pBottom)) / (y2 - y1);
-					yShift = (dims.h - pBottom) * dpi + y1 * yScale;
-					const k = o * yScale;
-
-					this.opts.ctx.fillStyle = this.isDarkMode
-						? ys[i].colors_n[0]
-						: ys[i].colors_d[0];
-					this.opts.ctx.globalAlpha = state[`f_${i}`] * 0.9 + 0.1;
-
-					let yVal: number, xw: number;
-					if (zoom) {
-						if (state.barInd >= d1 && state.barInd <= d2) {
-							yVal =
-								yFrom[state.barInd] +
-								zoomMorph * (y[state.barInd] - yFrom[state.barInd]);
-							xw = xwDetail;
-						} else {
-							xw = xwMain;
-							yVal = y[state.barInd] + zoomMorph * (y[d1] - y[state.barInd]); // approx
-						}
-					} else {
-						yVal = y[state.barInd];
-						xw = xwMain;
-					}
-
-					yVal = yVal || 0; // absent values
-
-					const yEnd = hBottom - (yShift - yVal * k) + yStart;
-
-					this.opts.ctx.fillRect(
-						Math.round(x[state.barInd] * xScale + xShift),
-						Math.round(hBottom - yStart + dims.t * dpi),
-						Math.max(Math.round(xw), 1),
-						Math.round(yStart) - Math.round(yEnd),
-					);
-
-					yStart = yEnd;
-				}
-			}
-
-			ctx.globalAlpha = 1;
+			// this.opts.ctx.fillStyle =
+			// 	this.opts.settings.COLORS.barsSelectionBackground;
+			// this.opts.ctx.globalAlpha = state.barO;
+			// this.opts.ctx.fillRect(0, 0, dims.w * dpi, dims.h * dpi);
+			// this.opts.ctx?.clearRect(0, 0, dims.w * dpi, dims.h * dpi);
+			// let yStart = 0;
+			// for (i = 0; i < ysLength; i++) {
+			// 	o = state[`o_${i}`];
+			// 	if (o > 0) {
+			// 		y = ys[i].y;
+			// 		yFrom = ys[i].yFrom;
+			// 		y1 = state["y1"] as number;
+			// 		y2 = state["y2"] as number;
+			// 		yScale = (dpi * (dims.h - pTop - pBottom)) / (y2 - y1);
+			// 		yShift = (dims.h - pBottom) * dpi + y1 * yScale;
+			// 		const k = o * yScale;
+			// 		this.opts.ctx.fillStyle = this.isDarkMode
+			// 			? ys[i].colors_n[0]
+			// 			: ys[i].colors_d[0];
+			// 		this.opts.ctx.globalAlpha = state[`f_${i}`] * 0.9 + 0.1;
+			// 		let yVal: number, xw: number;
+			// 		if (zoom) {
+			// 			if (state.barInd >= d1 && state.barInd <= d2) {
+			// 				yVal =
+			// 					yFrom[state.barInd] +
+			// 					zoomMorph * (y[state.barInd] - yFrom[state.barInd]);
+			// 				xw = xwDetail;
+			// 			} else {
+			// 				xw = xwMain;
+			// 				yVal = y[state.barInd] + zoomMorph * (y[d1] - y[state.barInd]); // approx
+			// 			}
+			// 		} else {
+			// 			yVal = y[state.barInd];
+			// 			xw = xwMain;
+			// 		}
+			// 		yVal = yVal || 0; // absent values
+			// 		const yEnd = hBottom - (yShift - yVal * k) + yStart;
+			// 		this.opts.ctx.fillRect(
+			// 			Math.round(x[state.barInd] * xScale + xShift),
+			// 			Math.round(hBottom - yStart + dims.t * dpi),
+			// 			Math.max(Math.round(xw), 1),
+			// 			Math.round(yStart) - Math.round(yEnd),
+			// 		);
+			// 		yStart = yEnd;
+			// 	}
+			// }
+			// ctx.globalAlpha = 1;
 		}
 
 		this.cached = joinedHash;

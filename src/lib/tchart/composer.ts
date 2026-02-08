@@ -117,26 +117,32 @@ export default class TComposer {
 					dims.graph.l * dpi,
 					dims.graph.t * dpi,
 					dims.graph.w * dpi,
-					(settings.PADD[0] + 4) * dpi,
+					dims.graph.h * dpi,
 				);
-				ctx.clearRect(
-					dims.graph.l * dpi,
-					(dims.graph.t + padd[0]) * dpi,
-					padd[3] * dpi,
-					(dims.graph.h - padd[0] - padd[2]) * dpi,
-				);
-				ctx.clearRect(
-					dims.graph.l * dpi,
-					(dims.graph.t + dims.graph.h - padd[2]) * dpi,
-					dims.graph.w * dpi,
-					padd[2] * dpi,
-				);
-				ctx.clearRect(
-					(dims.graph.l + dims.graph.w - padd[1] - 1) * dpi,
-					(dims.graph.t + padd[0]) * dpi,
-					(padd[1] + 1) * dpi,
-					(dims.graph.h - padd[0] - padd[2]) * dpi,
-				);
+				// ctx.clearRect(
+				// 	dims.graph.l * dpi,
+				// 	dims.graph.t * dpi,
+				// 	dims.graph.w * dpi,
+				// 	(settings.PADD[0] + 4) * dpi,
+				// );
+				// ctx.clearRect(
+				// 	dims.graph.l * dpi,
+				// 	(dims.graph.t + padd[0]) * dpi,
+				// 	padd[3] * dpi,
+				// 	(dims.graph.h - padd[0] - padd[2]) * dpi,
+				// );
+				// ctx.clearRect(
+				// 	dims.graph.l * dpi,
+				// 	(dims.graph.t + dims.graph.h - padd[2]) * dpi,
+				// 	dims.graph.w * dpi,
+				// 	padd[2] * dpi,
+				// );
+				// ctx.clearRect(
+				// 	(dims.graph.l + dims.graph.w - padd[1] - 1) * dpi,
+				// 	(dims.graph.t + padd[0]) * dpi,
+				// 	(padd[1] + 1) * dpi,
+				// 	(dims.graph.h - padd[0] - padd[2]) * dpi,
+				// );
 			}
 
 			if (!pieChartAnimating && !pieChartAnimated) {
@@ -204,7 +210,6 @@ export default class TComposer {
 			}
 
 			this.opts.chart.axisY.render(opacity);
-			this.opts.chart.fade.render();
 
 			if (!pieChartAnimating && !pieChartAnimated) {
 				ctx.restore();

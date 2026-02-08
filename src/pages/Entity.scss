@@ -154,8 +154,12 @@
 }
 
 #container-tab-overview-viewer,
-#container-tab-overview-owner {
+#container-tab-overview-owner,
+#container-tab-statistics {
+   display: flex;
+   flex-direction: column;
    padding: 0 1rem;
+   gap: 1rem;
 }
 
 .entity-section-statistics-overview {
@@ -218,6 +222,33 @@
       > span {
          font-size: 0.875rem;
          color: var(--text-secondary);
+      }
+   }
+}
+
+#container-tab-statistics {
+   > section {
+      > div {
+         padding-inline: 0 !important;
+
+         > p {
+            text-align: center;
+            padding: 0.25rem 0 1rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+         }
+
+         .tchart--wrapper {
+            .tchart--graph-canvas {
+               background: transparent !important;
+            }
+
+            .tchart--zoom {
+               inset: unset;
+               inset-inline-start: 1rem;
+               top: 2rem;
+            }
+         }
       }
    }
 }

@@ -11,6 +11,7 @@ import {
 	createEffect,
 	createMemo,
 	createSignal,
+	For,
 	Match,
 	Show,
 	Suspense,
@@ -24,6 +25,7 @@ import Section from "../components/ui/Section";
 import Shimmer from "../components/ui/Shimmer";
 import StatsDiff from "../components/ui/StatsDiff";
 import Tabbar, { type TabbarItem } from "../components/ui/Tabbar";
+import TelegramChart from "../components/ui/TelegramChart";
 import TelegramWallpaper from "../components/ui/TelegramWallpaper";
 import { useTranslation } from "../contexts/TranslationContext";
 import useQueryFeedback from "../hooks/useQueryFeedback";
@@ -133,25 +135,6 @@ const PageEntity: Component = () => {
 					skipHistory: true,
 				});
 			});
-
-			const SectionStatisticsEmpty: Component<{ title?: string }> = (props) => {
-				return (
-					<Section
-						class="entity-section-statistics-empty"
-						type="glass"
-						title={props.title}
-					>
-						<LottiePlayer
-							src={LottieAnimations.emoji.chart.url}
-							outline={LottieAnimations.emoji.chart.outline}
-							autoplay
-							loop
-						/>
-
-						<span>{t("pages.entity.overview.empty.text")}</span>
-					</Section>
-				);
-			};
 
 			const SectionStatisticsOverview = () => {
 				const SectionStatisticsOverviewChannel = () => {
@@ -451,6 +434,27 @@ const PageEntity: Component = () => {
 					);
 				};
 
+				const SectionStatisticsEmpty: Component<{ title?: string }> = (
+					props,
+				) => {
+					return (
+						<Section
+							class="entity-section-statistics-empty"
+							type="glass"
+							title={props.title}
+						>
+							<LottiePlayer
+								src={LottieAnimations.emoji.chart.url}
+								outline={LottieAnimations.emoji.chart.outline}
+								autoplay
+								loop
+							/>
+
+							<span>{t("pages.entity.overview.empty.text")}</span>
+						</Section>
+					);
+				};
+
 				return (
 					<div class="entity-section-statistics-overview">
 						<Switch>
@@ -493,7 +497,120 @@ const PageEntity: Component = () => {
 			};
 
 			const TabStatistics = () => {
-				return <div>Statistics Viewer</div>;
+				const statistics: { title: string; subtitle?: string; data: any }[] =
+					[];
+
+				if (props.entity.type === "channel") {
+					statistics.push({
+						title: t("pages.entity.statistics.charts.channel.growth.title"),
+						data: props.entity.statistic?.growthGraph,
+					});
+
+					statistics.push({
+						title: t("pages.entity.statistics.charts.channel.followers.title"),
+						data: props.entity.statistic?.followersGraph,
+					});
+
+					// statistics.push({
+					// 	title: t(
+					// 		"pages.entity.statistics.charts.channel.notifications.title",
+					// 	),
+					// 	data: props.entity.statistic?.muteGraph,
+					// });
+
+					statistics.push({
+						title: t(
+							"pages.entity.statistics.charts.channel.viewsByHours.title",
+						),
+						data: props.entity.statistic?.topHoursGraph,
+					});
+
+					statistics.push({
+						title: t(
+							"pages.entity.statistics.charts.channel.viewsBySource.title",
+						),
+						data: props.entity.statistic?.viewsBySourceGraph,
+					});
+
+					// statistics.push({
+					// 	title: t(
+					// 		"pages.entity.statistics.charts.channel.followersBySource.title",
+					// 	),
+					// 	data: props.entity.statistic?.newFollowersBySourceGraph,
+					// });
+
+					statistics.push({
+						title: t("pages.entity.statistics.charts.channel.languages.title"),
+						data: props.entity.statistic?.languagesGraph,
+					});
+
+					statistics.push({
+						title: t(
+							"pages.entity.statistics.charts.channel.interactions.title",
+						),
+						data: props.entity.statistic?.interactionsGraph,
+					});
+
+					// statistics.push({
+					// 	title: t(
+					// 		"pages.entity.statistics.charts.channel.reactionsByEmotion.title",
+					// 	),
+					// 	data: props.entity.statistic?.reactionsByEmotionGraph,
+					// });
+				} else if (props.entity.type === "supergroup") {
+					statistics.push({
+						title: t("pages.entity.statistics.charts.group.growth.title"),
+						data: props.entity.statistic?.growthGraph,
+					});
+
+					statistics.push({
+						title: t("pages.entity.statistics.charts.group.members.title"),
+						data: props.entity.statistic?.membersGraph,
+					});
+
+					statistics.push({
+						title: t(
+							"pages.entity.statistics.charts.group.membersPrimaryLanguage.title",
+						),
+						data: props.entity.statistic?.languagesGraph,
+					});
+
+					statistics.push({
+						title: t("pages.entity.statistics.charts.group.messages.title"),
+						data: props.entity.statistic?.messagesGraph,
+					});
+
+					statistics.push({
+						title: t("pages.entity.statistics.charts.group.topHours.title"),
+						data: props.entity.statistic?.topHoursGraph,
+					});
+
+					statistics.push({
+						title: t(
+							"pages.entity.statistics.charts.group.topDaysOfWeek.title",
+						),
+						data: props.entity.statistic?.weekdaysGraph,
+					});
+				}
+
+				return (
+					<div id="container-tab-statistics">
+						<For each={statistics}>
+							{(statistic) => (
+								<Section type="glass" title={statistic.title}>
+									<Show
+										when={statistic.data}
+										fallback={<p>{t("pages.entity.overview.empty.text")}</p>}
+									>
+										<TelegramChart
+											data={{ ...JSON.parse(JSON.stringify(statistic.data)) }}
+										/>
+									</Show>
+								</Section>
+							)}
+						</For>
+					</div>
+				);
 			};
 
 			const tabbar: TabbarItem[] = [

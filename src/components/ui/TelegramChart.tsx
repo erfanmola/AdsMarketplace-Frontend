@@ -1,4 +1,4 @@
-import { type Component, createEffect, on, onCleanup, onMount } from "solid-js";
+import { type Component, createEffect, on, onMount } from "solid-js";
 import TChart from "../../lib/tchart/chart";
 import type { TChartData, TChartSettings } from "../../lib/tchart/types";
 import { Color } from "../../utils/color";
@@ -183,9 +183,10 @@ const TelegramChart: Component<TelegramChartProps> = (props) => {
 			}),
 		);
 
-		onCleanup(() => {
-			container?.remove();
-			container = undefined;
+		setTimeout(() => {
+			container
+				?.querySelector(".tchart--graph")
+				?.classList.add("swiper-no-swiping");
 		});
 	});
 
