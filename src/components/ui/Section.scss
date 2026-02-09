@@ -88,6 +88,8 @@
          }
 
          &.description {
+            text-indent: 0;
+            padding-inline-start: calc(1rem + var(--indent));
             padding-bottom: calc(0.75rem + var(--indent));
          }
       }
@@ -123,6 +125,18 @@
 
    &.section-glass .container-section-list-picker {
       > span {
+         font-size: 0.9375rem;
+      }
+   }
+
+   &.section-glass .container-section-list-select {
+      > select {
+         font-size: 0.9375rem;
+      }
+   }
+
+   &.section-glass .container-section-list-input {
+      > input {
          font-size: 0.9375rem;
       }
    }
@@ -203,6 +217,14 @@
          &:focus,
          &:active {
             background-color: rgba(var(--text-color-rgb), 0.125);
+         }
+      }
+
+      &.disabled {
+         pointer-events: none;
+
+         > * {
+            opacity: 0.5;
          }
       }
    }
@@ -346,7 +368,7 @@
          background-color: var(--switch-thumb-passive);
          top: 0.125rem;
          left: 0.125rem;
-         transition: transform calc(0.25s * var(--motion-multiplier)) ease;
+         transition: all calc(0.25s * var(--motion-multiplier)) ease;
          will-change: transform;
          border-radius: 10rem;
          box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.175);

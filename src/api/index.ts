@@ -9,6 +9,7 @@ import type { Entity, OwnedEntity } from "./api";
 export type ResponseAuthUser = {
 	categories: Record<string, string>;
 	languages: Record<string, string>;
+	limits: Record<string, any>;
 	token: string;
 	user: StoreUser;
 };

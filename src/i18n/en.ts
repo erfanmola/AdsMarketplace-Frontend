@@ -142,7 +142,7 @@ const dict = {
 					},
 				},
 				empty: {
-					text: "Statistics not available yet.",
+					text: "Statistics not available.",
 				},
 			},
 			options: {
@@ -228,6 +228,43 @@ const dict = {
 							title: "Top Days Of Week",
 						},
 					},
+				},
+			},
+			ads: {
+				types: {
+					"channel-post": {
+						title: "Channel Post",
+						description:
+							"The ad is published in the channel and remains visible for the selected period.",
+					},
+					"channel-story": {
+						title: "Channel Story",
+						description:
+							"The ad appears as a channel story and remains active for the selected period.",
+					},
+					"group-pin": {
+						title: "Pinned Group Post",
+						description:
+							"The ad is posted in the group and pinned to the top for the selected period.",
+					},
+				},
+				options: {
+					active: {
+						label: "Enabled",
+					},
+					maxPeriod: {
+						label: "Maximum Period",
+					},
+					unit: {
+						label: "Minimum Unit",
+					},
+					price: {
+						label: "Price Per Hour",
+						placeholder: "1 TON",
+					},
+				},
+				inactive: {
+					text: "Available after setup.",
 				},
 			},
 		},

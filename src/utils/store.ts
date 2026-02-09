@@ -11,6 +11,7 @@ export type StoreUser = {
 export type Store = {
 	categories?: Record<string, string>;
 	languages?: Record<string, string>;
+	limits?: Record<string, any>;
 	token?: string;
 	user?: StoreUser;
 	version?: string;

@@ -13,6 +13,20 @@ export type OwnedEntity = {
 	username: string;
 };
 
+export type EntityAd = {
+	type: "channel-post" | "channel-story" | "group-pin";
+	active: boolean;
+	period: {
+		unit: number;
+		max: number;
+	};
+	price: {
+		perHour: number;
+	};
+};
+
+export type EntityAds = Record<EntityAd["type"], EntityAd>;
+
 export type EntityBase<T, U> = {
 	chat_id: string | number;
 	id: string;
@@ -26,6 +40,7 @@ export type EntityBase<T, U> = {
 	statistic?: U;
 	category?: string;
 	language_code?: string;
+	ads?: EntityAds;
 };
 
 export type EntityChannel = EntityBase<

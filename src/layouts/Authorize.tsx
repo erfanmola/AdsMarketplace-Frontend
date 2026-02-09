@@ -40,6 +40,7 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 					setStore({
 						categories: result.categories,
 						languages: result.languages,
+						limits: result.limits,
 						token: result.token,
 						user: result.user,
 					});

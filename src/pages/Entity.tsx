@@ -7,6 +7,7 @@ import { debounce } from "@solid-primitives/scheduled";
 
 import { useParams } from "@solidjs/router";
 import LottiePlayer from "lottix/solid/LottiePlayer";
+import { TbOutlineEyeOff } from "solid-icons/tb";
 import {
 	type Component,
 	createEffect,
@@ -19,14 +20,17 @@ import {
 	Switch,
 } from "solid-js";
 import { apiEntity, apiEntityUpdate, type ResponseEntity } from "../api";
-import type { Entity } from "../api/api";
+import type { Entity, EntityAd } from "../api/api";
 import { SVGSymbol } from "../components/SVG";
 import PeerProfile from "../components/ui/PeerProfile";
 import Placeholder from "../components/ui/Placeholder";
 import Scrollable from "../components/ui/Scrollable";
 import Section, {
 	SectionList,
+	SectionListInput,
 	SectionListPicker,
+	SectionListSelect,
+	SectionListSwitch,
 } from "../components/ui/Section";
 import Shimmer from "../components/ui/Shimmer";
 import StatsDiff from "../components/ui/StatsDiff";
@@ -39,7 +43,7 @@ import useQueryFeedback from "../hooks/useQueryFeedback";
 import { LottieAnimations } from "../utils/animations";
 import { oneOfOr } from "../utils/general";
 import { match } from "../utils/helpers";
-import { formatTGCount } from "../utils/number";
+import { clamp, formatTGCount } from "../utils/number";
 import { objectToStringRecord } from "../utils/object";
 import { store } from "../utils/store";
 import { theme } from "../utils/telegram";
@@ -50,24 +54,32 @@ const PageEntity: Component = () => {
 	const { t, td } = useTranslation();
 
 	const params = useParams();
+	const key = ["entity", params.id];
+
 	const query = useQuery(() => ({
-		queryKey: ["entity", params.id],
+		queryKey: key,
 		queryFn: (data) => apiEntity(data.queryKey[1]!),
 	}));
 
 	const queryClient = useQueryClient();
-	const mutation = useMutation(() => ({
-		mutationKey: ["entity", params.id],
-		mutationFn: (data: Partial<Entity>) =>
-			apiEntityUpdate(params.id!, objectToStringRecord(data)),
-		onMutate: async (data) => {
-			const key = ["entity", params.id];
 
+	const debouncedMutationFunction = debounce(
+		(id: string, data: Partial<Entity>) => {
+			return apiEntityUpdate(id, objectToStringRecord(data));
+		},
+		1_000,
+	);
+
+	const mutation = useMutation(() => ({
+		mutationKey: key,
+		mutationFn: async (data: Partial<Entity>) =>
+			debouncedMutationFunction(params.id!, data),
+		onMutate: async (data) => {
 			await queryClient.cancelQueries({ queryKey: key });
 
 			const old = queryClient.getQueryData(key) as ResponseEntity;
 
-			queryClient.setQueryData<ResponseEntity>(["entity", params.id], () => {
+			queryClient.setQueryData<ResponseEntity>(key, () => {
 				return { entity: { ...old.entity, ...data } } as ResponseEntity;
 			});
 
@@ -532,18 +544,6 @@ const PageEntity: Component = () => {
 
 			const TabOverviewOwner = () => {
 				const SectionOverviewOwnerOptions = () => {
-					const setCategory = debounce((value: string | undefined) => {
-						mutation.mutate({
-							category: value,
-						});
-					}, 500);
-
-					const setLanguage = debounce((value: string | undefined) => {
-						mutation.mutate({
-							language_code: value,
-						});
-					}, 500);
-
 					return (
 						<SectionList
 							type="glass"
@@ -573,7 +573,11 @@ const PageEntity: Component = () => {
 												),
 											]}
 											value={props.entity.category}
-											setValue={setCategory}
+											setValue={(value) => {
+												mutation.mutate({
+													category: value,
+												});
+											}}
 										/>
 									),
 								},
@@ -600,7 +604,11 @@ const PageEntity: Component = () => {
 												),
 											]}
 											value={props.entity.language_code}
-											setValue={setLanguage}
+											setValue={(value) => {
+												mutation.mutate({
+													language_code: value,
+												});
+											}}
 										/>
 									),
 								},
@@ -653,11 +661,306 @@ const PageEntity: Component = () => {
 					);
 				};
 
+				const SectionOverviewOwnerAdTypes = () => {
+					const SectionAdType: Component<{ item: EntityAd }> = (adProps) => {
+						const [price, setPrice] = createSignal(adProps.item.price.perHour);
+						const priceDisplayValue = createMemo(() =>
+							price() > 0 ? price().toString() : "",
+						);
+
+						return (
+							<div classList={{ inactive: !props.entity.is_active }}>
+								<SectionList
+									type="glass"
+									title={t(`pages.entity.ads.types.${adProps.item.type}.title`)}
+									description={t(
+										`pages.entity.ads.types.${adProps.item.type}.description`,
+									)}
+									items={[
+										{
+											label: t("pages.entity.ads.options.active.label"),
+											placeholder: () => (
+												<SectionListSwitch
+													value={adProps.item.active}
+													setValue={(value) => {
+														queryClient.setQueryData<ResponseEntity>(
+															key,
+															(old) => {
+																if (!old?.entity.ads) return;
+
+																return {
+																	entity: {
+																		...old.entity,
+																		ads: Object.fromEntries([
+																			...Object.entries(old.entity.ads),
+																			[
+																				adProps.item.type,
+																				{ ...adProps.item, active: value },
+																			],
+																		]),
+																	},
+																} as ResponseEntity;
+															},
+														);
+
+														setTimeout(() => {
+															mutation.mutate({
+																ads: props.entity.ads,
+															});
+														});
+													}}
+												/>
+											),
+										},
+										{
+											label: t("pages.entity.ads.options.maxPeriod.label"),
+											placeholder: () => (
+												<SectionListSelect
+													value={adProps.item.period.max.toString()}
+													setValue={(value) => {
+														queryClient.setQueryData<ResponseEntity>(
+															key,
+															(old) => {
+																if (!old?.entity.ads) return;
+
+																return {
+																	entity: {
+																		...old.entity,
+																		ads: Object.fromEntries([
+																			...Object.entries(old.entity.ads),
+																			[
+																				adProps.item.type,
+																				{
+																					...adProps.item,
+																					period: {
+																						...adProps.item.period,
+																						max: Number(value),
+																					},
+																				},
+																			],
+																		]),
+																	},
+																} as ResponseEntity;
+															},
+														);
+
+														setTimeout(() => {
+															mutation.mutate({
+																ads: props.entity.ads,
+															});
+														});
+													}}
+													items={[
+														{
+															label: "1 Day",
+															value: "24",
+														},
+														{
+															label: "2 Days",
+															value: "48",
+														},
+														{
+															label: "3 Days",
+															value: "72",
+														},
+														{
+															label: "4 Days",
+															value: "96",
+														},
+														{
+															label: "5 Days",
+															value: "120",
+														},
+														{
+															label: "6 Days",
+															value: "144",
+														},
+														{
+															label: "7 Days",
+															value: "168",
+														},
+													]}
+												/>
+											),
+											disabled: !adProps.item.active,
+										},
+										{
+											label: t("pages.entity.ads.options.unit.label"),
+											placeholder: () => (
+												<SectionListSelect
+													value={adProps.item.period.unit.toString()}
+													setValue={(value) => {
+														queryClient.setQueryData<ResponseEntity>(
+															key,
+															(old) => {
+																if (!old?.entity.ads) return;
+
+																return {
+																	entity: {
+																		...old.entity,
+																		ads: Object.fromEntries([
+																			...Object.entries(old.entity.ads),
+																			[
+																				adProps.item.type,
+																				{
+																					...adProps.item,
+																					period: {
+																						...adProps.item.period,
+																						unit: Number(value),
+																					},
+																				},
+																			],
+																		]),
+																	},
+																} as ResponseEntity;
+															},
+														);
+
+														setTimeout(() => {
+															mutation.mutate({
+																ads: props.entity.ads,
+															});
+														});
+													}}
+													items={[
+														{
+															label: "1 Hour",
+															value: "1",
+														},
+														{
+															label: "2 Hours",
+															value: "2",
+														},
+														{
+															label: "3 Hours",
+															value: "3",
+														},
+														{
+															label: "4 Hours",
+															value: "4",
+														},
+														{
+															label: "6 Hours",
+															value: "6",
+														},
+														{
+															label: "8 Hours",
+															value: "8",
+														},
+														{
+															label: "12 Hours",
+															value: "12",
+														},
+														{
+															label: "24 Hours",
+															value: "24",
+														},
+													]}
+												/>
+											),
+											disabled: !adProps.item.active,
+										},
+										{
+											label: t("pages.entity.ads.options.price.label"),
+											placeholder: () => (
+												<SectionListInput
+													class="input-price"
+													type="text"
+													inputmode="decimal"
+													append={() => <SVGSymbol id="TON" />}
+													value={priceDisplayValue()}
+													placeholder={t(
+														"pages.entity.ads.options.price.placeholder",
+													)}
+													setValue={(input) => {
+														let value = store.limits?.adType.price.perHour.min;
+
+														if (!(input === "" || input === "0")) {
+															value = clamp(
+																Number.isNaN(Number.parseFloat(input))
+																	? store.limits?.adType.price.perHour.min
+																	: Number.parseFloat(input),
+																store.limits?.adType.price.perHour.min,
+																store.limits?.adType.price.perHour.max,
+															);
+														}
+
+														setPrice(value);
+													}}
+													onBlur={() => {
+														queryClient.setQueryData<ResponseEntity>(
+															key,
+															(old) => {
+																if (!old?.entity.ads) return;
+
+																return {
+																	entity: {
+																		...old.entity,
+																		ads: Object.fromEntries([
+																			...Object.entries(old.entity.ads),
+																			[
+																				adProps.item.type,
+																				{
+																					...adProps.item,
+																					price: {
+																						...adProps.item.price,
+																						perHour: Number(price()),
+																					},
+																				},
+																			],
+																		]),
+																	},
+																} as ResponseEntity;
+															},
+														);
+
+														setTimeout(() => {
+															mutation.mutate({
+																ads: props.entity.ads,
+															});
+														});
+													}}
+													min={store.limits?.adType.price.perHour.min}
+													max={store.limits?.adType.price.perHour.max}
+												/>
+											),
+											disabled: !adProps.item.active,
+										},
+									]}
+								/>
+
+								<Show when={!props.entity.is_active}>
+									<Placeholder
+										symbol={TbOutlineEyeOff}
+										description={t("pages.entity.ads.inactive.text")}
+									/>
+								</Show>
+							</div>
+						);
+					};
+
+					return (
+						<Switch>
+							<Match when={props.entity.type === "channel"}>
+								<SectionAdType item={props.entity.ads!["channel-post"]} />
+
+								<SectionAdType item={props.entity.ads!["channel-story"]} />
+							</Match>
+
+							<Match when={props.entity.type === "supergroup"}>
+								<SectionAdType item={props.entity.ads!["group-pin"]} />
+							</Match>
+						</Switch>
+					);
+				};
+
 				return (
 					<div id="container-tab-overview-owner">
 						<SectionStatisticsOverview />
 
 						<SectionOverviewOwnerOptions />
+
+						<SectionOverviewOwnerAdTypes />
 					</div>
 				);
 			};

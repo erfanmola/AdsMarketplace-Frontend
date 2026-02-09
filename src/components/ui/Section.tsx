@@ -65,6 +65,7 @@ type SectionListItem = {
 	onClick?: (e: MouseEvent) => void;
 	onClickLabel?: (e: MouseEvent) => void;
 	class?: string;
+	disabled?: boolean;
 };
 
 type SectionListProps = SectionProps & {
@@ -86,7 +87,10 @@ export const SectionList: Component<SectionListProps> = (props) => {
 						<div
 							onClick={item.onClick}
 							class={item.class}
-							classList={{ isClickable: item.clickable }}
+							classList={{
+								isClickable: item.clickable,
+								disabled: item.disabled,
+							}}
 						>
 							<Show when={item.prepend}>
 								<div class="prepend">
