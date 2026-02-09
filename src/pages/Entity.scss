@@ -231,11 +231,8 @@
       > div {
          padding-inline: 0 !important;
 
-         > p {
-            text-align: center;
-            padding: 0.25rem 0 1rem;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
+         > .container-placeholder {
+            margin: 0 0 1rem;
          }
 
          .tchart--wrapper {
@@ -248,6 +245,41 @@
                inset-inline-start: 1rem;
                top: 2rem;
             }
+         }
+      }
+   }
+}
+
+.container-section-overview-owner-options {
+   .badge {
+      font-size: 0.6875rem;
+      padding: 0.3125rem;
+      border-radius: 0.3125rem;
+   }
+
+   .container-section-overview-owner-options-verification {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding-inline-end: 1rem;
+
+      > p {
+         display: flex;
+         gap: 0.5rem;
+         align-items: center;
+         font-size: 0.9375rem;
+
+         > svg {
+            font-size: 0.875rem;
+         }
+
+         &.clickable {
+            color: var(--accent);
+         }
+
+         &.disabled {
+            opacity: 0.5;
+            pointer-events: none;
          }
       }
    }

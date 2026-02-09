@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@nozbe/microfuzz": "^1.0.0",
 		"@solid-primitives/i18n": "^2.2.1",
+		"@solid-primitives/scheduled": "^1.5.2",
 		"@solidjs/router": "^0.15.4",
 		"@tanstack/solid-query": "^5.90.23",
 		"@tanstack/solid-virtual": "^3.13.18",

@@ -46,6 +46,10 @@
    --glass-shadow: rgba(192, 192, 192, 0.25);
    --glass-text-color: #323232;
    --glass-text-color-rgb: 50, 50, 50;
+
+   --switch-bg: #d0d0d0;
+   --switch-thumb-passive: #ffffff;
+   --switch-thumb-active: #35c759;
 }
 
 body[data-theme="dark"] {
@@ -85,4 +89,8 @@ body[data-theme="dark"] {
    --glass-shadow: rgba(64, 64, 64, 0.25);
    --glass-text-color: var(--white);
    --glass-text-color-rgb: var(--white-rgb);
+
+   --switch-bg: #2f2f2f;
+   --switch-thumb-passive: #ffffff;
+   --switch-thumb-active: #81cb72;
 }

@@ -1,8 +1,9 @@
-import { useQuery } from "@tanstack/solid-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/solid-query";
 import BackButton from "../components/tma/BackButton";
 import Page from "../layouts/Page";
 import { navigator } from "../utils/navigator";
 import "./Entity.scss";
+import { debounce } from "@solid-primitives/scheduled";
 
 import { useParams } from "@solidjs/router";
 import LottiePlayer from "lottix/solid/LottiePlayer";
@@ -17,22 +18,30 @@ import {
 	Suspense,
 	Switch,
 } from "solid-js";
-import { apiEntity } from "../api";
+import { apiEntity, apiEntityUpdate, type ResponseEntity } from "../api";
 import type { Entity } from "../api/api";
+import { SVGSymbol } from "../components/SVG";
 import PeerProfile from "../components/ui/PeerProfile";
+import Placeholder from "../components/ui/Placeholder";
 import Scrollable from "../components/ui/Scrollable";
-import Section from "../components/ui/Section";
+import Section, {
+	SectionList,
+	SectionListPicker,
+} from "../components/ui/Section";
 import Shimmer from "../components/ui/Shimmer";
 import StatsDiff from "../components/ui/StatsDiff";
 import Tabbar, { type TabbarItem } from "../components/ui/Tabbar";
 import TelegramChart from "../components/ui/TelegramChart";
 import TelegramWallpaper from "../components/ui/TelegramWallpaper";
+import { toastNotification } from "../components/ui/Toast";
 import { useTranslation } from "../contexts/TranslationContext";
 import useQueryFeedback from "../hooks/useQueryFeedback";
 import { LottieAnimations } from "../utils/animations";
 import { oneOfOr } from "../utils/general";
 import { match } from "../utils/helpers";
 import { formatTGCount } from "../utils/number";
+import { objectToStringRecord } from "../utils/object";
+import { store } from "../utils/store";
 import { theme } from "../utils/telegram";
 
 export const EntityPattern = "/patterns/animals.svg";
@@ -44,6 +53,36 @@ const PageEntity: Component = () => {
 	const query = useQuery(() => ({
 		queryKey: ["entity", params.id],
 		queryFn: (data) => apiEntity(data.queryKey[1]!),
+	}));
+
+	const queryClient = useQueryClient();
+	const mutation = useMutation(() => ({
+		mutationKey: ["entity", params.id],
+		mutationFn: (data: Partial<Entity>) =>
+			apiEntityUpdate(params.id!, objectToStringRecord(data)),
+		onMutate: async (data) => {
+			const key = ["entity", params.id];
+
+			await queryClient.cancelQueries({ queryKey: key });
+
+			const old = queryClient.getQueryData(key) as ResponseEntity;
+
+			queryClient.setQueryData<ResponseEntity>(["entity", params.id], () => {
+				return { entity: { ...old.entity, ...data } } as ResponseEntity;
+			});
+
+			return { old, key };
+		},
+		onError: (error, _, context) => {
+			if (!context) return;
+
+			queryClient.setQueryData(context.key, context.old);
+
+			toastNotification({
+				text: error.message,
+				type: "error",
+			});
+		},
 	}));
 
 	const wallpaper = {
@@ -443,14 +482,17 @@ const PageEntity: Component = () => {
 							type="glass"
 							title={props.title}
 						>
-							<LottiePlayer
-								src={LottieAnimations.emoji.chart.url}
-								outline={LottieAnimations.emoji.chart.outline}
-								autoplay
-								loop
+							<Placeholder
+								symbol={() => (
+									<LottiePlayer
+										src={LottieAnimations.emoji.chart.url}
+										outline={LottieAnimations.emoji.chart.outline}
+										autoplay
+										loop
+									/>
+								)}
+								description={t("pages.entity.overview.empty.text")}
 							/>
-
-							<span>{t("pages.entity.overview.empty.text")}</span>
 						</Section>
 					);
 				};
@@ -489,9 +531,133 @@ const PageEntity: Component = () => {
 			};
 
 			const TabOverviewOwner = () => {
+				const SectionOverviewOwnerOptions = () => {
+					const setCategory = debounce((value: string | undefined) => {
+						mutation.mutate({
+							category: value,
+						});
+					}, 500);
+
+					const setLanguage = debounce((value: string | undefined) => {
+						mutation.mutate({
+							language_code: value,
+						});
+					}, 500);
+
+					return (
+						<SectionList
+							type="glass"
+							title={t(`pages.entity.options.title.${props.entity.type}`)}
+							class="container-section-overview-owner-options"
+							items={[
+								{
+									label: t("pages.entity.options.section.category.label"),
+									placeholder: () => (
+										<SectionListPicker
+											label={t("pages.entity.options.section.category.picker")}
+											placeholder={t(
+												"pages.entity.options.section.category.undefined",
+											)}
+											items={[
+												{
+													label: t(
+														"pages.entity.options.section.category.undefined",
+													),
+													value: "none",
+												},
+												...Object.entries(store.categories!).map(
+													([value, label]) => ({
+														label,
+														value,
+													}),
+												),
+											]}
+											value={props.entity.category}
+											setValue={setCategory}
+										/>
+									),
+								},
+								{
+									label: t("pages.entity.options.section.language.label"),
+									placeholder: () => (
+										<SectionListPicker
+											label={t("pages.entity.options.section.language.picker")}
+											placeholder={t(
+												"pages.entity.options.section.language.undefined",
+											)}
+											items={[
+												{
+													label: t(
+														"pages.entity.options.section.language.undefined",
+													),
+													value: "none",
+												},
+												...Object.entries(store.languages!).map(
+													([value, label]) => ({
+														label,
+														value,
+													}),
+												),
+											]}
+											value={props.entity.language_code}
+											setValue={setLanguage}
+										/>
+									),
+								},
+								{
+									label: t("pages.entity.options.section.verification.label"),
+									placeholder: () => (
+										<div class="container-section-overview-owner-options-verification">
+											<Show
+												when={props.entity.is_verified}
+												fallback={
+													<p
+														classList={{
+															clickable: props.entity.is_active,
+															disabled: !props.entity.is_active,
+														}}
+													>
+														<span>
+															{t(
+																"pages.entity.options.section.verification.apply",
+															)}
+														</span>
+
+														<SVGSymbol id="FaSolidChevronRight" />
+													</p>
+												}
+											>
+												<span class="badge badge-verified">
+													{t(
+														"pages.entity.options.section.verification.verified",
+													)}
+												</span>
+											</Show>
+										</div>
+									),
+								},
+								{
+									label: t("pages.entity.options.section.status.label"),
+									placeholder: () => (
+										<div class="pe-4!">
+											<span
+												class={`badge badge-${props.entity.is_active ? "active" : "inactive"}`}
+											>
+												{props.entity.is_active ? "active" : "inactive"}
+											</span>
+										</div>
+									),
+								},
+							]}
+						/>
+					);
+				};
+
 				return (
 					<div id="container-tab-overview-owner">
 						<SectionStatisticsOverview />
+
+						<SectionOverviewOwnerOptions />
 					</div>
 				);
 			};
@@ -600,7 +766,11 @@ const PageEntity: Component = () => {
 								<Section type="glass" title={statistic.title}>
 									<Show
 										when={statistic.data}
-										fallback={<p>{t("pages.entity.overview.empty.text")}</p>}
+										fallback={
+											<Placeholder
+												description={t("pages.entity.overview.empty.text")}
+											/>
+										}
 									>
 										<TelegramChart
 											data={{ ...JSON.parse(JSON.stringify(statistic.data)) }}

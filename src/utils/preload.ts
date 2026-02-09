@@ -1,7 +1,7 @@
-import { BiSolidErrorCircle } from "solid-icons/bi";
 import { CgSearch } from "solid-icons/cg";
-import { FaSolidPlus } from "solid-icons/fa";
+import { FaSolidChevronRight, FaSolidPlus } from "solid-icons/fa";
 import {
+	HiSolidChevronUpDown,
 	HiSolidHome,
 	HiSolidMegaphone,
 	HiSolidRocketLaunch,
@@ -85,16 +85,20 @@ const predefineSVGSymbols = async () => {
 			component: FaSolidPlus,
 		},
 		{
-			id: "BiSolidErrorCircle",
-			component: BiSolidErrorCircle,
-		},
-		{
 			id: "RiUserFacesGroupLine",
 			component: RiUserFacesGroupLine,
 		},
 		{
 			id: "RiBusinessMegaphoneLine",
 			component: RiBusinessMegaphoneLine,
+		},
+		{
+			id: "HiSolidChevronUpDown",
+			component: HiSolidChevronUpDown,
+		},
+		{
+			id: "FaSolidChevronRight",
+			component: FaSolidChevronRight,
 		},
 	];
 

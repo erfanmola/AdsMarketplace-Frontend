@@ -90,12 +90,12 @@ const PagePublishers: Component = () => {
 			const items = query.data?.pages.flatMap((page) => page.entities) ?? [];
 
 			if (rootBottomBarSearchQuery().length > 0) {
-				const fuzzySearch = createFuzzySearch(items, {
+				const fuzzySearch = createFuzzySearch([...items], {
 					getText: (item) => [
 						item.name,
 						item.username,
-						item.chat_id,
-						item.members_count,
+						item.chat_id.toString(),
+						item.members_count.toString(),
 						item.type,
 					],
 				});
@@ -120,14 +120,6 @@ const PagePublishers: Component = () => {
 			scroller: keyof typeof scrollers;
 		}> = (props) => {
 			const Entity: Component<{ entity: Partial<OwnedEntity> }> = (props) => {
-				const badge = createMemo(() => {
-					if (props.entity.is_verified) return "verified";
-
-					if (props.entity.is_active) return "active";
-
-					return "inactive";
-				});
-
 				const onClickEntity = (e: MouseEvent) => {
 					const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
 					const entity = items().find((i) => i.id === id);
@@ -182,7 +174,11 @@ const PagePublishers: Component = () => {
 						</div>
 
 						<div>
-							<span class={`badge badge-${badge()}`}>{badge()}</span>
+							<span
+								class={`badge badge-${props.entity.is_active ? "active" : "inactive"}`}
+							>
+								{props.entity.is_active ? "active" : "inactive"}
+							</span>
 						</div>
 					</div>
 				);

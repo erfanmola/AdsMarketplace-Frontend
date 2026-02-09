@@ -24,6 +24,8 @@ export type EntityBase<T, U> = {
 	type: T;
 	username: string;
 	statistic?: U;
+	category?: string;
+	language_code?: string;
 };
 
 export type EntityChannel = EntityBase<

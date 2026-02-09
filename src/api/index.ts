@@ -4,7 +4,11 @@ import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
 import type { Entity, OwnedEntity } from "./api";
 
-type ResponseAuthUser = {
+// API User
+
+export type ResponseAuthUser = {
+	categories: Record<string, string>;
+	languages: Record<string, string>;
 	token: string;
 	user: StoreUser;
 };
@@ -20,9 +24,17 @@ export const apiAuthUser = async () =>
 		"POST",
 	) as Promise<ResponseAuthUser>;
 
-type ResponseEntitiesOwned = {
+// API User
+
+// API Entity
+
+export type ResponseEntitiesOwned = {
 	entities: Partial<OwnedEntity>[];
 	nextOffset: number;
+};
+
+export type ResponseEntity = {
+	entity: Entity;
 };
 
 export const apiEntitiesOwned = async (offset = 0) =>
@@ -32,9 +44,12 @@ export const apiEntitiesOwned = async (offset = 0) =>
 		"GET",
 	) as Promise<ResponseEntitiesOwned>;
 
-type ResponseEntity = {
-	entity: Entity;
-};
-
 export const apiEntity = async (id: string) =>
 	requestAPI(`/entities/${id}`, {}, "GET") as Promise<ResponseEntity>;
+
+export const apiEntityUpdate = async (
+	id: string,
+	data: Record<string, string>,
+) => requestAPI(`/entities/${id}/update`, data, "POST") as Promise<void>;
+
+// API Entity

@@ -145,6 +145,32 @@ const dict = {
 					text: "Statistics not available yet.",
 				},
 			},
+			options: {
+				title: {
+					channel: "Channel Options",
+					supergroup: "Group Options",
+				},
+				section: {
+					category: {
+						label: "Category",
+						picker: "Select Category",
+						undefined: "Not Set",
+					},
+					language: {
+						label: "Language",
+						picker: "Select Language",
+						undefined: "Not Set",
+					},
+					status: {
+						label: "Status",
+					},
+					verification: {
+						label: "Verification",
+						verified: "Verified",
+						apply: "Request Verification",
+					},
+				},
+			},
 			statistics: {
 				charts: {
 					channel: {

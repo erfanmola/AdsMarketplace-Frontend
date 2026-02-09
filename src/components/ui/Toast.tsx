@@ -1,3 +1,8 @@
+import {
+	BiSolidCheckCircle,
+	BiSolidErrorCircle,
+	BiSolidInfoCircle,
+} from "solid-icons/bi";
 import "./Toast.scss";
 import { type Component, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
@@ -36,3 +41,25 @@ export const toast = (params: ToastParams) =>
 			position: params.position ?? "bottom-center",
 		},
 	);
+
+export const toastNotification = (
+	params: Omit<ToastParams, "icon"> & { type: "error" | "success" | "info" },
+) => {
+	return toast({
+		text: params.text,
+		class: params.class,
+		duration: params.duration,
+		onClick: params.onClick,
+		position: params.position,
+		icon: () => {
+			switch (params.type) {
+				case "error":
+					return <BiSolidErrorCircle />;
+				case "success":
+					return <BiSolidCheckCircle />;
+				case "info":
+					return <BiSolidInfoCircle />;
+			}
+		},
+	});
+};

@@ -9,6 +9,8 @@ export type StoreUser = {
 };
 
 export type Store = {
+	categories?: Record<string, string>;
+	languages?: Record<string, string>;
 	token?: string;
 	user?: StoreUser;
 	version?: string;

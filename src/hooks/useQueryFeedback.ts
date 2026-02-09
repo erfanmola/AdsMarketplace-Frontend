@@ -2,9 +2,8 @@ import type {
 	UseInfiniteQueryResult,
 	UseQueryResult,
 } from "@tanstack/solid-query";
-import { BiSolidErrorCircle } from "solid-icons/bi";
 import { createEffect, on, onCleanup } from "solid-js";
-import { toast } from "../components/ui/Toast";
+import { toastNotification } from "../components/ui/Toast";
 import { APIError } from "../utils/api";
 import {
 	invokeHapticFeedbackImpact,
@@ -46,9 +45,9 @@ const useQueryFeedback = (props: QueryFeedbackProps) => {
 					}
 
 					if (props.options?.toastOnError) {
-						toast({
+						toastNotification({
 							text: props.query.error.message,
-							icon: BiSolidErrorCircle,
+							type: "error",
 						});
 					}
 				}

@@ -16,7 +16,14 @@ const BottomBarValidPath = [
 	"/publishers/verified",
 	"/profile",
 ];
-const SearchValidPath = ["/advertisers", "/publishers"];
+const SearchValidPath = [
+	"/advertisers",
+	"/publishers",
+	"/publishers/all",
+	"/publishers/active",
+	"/publishers/inactive",
+	"/publishers/verified",
+];
 
 export const [
 	rootBottomBarSearchQuery,
