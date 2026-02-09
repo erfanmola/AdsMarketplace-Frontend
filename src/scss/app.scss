@@ -3,6 +3,7 @@
 
 @include meta.load-css("animate.css");
 @include meta.load-css("twallpaper/css");
+@include meta.load-css("../lib/tchart/chart.scss");
 
 @include meta.load-css("variables");
 @include meta.load-css("fonts");

@@ -9,6 +9,10 @@ const root = document.getElementById("root");
 
 render(() => <App />, root!);
 
+if ("serviceWorker" in navigator) {
+	navigator.serviceWorker.register("/sw.js");
+}
+
 declare module "solid-js" {
 	namespace JSX {
 		interface IntrinsicElements {

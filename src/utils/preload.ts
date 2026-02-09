@@ -34,7 +34,9 @@ const preloadURLs = async () => {
 		list.map(
 			(url) =>
 				new Promise((resolve) => {
-					fetch(url).finally(() => resolve(true));
+					fetch(url, {
+						cache: "force-cache",
+					}).finally(() => resolve(true));
 				}),
 		),
 	);

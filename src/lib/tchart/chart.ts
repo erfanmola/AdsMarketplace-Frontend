@@ -1,5 +1,6 @@
 // @ts-nocheck
 
+import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 import TAnimator from "./animator";
 import TAreas from "./areas";
 import TAxisX from "./axisX";
@@ -28,8 +29,6 @@ import type {
 	TChartUnitOptions,
 } from "./types";
 import { getFormatter, getXIndex, roundRange, triggerEvent } from "./utils";
-import "./chart.scss";
-import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 
 export default class TChart {
 	private opts: TChartConstructorOptions;
