@@ -7,7 +7,16 @@ import { debounce } from "@solid-primitives/scheduled";
 
 import { useParams } from "@solidjs/router";
 import LottiePlayer from "lottix/solid/LottiePlayer";
-import { TbOutlineEyeOff } from "solid-icons/tb";
+import {
+	TbFillRosetteDiscountCheck,
+	TbOutlineCategory2,
+	TbOutlineCircleDashed,
+	TbOutlineCircleDashedCheck,
+	TbOutlineEyeOff,
+	TbOutlineRosette,
+	TbOutlineShare3,
+	TbOutlineWorld,
+} from "solid-icons/tb";
 import {
 	type Component,
 	createEffect,
@@ -22,6 +31,7 @@ import {
 import { apiEntity, apiEntityUpdate, type ResponseEntity } from "../api";
 import type { Entity, EntityAd } from "../api/api";
 import { SVGSymbol } from "../components/SVG";
+import Clickable from "../components/ui/Clickable";
 import PeerProfile from "../components/ui/PeerProfile";
 import Placeholder from "../components/ui/Placeholder";
 import Scrollable from "../components/ui/Scrollable";
@@ -46,7 +56,12 @@ import { match } from "../utils/helpers";
 import { clamp, formatTGCount } from "../utils/number";
 import { objectToStringRecord } from "../utils/object";
 import { store } from "../utils/store";
-import { theme } from "../utils/telegram";
+import {
+	invokeHapticFeedbackImpact,
+	openLink,
+	postEvent,
+	theme,
+} from "../utils/telegram";
 
 export const EntityPattern = "/patterns/animals.svg";
 
@@ -186,6 +201,71 @@ const PageEntity: Component = () => {
 					skipHistory: true,
 				});
 			});
+
+			const SectionInfoList = () => {
+				return (
+					<ul id="container-infolist">
+						<li id="container-infolist-language">
+							<TbOutlineWorld />
+
+							<b>
+								{props.entity.language_code &&
+								props.entity.language_code !== "none"
+									? store.languages?.[props.entity.language_code]
+									: t("pages.entity.infolist.language.undefined")}
+							</b>
+
+							<span>{t("pages.entity.infolist.language.label")}</span>
+						</li>
+
+						<li id="container-infolist-category">
+							<TbOutlineCategory2 />
+
+							<b>
+								{props.entity.category && props.entity.category !== "none"
+									? store.categories?.[props.entity.category]
+									: t("pages.entity.infolist.category.undefined")}
+							</b>
+
+							<span>{t("pages.entity.infolist.category.label")}</span>
+						</li>
+
+						<li id="container-infolist-status">
+							<Show
+								when={props.entity.is_active}
+								fallback={<TbOutlineCircleDashed />}
+							>
+								<TbOutlineCircleDashedCheck />
+							</Show>
+
+							<b>
+								{props.entity.is_active
+									? t("pages.entity.infolist.status.status.active")
+									: t("pages.entity.infolist.status.status.inactive")}
+							</b>
+
+							<span>{t("pages.entity.infolist.status.label")}</span>
+						</li>
+
+						<li id="container-infolist-verification">
+							<Show
+								when={props.entity.is_verified}
+								fallback={<TbOutlineRosette />}
+							>
+								<TbFillRosetteDiscountCheck />
+							</Show>
+
+							<b>
+								{props.entity.is_verified
+									? t("pages.entity.infolist.verification.status.verified")
+									: t("pages.entity.infolist.verification.status.unverified")}
+							</b>
+
+							<span>{t("pages.entity.infolist.verification.label")}</span>
+						</li>
+					</ul>
+				);
+			};
 
 			const SectionStatisticsOverview = () => {
 				const SectionStatisticsOverviewChannel = () => {
@@ -669,7 +749,10 @@ const PageEntity: Component = () => {
 						);
 
 						return (
-							<div classList={{ inactive: !props.entity.is_active }}>
+							<div
+								class="container-section-overview-owner-adtype"
+								classList={{ inactive: !props.entity.is_active }}
+							>
 								<SectionList
 									type="glass"
 									title={t(`pages.entity.ads.types.${adProps.item.type}.title`)}
@@ -930,10 +1013,12 @@ const PageEntity: Component = () => {
 								/>
 
 								<Show when={!props.entity.is_active}>
-									<Placeholder
-										symbol={TbOutlineEyeOff}
-										description={t("pages.entity.ads.inactive.text")}
-									/>
+									<div class="placeholder">
+										<Placeholder
+											symbol={TbOutlineEyeOff}
+											description={t("pages.entity.ads.inactive.text")}
+										/>
+									</div>
 								</Show>
 							</div>
 						);
@@ -1104,6 +1189,8 @@ const PageEntity: Component = () => {
 
 			return (
 				<section id="entity-section-body">
+					<SectionInfoList />
+
 					<Tabbar
 						id="entity-section-tabbar"
 						items={tabbar}
@@ -1116,7 +1203,53 @@ const PageEntity: Component = () => {
 		};
 
 		const EntityFooter = () => {
-			return <footer class="safe-area-bottom">Footer</footer>;
+			return (
+				<footer class="safe-area-bottom">
+					<div>
+						<Switch>
+							<Match when={props.entity.role === "owner"}>
+								<div>{/* Slot */}</div>
+
+								<Clickable
+									onClick={() => {
+										invokeHapticFeedbackImpact("soft");
+										openLink(`https://t.me/${props.entity.username}`);
+									}}
+								>
+									<div>
+										<span>
+											{t(`pages.entity.footer.view.${props.entity.type}.text`)}
+										</span>
+									</div>
+								</Clickable>
+
+								<div>
+									<Clickable
+										onClick={() => {
+											invokeHapticFeedbackImpact("soft");
+
+											postEvent("web_app_open_tg_link", {
+												path_full: `/share/url?url=https://t.me/${import.meta.env.VITE_BOT_USERNAME}/${import.meta.env.VITE_MINIAPP_SLUG}?startapp=entity-${props.entity.id}&text=${encodeURI(
+													td("pages.entity.footer.share.text", {
+														name: props.entity.name,
+														app_name: t("general.appName"),
+													}),
+												)}`,
+											});
+										}}
+									>
+										<div>
+											<TbOutlineShare3 />
+										</div>
+									</Clickable>
+								</div>
+							</Match>
+
+							<Match when={props.entity.role === "viewer"}>Viewer</Match>
+						</Switch>
+					</div>
+				</footer>
+			);
 		};
 
 		return (

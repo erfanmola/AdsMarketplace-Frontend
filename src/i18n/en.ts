@@ -8,6 +8,7 @@ const dict = {
 		hi: "हिन्दी",
 	},
 	general: {
+		appName: "Not Boost",
 		members: "{count} members",
 		subscribers: "{count} subscribers",
 	},
@@ -145,6 +146,30 @@ const dict = {
 					text: "Statistics not available.",
 				},
 			},
+			infolist: {
+				language: {
+					label: "Language",
+					undefined: "Not Set",
+				},
+				category: {
+					label: "Category",
+					undefined: "Not Set",
+				},
+				status: {
+					label: "Status",
+					status: {
+						active: "Active",
+						inactive: "Inactive",
+					},
+				},
+				verification: {
+					label: "Verification",
+					status: {
+						verified: "Verified",
+						unverified: "Unverified",
+					},
+				},
+			},
 			options: {
 				title: {
 					channel: "Channel Options",
@@ -265,6 +290,19 @@ const dict = {
 				},
 				inactive: {
 					text: "Available after setup.",
+				},
+			},
+			footer: {
+				view: {
+					channel: {
+						text: "View Channel",
+					},
+					supergroup: {
+						text: "View Group",
+					},
+				},
+				share: {
+					text: "📣 Let's see {name} on {app_name} ads marketplace!",
 				},
 			},
 		},
