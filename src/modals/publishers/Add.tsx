@@ -133,9 +133,7 @@ const ModalPublishersAdd: Component = () => {
 					),
 		);
 
-		setTimeout(() => {
-			setModals("publishersAdd", "open", false);
-		});
+		setTimeout(onClose);
 	};
 
 	return (

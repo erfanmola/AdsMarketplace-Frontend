@@ -61,7 +61,9 @@ const dict = {
 			},
 		},
 		home: {},
-		advertisers: {},
+		advertisers: {
+			title: "Advertisers",
+		},
 		publishers: {
 			title: "Publishers",
 			tabs: {
@@ -373,6 +375,27 @@ const dict = {
 			button: {
 				channel: "Connect a Channel",
 				group: "Connect a Supergroup",
+			},
+		},
+		campaignsAdd: {
+			title: {
+				text: "Create a Campaign",
+			},
+			description:
+				"Create a campaign to publish your ads and track their performance.",
+			button: {
+				text: "Create Campaign",
+			},
+			section: {
+				title: "Campaign Details",
+				fields: {
+					name: {
+						label: "Name",
+						placeholder: "Campaign Name",
+					},
+				},
+				description:
+					"You’ll be redirected to the bot to upload your campaign banner.",
 			},
 		},
 	},

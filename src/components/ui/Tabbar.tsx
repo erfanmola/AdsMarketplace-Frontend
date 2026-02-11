@@ -32,6 +32,7 @@ type TabbarProps = {
 	mode?: TabbarMode;
 	setScrollingState?: (value: boolean) => void;
 	autoHeight?: boolean;
+	updateSignal?: Accessor<boolean>;
 };
 
 const Tabbar: Component<TabbarProps> = (props) => {
@@ -127,6 +128,20 @@ const Tabbar: Component<TabbarProps> = (props) => {
 		ulRef.style.setProperty("--pill-w", `${w}px`);
 		ulRef.style.setProperty("--pill-h", `${h}px`);
 	};
+
+	if (props.updateSignal) {
+		createEffect(
+			on(
+				props.updateSignal,
+				() => {
+					slider?.swiper?.update();
+				},
+				{
+					defer: true,
+				},
+			),
+		);
+	}
 
 	onMount(() => {
 		updateDistance();

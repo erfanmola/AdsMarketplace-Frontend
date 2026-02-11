@@ -54,3 +54,42 @@ export const apiEntityUpdate = async (
 ) => requestAPI(`/entities/${id}/update`, data, "POST") as Promise<void>;
 
 // API Entity
+
+// API Campaign
+
+export type ResponseCampaignsOwned = {
+	campaigns: Partial<any>[];
+	nextOffset: number;
+};
+
+export type ResponseCampaign = {
+	campaign: any;
+};
+
+export type ResponseCampaignCreate = {
+	id: string;
+};
+
+export const apiCampaignsOwned = async (offset = 0) =>
+	requestAPI(
+		`/campaigns/owned/${offset}`,
+		{},
+		"GET",
+	) as Promise<ResponseCampaignsOwned>;
+
+export const apiCampaign = async (id: string) =>
+	requestAPI(`/campaigns/${id}`, {}, "GET") as Promise<ResponseCampaign>;
+
+export const apiCampaignCreate = async (data: Record<string, string>) =>
+	requestAPI(
+		`/campaigns/create`,
+		data,
+		"POST",
+	) as Promise<ResponseCampaignCreate>;
+
+export const apiCampaignUpdate = async (
+	id: string,
+	data: Record<string, string>,
+) => requestAPI(`/campaigns/${id}/update`, data, "POST") as Promise<void>;
+
+// API Campaign

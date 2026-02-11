@@ -24,6 +24,8 @@ import {
 	createSignal,
 	For,
 	Match,
+	onCleanup,
+	onMount,
 	Show,
 	Suspense,
 	Switch,
@@ -149,6 +151,45 @@ const PageEntity: Component = () => {
 			toastOnError: true,
 			refetchKey: "entity",
 		},
+	});
+
+	const [updateSignal, setUpdateSignal] = createSignal(false);
+	const initialHeight = window.visualViewport?.height || window.innerHeight;
+
+	const handleVisualViewport = () => {
+		const currentHeight = window.visualViewport?.height || window.innerHeight;
+		if (currentHeight < initialHeight) {
+			const activeEl = document.activeElement as HTMLElement | null;
+			if (activeEl) {
+				setTimeout(() => {
+					activeEl.scrollIntoView({ behavior: "smooth", block: "center" });
+				}, 250);
+			}
+		}
+
+		setTimeout(() => {
+			setUpdateSignal(!updateSignal());
+		}, 250);
+	};
+
+	onMount(() => {
+		if (window.visualViewport) {
+			window.visualViewport.addEventListener("resize", handleVisualViewport, {
+				passive: true,
+			});
+		} else {
+			window.addEventListener("resize", handleVisualViewport, {
+				passive: true,
+			});
+		}
+	});
+
+	onCleanup(() => {
+		if (window.visualViewport) {
+			window.visualViewport.removeEventListener("resize", handleVisualViewport);
+		} else {
+			window.removeEventListener("resize", handleVisualViewport);
+		}
 	});
 
 	const onBackButton = () => {
@@ -971,6 +1012,8 @@ const PageEntity: Component = () => {
 														setPrice(value);
 													}}
 													onBlur={() => {
+														if (price() === adProps.item.price.perHour) return;
+
 														queryClient.setQueryData<ResponseEntity>(
 															key,
 															(old) => {
@@ -1197,6 +1240,7 @@ const PageEntity: Component = () => {
 						value={selectedTab()}
 						setValue={setSelectedTab}
 						autoHeight
+						updateSignal={updateSignal}
 					/>
 				</section>
 			);
