@@ -64,6 +64,7 @@ const PageAdvertisers: Component = () => {
 		all: false,
 		ready: false,
 		pending: false,
+		disabled: false,
 	});
 
 	const onClickAdd = () => {
@@ -107,8 +108,11 @@ const PageAdvertisers: Component = () => {
 
 		const filters = {
 			all: items,
-			ready: createMemo(() => items().filter((i) => i.is_ready)),
-			pending: createMemo(() => items().filter((i) => !i.is_ready)),
+			ready: createMemo(() => items().filter((i) => i.is_ready && i.is_active)),
+			pending: createMemo(() =>
+				items().filter((i) => !i.is_ready && i.is_active),
+			),
+			disabled: createMemo(() => items().filter((i) => !i.is_active)),
 		};
 
 		const CampaignsList: Component<{
@@ -118,11 +122,17 @@ const PageAdvertisers: Component = () => {
 			const Campaign: Component<{ campaign: Partial<OwnedCampaign> }> = (
 				props,
 			) => {
+				const badge = createMemo(() => {
+					if (!props.campaign.is_active) return "disabled";
+					if (!props.campaign.is_ready) return "pending";
+					return "ready";
+				});
+
 				const onClickCampaign = (e: MouseEvent) => {
 					const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
 					const campaign = items().find((i) => i.id === id);
 					if (!campaign) return;
-					navigator.go(`/campaigns/${campaign.id}`, {
+					navigator.go(`/campaign/${campaign.id}`, {
 						backable: true,
 					});
 				};
@@ -161,11 +171,7 @@ const PageAdvertisers: Component = () => {
 						</div>
 
 						<div>
-							<span
-								class={`badge badge-${props.campaign.is_ready ? "ready" : "pending"}`}
-							>
-								{props.campaign.is_ready ? "ready" : "pending"}
-							</span>
+							<span class={`badge badge-${badge()}`}>{badge()}</span>
 						</div>
 					</div>
 				);
@@ -208,7 +214,7 @@ const PageAdvertisers: Component = () => {
 		};
 
 		const [selectedTab, setSelectedTab] = createSignal(
-			oneOfOr(params.tab!, ["all", "ready", "pending"], "all"),
+			oneOfOr(params.tab!, ["all", "ready", "pending", "disabled"], "all"),
 		);
 
 		createEffect(() => {
@@ -233,6 +239,13 @@ const PageAdvertisers: Component = () => {
 				title: t("pages.advertisers.tabs.pending"),
 				component: () => (
 					<CampaignsList items={filters.pending()} scroller="pending" />
+				),
+			},
+			{
+				slug: "disabled",
+				title: t("pages.advertisers.tabs.disabled"),
+				component: () => (
+					<CampaignsList items={filters.disabled()} scroller="disabled" />
 				),
 			},
 		] as const;
@@ -291,7 +304,6 @@ const PageAdvertisers: Component = () => {
 					value={selectedTab()}
 					setValue={setSelectedTab}
 					setScrollingState={(value) => setScrollers("tabbar", value)}
-					equalWidth
 				/>
 			</Show>
 		);

@@ -2,7 +2,7 @@ import { retrieveRawInitData } from "@telegram-apps/sdk-solid";
 import { requestAPI } from "../utils/api";
 import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
-import type { Entity, OwnedCampaign, OwnedEntity } from "./api";
+import type { Campaign, Entity, OwnedCampaign, OwnedEntity } from "./api";
 
 // API User
 
@@ -63,7 +63,7 @@ export type ResponseCampaignsOwned = {
 };
 
 export type ResponseCampaign = {
-	campaign: any;
+	campaign: Campaign;
 };
 
 export type ResponseCampaignCreate = {

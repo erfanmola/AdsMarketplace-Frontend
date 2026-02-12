@@ -53,6 +53,7 @@ import { toastNotification } from "../components/ui/Toast";
 import { useTranslation } from "../contexts/TranslationContext";
 import useQueryFeedback from "../hooks/useQueryFeedback";
 import { LottieAnimations } from "../utils/animations";
+import { APIError } from "../utils/api";
 import { oneOfOr } from "../utils/general";
 import { match } from "../utils/helpers";
 import { clamp, formatTGCount } from "../utils/number";
@@ -76,42 +77,6 @@ const PageEntity: Component = () => {
 	const query = useQuery(() => ({
 		queryKey: key,
 		queryFn: (data) => apiEntity(data.queryKey[1]!),
-	}));
-
-	const queryClient = useQueryClient();
-
-	const debouncedMutationFunction = debounce(
-		(id: string, data: Partial<Entity>) => {
-			return apiEntityUpdate(id, objectToStringRecord(data));
-		},
-		1_000,
-	);
-
-	const mutation = useMutation(() => ({
-		mutationKey: key,
-		mutationFn: async (data: Partial<Entity>) =>
-			debouncedMutationFunction(params.id!, data),
-		onMutate: async (data) => {
-			await queryClient.cancelQueries({ queryKey: key });
-
-			const old = queryClient.getQueryData(key) as ResponseEntity;
-
-			queryClient.setQueryData<ResponseEntity>(key, () => {
-				return { entity: { ...old.entity, ...data } } as ResponseEntity;
-			});
-
-			return { old, key };
-		},
-		onError: (error, _, context) => {
-			if (!context) return;
-
-			queryClient.setQueryData(context.key, context.old);
-
-			toastNotification({
-				text: error.message,
-				type: "error",
-			});
-		},
 	}));
 
 	const wallpaper = {
@@ -664,6 +629,51 @@ const PageEntity: Component = () => {
 			};
 
 			const TabOverviewOwner = () => {
+				const queryClient = useQueryClient();
+
+				const syncDebounced = debounce(
+					async (data: Partial<Entity>, snapshot: ResponseEntity) => {
+						try {
+							await apiEntityUpdate(params.id!, objectToStringRecord(data));
+						} catch (err) {
+							if (!(err instanceof APIError)) return;
+
+							queryClient.setQueryData(key, snapshot);
+
+							toastNotification({
+								text: err.message,
+								type: "error",
+							});
+						}
+					},
+					1000,
+				);
+
+				const mutation = useMutation(() => ({
+					mutationKey: key,
+					mutationFn: async (data: Partial<Entity>) => data,
+
+					onMutate: async (data) => {
+						await queryClient.cancelQueries({ queryKey: key });
+
+						const old = queryClient.getQueryData<ResponseEntity>(key)!;
+
+						queryClient.setQueryData(key, {
+							entity: { ...old.entity, ...data },
+						});
+
+						return { old, key };
+					},
+				}));
+
+				const mutate = (patch: Partial<Entity>) => {
+					const snapshot = queryClient.getQueryData<ResponseEntity>(key)!;
+
+					mutation.mutate(patch);
+
+					syncDebounced(patch, snapshot);
+				};
+
 				const SectionOverviewOwnerOptions = () => {
 					return (
 						<SectionList
@@ -695,7 +705,7 @@ const PageEntity: Component = () => {
 											]}
 											value={props.entity.category}
 											setValue={(value) => {
-												mutation.mutate({
+												mutate({
 													category: value,
 												});
 											}}
@@ -726,7 +736,7 @@ const PageEntity: Component = () => {
 											]}
 											value={props.entity.language_code}
 											setValue={(value) => {
-												mutation.mutate({
+												mutate({
 													language_code: value,
 												});
 											}}
@@ -828,7 +838,7 @@ const PageEntity: Component = () => {
 														);
 
 														setTimeout(() => {
-															mutation.mutate({
+															mutate({
 																ads: props.entity.ads,
 															});
 														});
@@ -869,7 +879,7 @@ const PageEntity: Component = () => {
 														);
 
 														setTimeout(() => {
-															mutation.mutate({
+															mutate({
 																ads: props.entity.ads,
 															});
 														});
@@ -941,7 +951,7 @@ const PageEntity: Component = () => {
 														);
 
 														setTimeout(() => {
-															mutation.mutate({
+															mutate({
 																ads: props.entity.ads,
 															});
 														});
@@ -1041,7 +1051,7 @@ const PageEntity: Component = () => {
 														);
 
 														setTimeout(() => {
-															mutation.mutate({
+															mutate({
 																ads: props.entity.ads,
 															});
 														});

@@ -1,19 +1,20 @@
 import "./Add.scss";
+import { useQueryClient } from "@tanstack/solid-query";
 import LottiePlayer from "lottix/solid/LottiePlayer";
 import { type Component, createMemo, onMount } from "solid-js";
 import { createStore } from "solid-js/store";
 import { apiCampaignCreate } from "../../api";
 import CustomMainButton from "../../components/ui/CustomMainButton";
 import Modal from "../../components/ui/Modal";
-import {
+import Section, {
 	SectionList,
-	SectionListInput,
 	SectionListPicker,
 } from "../../components/ui/Section";
 import { toastNotification } from "../../components/ui/Toast";
 import { useTranslation } from "../../contexts/TranslationContext";
 import { LottieAnimations } from "../../utils/animations";
 import { APIError } from "../../utils/api";
+import { hideKeyboardOnEnter } from "../../utils/input";
 import { setModals } from "../../utils/modal";
 import { popupManager } from "../../utils/popup";
 import { store } from "../../utils/store";
@@ -27,8 +28,11 @@ import {
 const ModalCampaignsAdd: Component = () => {
 	const { t } = useTranslation();
 
+	const queryClient = useQueryClient();
+
 	const [form, setForm] = createStore({
 		name: "",
+		description: "",
 		language_code: "none",
 		category: "none",
 	});
@@ -60,6 +64,10 @@ const ModalCampaignsAdd: Component = () => {
 
 		apiCampaignCreate(form)
 			.then(async (result) => {
+				queryClient.invalidateQueries({
+					queryKey: ["campaigns", "owned"],
+				});
+
 				openLink(
 					`https://t.me/${import.meta.env.VITE_BOT_USERNAME}?start=campaign-banner-${result.id}`,
 				);
@@ -111,35 +119,44 @@ const ModalCampaignsAdd: Component = () => {
 
 			<h1>{t("modals.campaignsAdd.title.text")}</h1>
 
-			<p>{t("modals.campaignsAdd.description")}</p>
+			<section class="container-section-campaigns-information">
+				<Section>
+					<div>
+						<input
+							class="input"
+							type="text"
+							placeholder={t(
+								"modals.campaignsAdd.section.fields.name.placeholder",
+							)}
+							value={form.name}
+							onInput={(e) => setForm("name", e.currentTarget.value)}
+							onBlur={(e) => setForm("name", e.currentTarget.value.trim())}
+							onKeyDown={hideKeyboardOnEnter}
+							maxLength={store.limits!.campaigns.name.maxLength}
+						/>
+					</div>
 
-			<section>
+					<div>
+						<textarea
+							id="input-description"
+							placeholder={t(
+								"modals.campaignsAdd.section.fields.description.placeholder",
+							)}
+							value={form.description}
+							onInput={(e) => setForm("description", e.currentTarget.value)}
+							onChange={(e) => {
+								setForm("description", e.currentTarget.value.trim());
+							}}
+							maxLength={store.limits!.campaigns.description.maxLength}
+						/>
+					</div>
+				</Section>
+
 				<SectionList
 					type="default"
-					title={t("modals.campaignsAdd.section.title")}
 					description={t("modals.campaignsAdd.section.description")}
 					class="container-section-campaigns-create"
 					items={[
-						{
-							label: t("modals.campaignsAdd.section.fields.name.label"),
-							placeholder: () => (
-								<SectionListInput
-									type="text"
-									inputmode="text"
-									maxLength={store.limits!.campaigns.name.maxLength}
-									placeholder={t(
-										"modals.campaignsAdd.section.fields.name.placeholder",
-									)}
-									value={form.name}
-									setValue={(value) => {
-										setForm("name", value);
-									}}
-									onBlur={() => {
-										setForm("name", form.name.trim());
-									}}
-								/>
-							),
-						},
 						{
 							label: t("pages.entity.options.section.category.label"),
 							placeholder: () => (

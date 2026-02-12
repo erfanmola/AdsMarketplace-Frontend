@@ -67,6 +67,7 @@ const dict = {
 				all: "All",
 				ready: "Ready",
 				pending: "Pending",
+				disabled: "Disabled",
 			},
 			items: {
 				empty: {
@@ -325,6 +326,31 @@ const dict = {
 				},
 			},
 		},
+		campaign: {
+			hint: {
+				text: "You can disable the campaign to stop receiving offers.",
+			},
+			footer: {
+				button: {
+					set: "Set Banner",
+					share: "Share",
+					disable: "Disable",
+					enable: "Enable",
+					offer: "Send Offer",
+				},
+				text: {
+					disabled: "Campaign is not active.",
+				},
+				set: {
+					title: "Campaign Banner",
+					message:
+						"After closing the app, continue in the bot to add your banner.",
+				},
+				share: {
+					text: "📣 Let's see {name} on {app_name} ads marketplace!",
+				},
+			},
+		},
 	},
 	components: {
 		bottomBar: {
@@ -398,17 +424,16 @@ const dict = {
 			title: {
 				text: "Create a Campaign",
 			},
-			description:
-				"Create a campaign to publish your ads and track their performance.",
 			button: {
 				text: "Create Campaign",
 			},
 			section: {
-				title: "Campaign Details",
 				fields: {
 					name: {
-						label: "Name",
 						placeholder: "Campaign Name",
+					},
+					description: {
+						placeholder: "Campaign Description",
 					},
 				},
 				description:

@@ -1,0 +1,50 @@
+#container-page-campaign {
+   .container-campaign {
+      > div.scrollable {
+         display: flex;
+         flex-direction: column;
+
+         > header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
+
+            > div.peer-profile {
+               font-size: 6rem;
+               border-radius: 25%;
+
+               > span {
+                  font-size: 0.5625em;
+               }
+            }
+
+            > h1 {
+               font-size: 1.25rem;
+               font-weight: 600;
+               line-height: normal;
+            }
+         }
+
+         > section#campaign-section-body {
+            padding: 0 1rem;
+         }
+      }
+   }
+
+   > footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      > button {
+         flex: 1;
+         flex-shrink: 0;
+         flex-grow: 1;
+      }
+   }
+}

@@ -165,11 +165,12 @@
    }
 
    &.badge-inactive,
-   &.badge-pending {
+   &.badge-disabled {
       --color: #9ca3af;
    }
 
-   &.badge-verified {
+   &.badge-verified,
+   &.badge-pending {
       --color: #3b82f6;
    }
 }

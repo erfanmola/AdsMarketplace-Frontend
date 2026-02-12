@@ -19,6 +19,7 @@ export type OwnedCampaign = {
 	category?: string;
 	language_code?: string;
 	is_ready: boolean;
+	is_active: boolean;
 };
 
 export type EntityAd = {
@@ -144,3 +145,14 @@ export type EntityGroup = EntityBase<
 >;
 
 export type Entity = EntityChannel | EntityGroup;
+
+export type Campaign = {
+	id: string;
+	name: string;
+	description?: string;
+	category: string;
+	language_code: string;
+	role: "viewer" | "owner";
+	is_ready: boolean;
+	is_active: boolean;
+};
