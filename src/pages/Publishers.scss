@@ -159,11 +159,13 @@
       border-radius: inherit;
    }
 
-   &.badge-active {
+   &.badge-active,
+   &.badge-ready {
       --color: #22c55e;
    }
 
-   &.badge-inactive {
+   &.badge-inactive,
+   &.badge-pending {
       --color: #9ca3af;
    }
 

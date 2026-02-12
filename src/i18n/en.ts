@@ -63,6 +63,23 @@ const dict = {
 		home: {},
 		advertisers: {
 			title: "Advertisers",
+			tabs: {
+				all: "All",
+				ready: "Ready",
+				pending: "Pending",
+			},
+			items: {
+				empty: {
+					title: "No campaigns yet",
+					subtitle: "Nothing to see here",
+					description: "Let’s create your first campaign.",
+					button: "Create Campaign",
+					search: {
+						title: "Nothing found",
+						description: "No campaigns matched {query}.",
+					},
+				},
+			},
 		},
 		publishers: {
 			title: "Publishers",
@@ -396,6 +413,11 @@ const dict = {
 				},
 				description:
 					"You’ll be redirected to the bot to upload your campaign banner.",
+			},
+			success: {
+				title: "✅ Campaign Created",
+				message:
+					"Your campaign is created. After closing the app, continue in the bot to add your banner.",
 			},
 		},
 	},

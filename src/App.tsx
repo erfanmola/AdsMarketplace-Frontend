@@ -148,7 +148,10 @@ const App = () => {
 
 									<Route path="/" component={PageHome} />
 
-									<Route path="/advertisers" component={PageAdvertisers} />
+									<Route
+										path="/advertisers/:tab?"
+										component={PageAdvertisers}
+									/>
 
 									<Route path="/publishers/:tab?" component={PagePublishers} />
 

@@ -1,3 +1,4 @@
+import { BiRegularStore } from "solid-icons/bi";
 import { CgSearch } from "solid-icons/cg";
 import { FaSolidChevronRight, FaSolidPlus } from "solid-icons/fa";
 import {
@@ -5,7 +6,6 @@ import {
 	HiSolidHome,
 	HiSolidMegaphone,
 	HiSolidRocketLaunch,
-	HiSolidUserCircle,
 } from "solid-icons/hi";
 import { IoClose } from "solid-icons/io";
 import {
@@ -67,10 +67,6 @@ const predefineSVGSymbols = async () => {
 			component: HiSolidRocketLaunch,
 		},
 		{
-			id: "HiSolidUserCircle",
-			component: HiSolidUserCircle,
-		},
-		{
 			id: "TbOutlineLoader2",
 			component: TbOutlineLoader2,
 		},
@@ -101,6 +97,10 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "FaSolidChevronRight",
 			component: FaSolidChevronRight,
+		},
+		{
+			id: "BiRegularStore",
+			component: BiRegularStore,
 		},
 	];
 

@@ -115,4 +115,12 @@
          }
       }
    }
+
+   &.tabbar-equal-width {
+      > ul {
+         > li {
+            flex: 1;
+         }
+      }
+   }
 }

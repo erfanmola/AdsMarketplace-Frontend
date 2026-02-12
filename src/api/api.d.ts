@@ -13,6 +13,14 @@ export type OwnedEntity = {
 	username: string;
 };
 
+export type OwnedCampaign = {
+	id: string;
+	name: string;
+	category?: string;
+	language_code?: string;
+	is_ready: boolean;
+};
+
 export type EntityAd = {
 	type: "channel-post" | "channel-story" | "group-pin";
 	active: boolean;

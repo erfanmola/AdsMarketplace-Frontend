@@ -1,2 +1,144 @@
 #container-page-advertisers {
+   > div {
+      display: flex;
+      flex-direction: column;
+
+      .container-campaign-rows {
+         margin-top: 1rem;
+         background-color: var(--section-bg-color);
+         border-radius: 1.625rem;
+         overflow: hidden;
+
+         .campaign-row {
+            display: flex;
+            align-items: center;
+            height: calc(4rem + 1px);
+            position: relative;
+            padding: 0 0.625rem;
+            cursor: pointer;
+            background-color: transparent;
+
+            &:focus,
+            &:active {
+               background-color: rgba(var(--text-color-rgb), 0.125);
+            }
+
+            &:not(:last-child)::after {
+               content: "";
+               bottom: 0;
+               width: calc(100% - 4.25rem);
+               inset-inline-start: 4.25rem;
+               height: 1px;
+               background-color: rgba(var(--text-color-rgb), 0.125);
+               position: absolute;
+            }
+
+            > div.peer-profile {
+               font-size: 3rem;
+               border-radius: 25%;
+
+               > span {
+                  font-size: 0.5625em;
+               }
+            }
+
+            > div:nth-child(2) {
+               display: flex;
+               flex-direction: column;
+               gap: 0.25rem;
+               flex-grow: 1;
+               overflow: hidden;
+               padding-inline: 0.625rem;
+
+               > div {
+                  display: flex;
+                  align-items: center;
+                  line-height: normal;
+                  gap: 0.25rem;
+
+                  > svg {
+                     color: var(--text-semitransparent);
+                  }
+
+                  > span {
+                     line-height: normal;
+                     color: var(--text-secondary);
+                     font-size: 0.875rem;
+                  }
+               }
+
+               > span {
+                  line-height: normal;
+                  font-size: 1rem;
+                  font-weight: 500;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+               }
+            }
+
+            > div:nth-child(3) {
+               flex-shrink: 0;
+            }
+         }
+      }
+
+      #shimmer-campaigns-owned {
+         padding: 0.5rem 1rem 0;
+
+         > span {
+            display: flex;
+            width: 100%;
+            margin: 0 auto;
+            height: var(--tabbar-glass-height);
+            border-radius: 10rem;
+         }
+
+         > div {
+            margin-top: 1.5rem;
+
+            > div {
+               pointer-events: none;
+
+               > div:nth-child(1) {
+                  width: 3rem;
+                  height: 3rem;
+                  border-radius: 25%;
+               }
+
+               > div:nth-child(2) {
+                  > span {
+                     width: 10rem;
+                     height: 1rem;
+                     border-radius: 0.25rem;
+                  }
+
+                  > div {
+                     > span {
+                        height: 0.875rem;
+                        border-radius: 0.25rem;
+
+                        &:nth-child(1) {
+                           width: 3rem;
+                        }
+
+                        &:nth-child(2) {
+                           width: 4rem;
+                        }
+                     }
+                  }
+               }
+
+               > div:nth-child(3) {
+                  > span {
+                     display: flex;
+                     width: 3rem;
+                     height: 1.125rem;
+                     border-radius: 0.25rem;
+                  }
+               }
+            }
+         }
+      }
+   }
 }

@@ -6,12 +6,14 @@ import {
 	Show,
 } from "solid-js";
 import "./PeerProfile.scss";
+import { Dynamic } from "solid-js/web";
 import { getNameInitials } from "../../utils/general";
 import ImageLoader from "./ImageLoader";
 
 type PeerProfileProps = {
 	peerId: number;
-	name: string;
+	name?: string;
+	alternateContent?: Component;
 	username?: string;
 	class?: string;
 };
@@ -81,7 +83,16 @@ const PeerProfile: Component<PeerProfileProps> = (props) => {
 		>
 			<Show
 				when={props.username && imageLoaded()}
-				fallback={<span>{getNameInitials(props.name).toUpperCase()}</span>}
+				fallback={
+					<Show
+						when={props.alternateContent}
+						fallback={
+							<span>{getNameInitials(props.name ?? "").toUpperCase()}</span>
+						}
+					>
+						<Dynamic component={props.alternateContent} />
+					</Show>
+				}
 			>
 				<ImageLoader src={imageUrl} />
 			</Show>

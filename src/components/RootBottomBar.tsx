@@ -9,6 +9,9 @@ const BottomBarItems = ["/", "/advertisers", "/publishers", "/profile"];
 const BottomBarValidPath = [
 	"/",
 	"/advertisers",
+	"/advertisers/all",
+	"/advertisers/ready",
+	"/advertisers/pending",
 	"/publishers",
 	"/publishers/all",
 	"/publishers/active",
@@ -18,6 +21,9 @@ const BottomBarValidPath = [
 ];
 const SearchValidPath = [
 	"/advertisers",
+	"/advertisers/all",
+	"/advertisers/ready",
+	"/advertisers/pending",
 	"/publishers",
 	"/publishers/all",
 	"/publishers/active",

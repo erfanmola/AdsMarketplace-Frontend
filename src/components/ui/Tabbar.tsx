@@ -33,6 +33,7 @@ type TabbarProps = {
 	setScrollingState?: (value: boolean) => void;
 	autoHeight?: boolean;
 	updateSignal?: Accessor<boolean>;
+	equalWidth?: boolean;
 };
 
 const Tabbar: Component<TabbarProps> = (props) => {
@@ -243,6 +244,7 @@ const Tabbar: Component<TabbarProps> = (props) => {
 			class={[
 				"container-tabbar",
 				`tabbar-${mode()}`,
+				props.equalWidth && "tabbar-equal-width",
 				props.autoHeight && "tabbar-auto-height",
 				props.class,
 			]

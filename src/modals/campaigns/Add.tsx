@@ -15,11 +15,13 @@ import { useTranslation } from "../../contexts/TranslationContext";
 import { LottieAnimations } from "../../utils/animations";
 import { APIError } from "../../utils/api";
 import { setModals } from "../../utils/modal";
+import { popupManager } from "../../utils/popup";
 import { store } from "../../utils/store";
 import {
 	invokeHapticFeedbackImpact,
 	invokeHapticFeedbackNotification,
 	openLink,
+	postEvent,
 } from "../../utils/telegram";
 
 const ModalCampaignsAdd: Component = () => {
@@ -57,12 +59,27 @@ const ModalCampaignsAdd: Component = () => {
 		invokeHapticFeedbackImpact("soft");
 
 		apiCampaignCreate(form)
-			.then((result) => {
+			.then(async (result) => {
 				openLink(
 					`https://t.me/${import.meta.env.VITE_BOT_USERNAME}?start=campaign-banner-${result.id}`,
 				);
 
 				setTimeout(onClose);
+
+				popupManager
+					.openPopup({
+						title: t("modals.campaignsAdd.success.title"),
+						message: t("modals.campaignsAdd.success.message"),
+						buttons: [
+							{
+								id: "Ok",
+								type: "ok",
+							},
+						],
+					})
+					.finally(() => {
+						postEvent("web_app_close");
+					});
 			})
 			.catch((error) => {
 				invokeHapticFeedbackNotification("error");

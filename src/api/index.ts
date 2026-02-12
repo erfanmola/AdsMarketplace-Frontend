@@ -2,7 +2,7 @@ import { retrieveRawInitData } from "@telegram-apps/sdk-solid";
 import { requestAPI } from "../utils/api";
 import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
-import type { Entity, OwnedEntity } from "./api";
+import type { Entity, OwnedCampaign, OwnedEntity } from "./api";
 
 // API User
 
@@ -58,7 +58,7 @@ export const apiEntityUpdate = async (
 // API Campaign
 
 export type ResponseCampaignsOwned = {
-	campaigns: Partial<any>[];
+	campaigns: Partial<OwnedCampaign>[];
 	nextOffset: number;
 };
 
