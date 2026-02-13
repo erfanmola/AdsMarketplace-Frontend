@@ -336,7 +336,7 @@ const dict = {
 					share: "Share",
 					disable: "Disable",
 					enable: "Enable",
-					offer: "Send Offer",
+					offer: "Create Offer",
 				},
 				text: {
 					disabled: "Campaign is not active.",
@@ -348,6 +348,11 @@ const dict = {
 				},
 				share: {
 					text: "📣 Let's see {name} on {app_name} ads marketplace!",
+				},
+			},
+			viewer: {
+				description: {
+					empty: "No description.",
 				},
 			},
 		},
@@ -443,6 +448,22 @@ const dict = {
 				title: "✅ Campaign Created",
 				message:
 					"Your campaign is created. After closing the app, continue in the bot to add your banner.",
+			},
+		},
+		campaignsOffer: {
+			title: "Send Offer to Campaign",
+			description:
+				"Select a channel or group to express interest in this campaign and notify the campaign owner.",
+			entity: {
+				label: "Channel / Supergroup",
+				undefined: "Not Selected",
+			},
+			button: {
+				send: "Send Offer",
+			},
+			success: {
+				title: "✅ Offer Sent",
+				message: "Your offer has been sent successfully.",
 			},
 		},
 	},

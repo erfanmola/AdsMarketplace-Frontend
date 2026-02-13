@@ -92,4 +92,9 @@ export const apiCampaignUpdate = async (
 	data: Record<string, string>,
 ) => requestAPI(`/campaigns/${id}/update`, data, "POST") as Promise<void>;
 
+export const apiCampaignOffer = async (
+	id: string,
+	data: Record<string, string>,
+) => requestAPI(`/campaigns/${id}/offer`, data, "POST") as Promise<void>;
+
 // API Campaign

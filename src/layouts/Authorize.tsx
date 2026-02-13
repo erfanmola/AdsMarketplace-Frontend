@@ -47,6 +47,8 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 
 					setPipeline("user", true);
 				});
+
+				sessionStorage.setItem("launched", "true");
 			})
 			.catch(() => {
 				postEvent("web_app_close");

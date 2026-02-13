@@ -1,5 +1,11 @@
 import type { RouteSectionProps } from "@solidjs/router";
-import { type Component, createEffect, For, on as onEffect } from "solid-js";
+import {
+	type Component,
+	createEffect,
+	For,
+	on as onEffect,
+	onMount,
+} from "solid-js";
 import { Dynamic, Portal } from "solid-js/web";
 import { Toaster } from "solid-toast";
 import { Color } from "../utils/color";
@@ -7,6 +13,7 @@ import { modals, setModals } from "../utils/modal";
 import { navigator } from "../utils/navigator";
 import {
 	invokeHapticFeedbackImpact,
+	lp,
 	setBackgroundColor,
 	setBottomBarColor,
 	setHeaderColor,
@@ -66,6 +73,32 @@ const RouterRoot: Component<RouteSectionProps<unknown>> = (props) => {
 			},
 		),
 	);
+
+	onMount(() => {
+		if (!sessionStorage.getItem("launched")) {
+			if (lp?.tgWebAppStartParam) {
+				if (
+					lp.tgWebAppStartParam.match(
+						/^campaign-([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/,
+					)
+				) {
+					navigator.go(
+						`/campaign/${lp.tgWebAppStartParam.replace("campaign-", "")}`,
+					);
+				}
+
+				if (
+					lp.tgWebAppStartParam.match(
+						/^entity-([0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})$/,
+					)
+				) {
+					navigator.go(
+						`/entity/${lp.tgWebAppStartParam.replace("entity-", "")}`,
+					);
+				}
+			}
+		}
+	});
 
 	return (
 		<>

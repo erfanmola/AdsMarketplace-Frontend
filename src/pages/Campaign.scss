@@ -40,11 +40,24 @@
       align-items: center;
       justify-content: center;
       gap: 1rem;
+      background-color: var(--bottom-bar-color);
+      border-top: 1px solid rgba(var(--text-color-rgb), 0.125);
 
       > button {
          flex: 1;
          flex-shrink: 0;
          flex-grow: 1;
       }
+
+      > p {
+         text-align: center;
+         color: var(--text-semitransparent);
+      }
    }
+}
+
+.container-section-campaigns-viewer {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
 }

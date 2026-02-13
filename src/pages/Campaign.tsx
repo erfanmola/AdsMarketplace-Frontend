@@ -15,7 +15,7 @@ import {
 	Suspense,
 	Switch,
 } from "solid-js";
-import { createStore } from "solid-js/store";
+import { createStore, produce } from "solid-js/store";
 import { apiCampaign, apiCampaignUpdate, type ResponseCampaign } from "../api";
 import type { Campaign } from "../api/api";
 import { SVGSymbol } from "../components/SVG";
@@ -32,6 +32,7 @@ import { useTranslation } from "../contexts/TranslationContext";
 import useQueryFeedback from "../hooks/useQueryFeedback";
 import { APIError } from "../utils/api";
 import { hideKeyboardOnEnter } from "../utils/input";
+import { setModals } from "../utils/modal";
 import { objectToStringRecord } from "../utils/object";
 import { popupManager } from "../utils/popup";
 import { store } from "../utils/store";
@@ -143,7 +144,46 @@ const PageCampaign: Component = () => {
 
 		const CampaignBody = () => {
 			const CampaignBodyViewer = () => {
-				return <div>Viewer</div>;
+				return (
+					<div>
+						<section class="container-section-campaigns-viewer">
+							<Section>
+								<p class="text-justify">
+									{(query.data?.campaign.description?.length ?? 0) > 0
+										? query.data?.campaign.description
+										: t("pages.campaign.viewer.description.empty")}
+								</p>
+							</Section>
+
+							<SectionList
+								type="default"
+								class="container-section-campaigns-create"
+								items={[
+									{
+										label: t("pages.entity.options.section.category.label"),
+										placeholder: () => (
+											<span class="pe-4!">
+												{store.categories?.[
+													query.data?.campaign.category ?? "none"
+												] ?? t("pages.entity.infolist.category.undefined")}
+											</span>
+										),
+									},
+									{
+										label: t("pages.entity.options.section.language.label"),
+										placeholder: () => (
+											<span class="pe-4!">
+												{store.languages?.[
+													query.data?.campaign.language_code ?? "none"
+												] ?? t("pages.entity.infolist.language.undefined")}
+											</span>
+										),
+									},
+								]}
+							/>
+						</section>
+					</div>
+				);
 			};
 
 			const CampaignBodyOwner = () => {
@@ -391,7 +431,20 @@ const PageCampaign: Component = () => {
 							query.data?.campaign.is_active
 						}
 					>
-						Can send Offer | Already Sent Offer
+						<CustomMainButton
+							text={t("pages.campaign.footer.button.offer")}
+							onClick={() => {
+								invokeHapticFeedbackImpact("soft");
+
+								setModals(
+									"campaignsOffer",
+									produce((store) => {
+										store.campaignId = query.data?.campaign.id;
+										store.open = true;
+									}),
+								);
+							}}
+						/>
 					</Match>
 
 					<Match
@@ -400,7 +453,7 @@ const PageCampaign: Component = () => {
 							!query.data?.campaign.is_active
 						}
 					>
-						Can't send Offer
+						<p>{t("pages.campaign.footer.text.disabled")}</p>
 					</Match>
 				</Switch>
 			</Show>
