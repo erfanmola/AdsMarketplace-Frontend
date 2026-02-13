@@ -75,7 +75,11 @@ const RouterRoot: Component<RouteSectionProps<unknown>> = (props) => {
 	);
 
 	onMount(() => {
+		lp.tgWebAppStartParam = "entity-264949c8-b67a-462d-8cda-e9f79bf45e66";
+
 		if (!sessionStorage.getItem("launched")) {
+			sessionStorage.setItem("launched", "true");
+
 			if (lp?.tgWebAppStartParam) {
 				if (
 					lp.tgWebAppStartParam.match(

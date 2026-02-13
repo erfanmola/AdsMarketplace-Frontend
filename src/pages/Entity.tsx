@@ -1320,7 +1320,40 @@ const PageEntity: Component = () => {
 	};
 
 	const EntityShimmer: Component = () => {
-		return <Shimmer id="shimmer-entity">Loading...</Shimmer>;
+		return (
+			<Shimmer id="shimmer-entity" tint>
+				<div>
+					<header>
+						<div>
+							<div />
+
+							<span />
+						</div>
+
+						<span />
+					</header>
+
+					<ul>
+						<li />
+						<li />
+						<li />
+						<li />
+					</ul>
+
+					<span />
+
+					<div />
+
+					<div />
+				</div>
+
+				<footer>
+					<div>
+						<span />
+					</div>
+				</footer>
+			</Shimmer>
+		);
 	};
 
 	return (
