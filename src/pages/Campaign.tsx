@@ -461,7 +461,19 @@ const PageCampaign: Component = () => {
 	};
 
 	const CampaignShimmer: Component = () => {
-		return <Shimmer id="shimmer-campaign">Loading...</Shimmer>;
+		return (
+			<Shimmer id="shimmer-campaign">
+				<header>
+					<div />
+					<span />
+				</header>
+
+				<section>
+					<div />
+					<div />
+				</section>
+			</Shimmer>
+		);
 	};
 
 	return (

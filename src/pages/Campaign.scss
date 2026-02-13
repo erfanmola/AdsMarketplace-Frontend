@@ -35,6 +35,48 @@
       }
    }
 
+   #shimmer-campaign {
+      > header {
+         padding: 1rem;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 1rem;
+
+         > div {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 25%;
+         }
+
+         > span {
+            width: 8rem;
+            height: 1.5rem;
+            border-radius: 0.5rem;
+         }
+      }
+
+      > section {
+         display: flex;
+         flex-direction: column;
+         padding: 1rem;
+         gap: 1rem;
+
+         > div {
+            width: 100%;
+            border-radius: 0.75rem;
+
+            &:nth-child(1) {
+               height: 10rem;
+            }
+
+            &:nth-child(2) {
+               height: 4rem;
+            }
+         }
+      }
+   }
+
    > footer {
       display: flex;
       align-items: center;
