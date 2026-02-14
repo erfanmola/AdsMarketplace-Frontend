@@ -6,6 +6,7 @@ import ModalCampaignsOffer from "../modals/campaigns/Offer";
 import ModalEntitiesOffer from "../modals/entities/Offer";
 import ModalPublishersAdd from "../modals/publishers/Add";
 import ModalSettings from "../modals/Settings";
+import ModalVerification from "../modals/Verification";
 
 type ModalState = {
 	open: boolean;
@@ -14,6 +15,7 @@ type ModalState = {
 
 type ModalsStore = {
 	settings: ModalState;
+	verification: ModalState;
 	publishersAdd: ModalState;
 	campaignsAdd: ModalState;
 	campaignsOffer: ModalState & {
@@ -30,6 +32,10 @@ export const [modals, setModals] = createStore<ModalsStore>({
 	settings: {
 		open: false,
 		component: ModalSettings,
+	},
+	verification: {
+		open: false,
+		component: ModalVerification,
 	},
 	publishersAdd: {
 		open: false,

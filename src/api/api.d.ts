@@ -20,6 +20,7 @@ export type OwnedCampaign = {
 	language_code?: string;
 	is_ready: boolean;
 	is_active: boolean;
+	is_verified: boolean;
 };
 
 export type EntityAd = {
@@ -155,4 +156,5 @@ export type Campaign = {
 	role: "viewer" | "owner";
 	is_ready: boolean;
 	is_active: boolean;
+	is_verified: boolean;
 };

@@ -2,6 +2,7 @@ import OutlineDuckAcceptMoney from "../assets/outlines/duck-accept-money-outline
 import OutlineDuckAuction from "../assets/outlines/duck-auction-outline.svg?raw";
 import OutlineDuckCelebrate from "../assets/outlines/duck-celebrate-outline.svg?raw";
 import OutlineDuckChartGrow from "../assets/outlines/duck-chart-grow-outline.svg?raw";
+import OutlineDuckDetective from "../assets/outlines/duck-detective-outline.svg?raw";
 import OutlineDuckEgg from "../assets/outlines/duck-egg-outline.svg?raw";
 import OutlineDuckForbidden from "../assets/outlines/duck-forbidden-outline.svg?raw";
 import OutlineDuckGlassShine from "../assets/outlines/duck-glass-shine-outline.svg?raw";
@@ -24,6 +25,10 @@ export const LottieAnimations: {
 		glassShine: {
 			url: "/assets/tgs/duck-glass-shine.tgs",
 			outline: OutlineDuckGlassShine,
+		},
+		detective: {
+			url: "/assets/tgs/duck-detective.tgs",
+			outline: OutlineDuckDetective,
 		},
 		auction: {
 			url: "/assets/tgs/duck-auction.tgs",

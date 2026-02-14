@@ -514,6 +514,14 @@ const dict = {
 					"You do not have enough balance to send this offer. Please top up your balance and try again.",
 			},
 		},
+		verification: {
+			title: "Request Verification",
+			description:
+				"You can request our support team to verify your chat or campaign. Verified entities will be listed on the homepage.",
+			button: {
+				support: "Contact Support",
+			},
+		},
 	},
 };
 

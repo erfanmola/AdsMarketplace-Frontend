@@ -880,6 +880,9 @@ const PageEntity: Component = () => {
 															clickable: props.entity.is_active,
 															disabled: !props.entity.is_active,
 														}}
+														onClick={() => {
+															setModals("verification", "open", true);
+														}}
 													>
 														<span>
 															{t(

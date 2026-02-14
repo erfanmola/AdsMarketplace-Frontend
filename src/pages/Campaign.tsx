@@ -314,6 +314,46 @@ const PageCampaign: Component = () => {
 											/>
 										),
 									},
+									{
+										label: t("pages.entity.options.section.verification.label"),
+										placeholder: () => (
+											<div class="container-section-overview-owner-options-verification">
+												<Show
+													when={query.data?.campaign.is_verified}
+													fallback={
+														<p
+															classList={{
+																clickable:
+																	query.data?.campaign.is_ready &&
+																	query.data?.campaign.is_active,
+																disabled: !(
+																	query.data?.campaign.is_ready &&
+																	query.data?.campaign.is_active
+																),
+															}}
+															onClick={() => {
+																setModals("verification", "open", true);
+															}}
+														>
+															<span>
+																{t(
+																	"pages.entity.options.section.verification.apply",
+																)}
+															</span>
+
+															<SVGSymbol id="FaSolidChevronRight" />
+														</p>
+													}
+												>
+													<span class="badge badge-verified">
+														{t(
+															"pages.entity.options.section.verification.verified",
+														)}
+													</span>
+												</Show>
+											</div>
+										),
+									},
 								]}
 							/>
 						</section>
