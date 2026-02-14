@@ -7,6 +7,11 @@ import type { Campaign, Entity, OwnedCampaign, OwnedEntity } from "./api";
 // API User
 
 export type ResponseAuthUser = {
+	balance: {
+		total: number;
+		real: number;
+		pending: number;
+	};
 	categories: Record<string, string>;
 	languages: Record<string, string>;
 	limits: Record<string, any>;
@@ -38,6 +43,11 @@ export type ResponseEntity = {
 	entity: Entity;
 };
 
+export type ResponseEntityOffer = {
+	id: string;
+	topicId: number;
+};
+
 export const apiEntitiesOwned = async (offset = 0) =>
 	requestAPI(
 		`/entities/owned/${offset}`,
@@ -52,6 +62,16 @@ export const apiEntityUpdate = async (
 	id: string,
 	data: Record<string, string>,
 ) => requestAPI(`/entities/${id}/update`, data, "POST") as Promise<void>;
+
+export const apiEntityOffer = async (
+	id: string,
+	data: Record<string, string>,
+) =>
+	requestAPI(
+		`/entities/${id}/offer`,
+		data,
+		"POST",
+	) as Promise<ResponseEntityOffer>;
 
 // API Entity
 

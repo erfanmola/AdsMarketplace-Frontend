@@ -21,6 +21,7 @@
 		"@tonconnect/ui": "^2.4.1",
 		"@types/pulltorefreshjs": "^0.1.7",
 		"animate.css": "^4.1.1",
+		"dayjs": "^1.11.19",
 		"gsap": "^3.14.2",
 		"lottix": "^1.1.7",
 		"plausible-tracker": "^0.3.9",

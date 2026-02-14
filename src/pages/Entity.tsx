@@ -24,18 +24,21 @@ import {
 	createSignal,
 	For,
 	Match,
+	on,
 	onCleanup,
 	onMount,
 	Show,
 	Suspense,
 	Switch,
 } from "solid-js";
+import { createStore, produce } from "solid-js/store";
 import { apiEntity, apiEntityUpdate, type ResponseEntity } from "../api";
 import type { Entity, EntityAd } from "../api/api";
 import { SVGSymbol } from "../components/SVG";
 import Clickable from "../components/ui/Clickable";
 import PeerProfile from "../components/ui/PeerProfile";
 import Placeholder from "../components/ui/Placeholder";
+import RangeSlider from "../components/ui/RangeSlider";
 import Scrollable from "../components/ui/Scrollable";
 import Section, {
 	SectionList,
@@ -56,6 +59,7 @@ import { LottieAnimations } from "../utils/animations";
 import { APIError } from "../utils/api";
 import { oneOfOr } from "../utils/general";
 import { match } from "../utils/helpers";
+import { setModals } from "../utils/modal";
 import { clamp, formatTGCount } from "../utils/number";
 import { objectToStringRecord } from "../utils/object";
 import { store } from "../utils/store";
@@ -166,6 +170,11 @@ const PageEntity: Component = () => {
 	};
 
 	const Entity: Component<{ entity: Entity }> = (props) => {
+		const [order, setOrder] = createStore<{
+			type?: EntityAd["type"];
+			duration?: number;
+		}>({});
+
 		const EntityHeader = () => {
 			return (
 				<header>
@@ -621,9 +630,125 @@ const PageEntity: Component = () => {
 			};
 
 			const TabOverviewViewer = () => {
+				const SectionOverviewViewerAdTypes = () => {
+					const SectionAdType: Component<{ item: EntityAd }> = (adProps) => {
+						const [duration, setDuration] = createSignal(0);
+						const price = createMemo(() => {
+							return (
+								Math.trunc(duration() * adProps.item.price.perHour * 100) / 100
+							);
+						});
+
+						createEffect(
+							on(
+								() => order.type,
+								() => {
+									if (order.type !== adProps.item.type) {
+										setDuration(0);
+									}
+								},
+								{
+									defer: true,
+								},
+							),
+						);
+
+						createEffect(
+							on(
+								duration,
+								() => {
+									setOrder({
+										type: adProps.item.type,
+										duration: duration(),
+									});
+								},
+								{
+									defer: true,
+								},
+							),
+						);
+
+						return (
+							<Show when={adProps.item.active}>
+								<div
+									class="container-section-overview-viewer-adtype"
+									classList={{ inactive: !props.entity.is_active }}
+								>
+									<Section
+										type="glass"
+										title={t(
+											`pages.entity.ads.types.${adProps.item.type}.title`,
+										)}
+										description={t(
+											`pages.entity.ads.types.${adProps.item.type}.description`,
+										)}
+										subtitle={() => (
+											<span class="flex justify-end items-center text-end w-full gap-1">
+												<span>
+													{td("pages.entity.order.hours", {
+														amount: duration().toString(),
+													})}
+												</span>
+
+												<span>{price()}</span>
+
+												<SVGSymbol id="TON" />
+											</span>
+										)}
+									>
+										<RangeSlider
+											min={0}
+											max={adProps.item.period.max}
+											step={adProps.item.period.unit}
+											value={duration()}
+											setValue={setDuration}
+										/>
+									</Section>
+								</div>
+							</Show>
+						);
+					};
+
+					return (
+						<Switch>
+							<Match
+								when={
+									!props.entity.is_active ||
+									!Object.values(props.entity.ads ?? {}).some((i) => i.active)
+								}
+							>
+								<Section
+									type="glass"
+									title={t("pages.entity.ads.unavailable.title")}
+								>
+									<div class="pt-1! pb-3!">
+										<Placeholder
+											description={t(
+												"pages.entity.ads.unavailable.description",
+											)}
+										/>
+									</div>
+								</Section>
+							</Match>
+
+							<Match when={props.entity.type === "channel"}>
+								<SectionAdType item={props.entity.ads!["channel-post"]} />
+
+								<SectionAdType item={props.entity.ads!["channel-story"]} />
+							</Match>
+
+							<Match when={props.entity.type === "supergroup"}>
+								<SectionAdType item={props.entity.ads!["group-pin"]} />
+							</Match>
+						</Switch>
+					);
+				};
+
 				return (
 					<div id="container-tab-overview-viewer">
 						<SectionStatisticsOverview />
+
+						<SectionOverviewViewerAdTypes />
 					</div>
 				);
 			};
@@ -897,22 +1022,6 @@ const PageEntity: Component = () => {
 															label: "3 Days",
 															value: "72",
 														},
-														{
-															label: "4 Days",
-															value: "96",
-														},
-														{
-															label: "5 Days",
-															value: "120",
-														},
-														{
-															label: "6 Days",
-															value: "144",
-														},
-														{
-															label: "7 Days",
-															value: "168",
-														},
 													]}
 												/>
 											),
@@ -957,26 +1066,6 @@ const PageEntity: Component = () => {
 														});
 													}}
 													items={[
-														{
-															label: "1 Hour",
-															value: "1",
-														},
-														{
-															label: "2 Hours",
-															value: "2",
-														},
-														{
-															label: "3 Hours",
-															value: "3",
-														},
-														{
-															label: "4 Hours",
-															value: "4",
-														},
-														{
-															label: "6 Hours",
-															value: "6",
-														},
 														{
 															label: "8 Hours",
 															value: "8",
@@ -1299,7 +1388,70 @@ const PageEntity: Component = () => {
 								</div>
 							</Match>
 
-							<Match when={props.entity.role === "viewer"}>Viewer</Match>
+							<Match when={props.entity.role === "viewer"}>
+								<div>{/* Slot */}</div>
+
+								<Show
+									when={(order.duration ?? 0) > 0}
+									fallback={
+										<Clickable
+											onClick={() => {
+												invokeHapticFeedbackImpact("soft");
+												openLink(`https://t.me/${props.entity.username}`);
+											}}
+										>
+											<div>
+												<span>
+													{t(
+														`pages.entity.footer.view.${props.entity.type}.text`,
+													)}
+												</span>
+											</div>
+										</Clickable>
+									}
+								>
+									<Clickable
+										onClick={() => {
+											invokeHapticFeedbackImpact("soft");
+
+											setModals(
+												"entitiesOffer",
+												produce((store) => {
+													store.ad = props.entity.ads?.[order.type!];
+													store.duration = order.duration;
+													store.entityId = props.entity.id;
+													store.open = true;
+												}),
+											);
+										}}
+									>
+										<div>
+											<span>{t("pages.entity.footer.offer.text")}</span>
+										</div>
+									</Clickable>
+								</Show>
+
+								<div>
+									<Clickable
+										onClick={() => {
+											invokeHapticFeedbackImpact("soft");
+
+											postEvent("web_app_open_tg_link", {
+												path_full: `/share/url?url=https://t.me/${import.meta.env.VITE_BOT_USERNAME}/${import.meta.env.VITE_MINIAPP_SLUG}?startapp=entity-${props.entity.id}&text=${encodeURI(
+													td("pages.entity.footer.share.text", {
+														name: props.entity.name,
+														app_name: t("general.appName"),
+													}),
+												)}`,
+											});
+										}}
+									>
+										<div>
+											<TbOutlineShare3 />
+										</div>
+									</Clickable>
+								</div>
+							</Match>
 						</Switch>
 					</div>
 				</footer>

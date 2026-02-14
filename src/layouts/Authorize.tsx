@@ -38,6 +38,7 @@ export const LayoutAuthorize: ParentComponent = (props) => {
 			.then((result) => {
 				batch(() => {
 					setStore({
+						balance: result.balance,
 						categories: result.categories,
 						languages: result.languages,
 						limits: result.limits,

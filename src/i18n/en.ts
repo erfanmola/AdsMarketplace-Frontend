@@ -103,7 +103,6 @@ const dict = {
 				},
 			},
 		},
-		profile: {},
 		entity: {
 			tabs: {
 				overview: {
@@ -311,6 +310,10 @@ const dict = {
 				inactive: {
 					text: "Available after setup.",
 				},
+				unavailable: {
+					title: "Ads Unavailable",
+					description: "The ads are currently not available.",
+				},
 			},
 			footer: {
 				view: {
@@ -324,6 +327,12 @@ const dict = {
 				share: {
 					text: "📣 Let's see {name} on {app_name} ads marketplace!",
 				},
+				offer: {
+					text: "Create Offer",
+				},
+			},
+			order: {
+				hours: "{amount} Hours /",
 			},
 		},
 		campaign: {
@@ -380,6 +389,9 @@ const dict = {
 		telegramChart: {
 			all: "All",
 			zoomOut: "Zoom Out",
+		},
+		datepicker: {
+			notSet: "Not Set",
 		},
 	},
 	modals: {
@@ -453,17 +465,53 @@ const dict = {
 		campaignsOffer: {
 			title: "Send Offer to Campaign",
 			description:
-				"Select a channel or group to express interest in this campaign and notify the campaign owner.",
+				"Select an active channel or group to express interest in this campaign and notify the campaign owner.",
 			entity: {
 				label: "Channel / Supergroup",
 				undefined: "Not Selected",
 			},
+			hint: "You have {count} eligible chats.",
 			button: {
 				send: "Send Offer",
 			},
 			success: {
 				title: "✅ Offer Sent",
 				message: "Your offer has been sent successfully.",
+			},
+		},
+		entitiesOffer: {
+			campaign: {
+				label: "Campaign",
+				undefined: "Not Selected",
+			},
+			start: {
+				label: "Start Date",
+			},
+			duration: {
+				label: "Duration",
+				hours: "{hours} Hours",
+			},
+			price: {
+				label: "Price",
+			},
+			hint: "You have {count} eligible campaigns.",
+			button: {
+				send: "Send Offer",
+			},
+			success: {
+				title: "✅ Offer Sent",
+				message:
+					"Your offer has been sent successfully. You can chat with the owner using the bot.",
+			},
+			unsupported: {
+				title: "Not Supported Currently",
+				message:
+					"This ad type is not supported for offers. Maksim didn't extend the deadline enough. Try channel posts for now.",
+			},
+			insufficientBalance: {
+				title: "Insufficient Balance",
+				message:
+					"You do not have enough balance to send this offer. Please top up your balance and try again.",
 			},
 		},
 	},

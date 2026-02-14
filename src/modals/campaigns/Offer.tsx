@@ -13,6 +13,7 @@ import useQueryFeedback from "../../hooks/useQueryFeedback";
 import { LottieAnimations } from "../../utils/animations";
 import { APIError } from "../../utils/api";
 import { modals, setModals } from "../../utils/modal";
+import { navigator } from "../../utils/navigator";
 import { popupManager } from "../../utils/popup";
 import {
 	invokeHapticFeedbackImpact,
@@ -20,7 +21,7 @@ import {
 } from "../../utils/telegram";
 
 const ModalCampaignsOffer: Component = () => {
-	const { t } = useTranslation();
+	const { t, td } = useTranslation();
 
 	const [form, setForm] = createStore({
 		entity: "none",
@@ -52,12 +53,12 @@ const ModalCampaignsOffer: Component = () => {
 				label: t("modals.campaignsOffer.entity.undefined"),
 				value: "none",
 			},
-			...(query.data?.pages.flatMap((page) => page.entities) || []).map(
-				(i) => ({
+			...(query.data?.pages.flatMap((page) => page.entities) || [])
+				.filter((i) => i.is_active)
+				.map((i) => ({
 					label: i.name ?? "",
 					value: i.id ?? "",
-				}),
-			),
+				})),
 		];
 	});
 
@@ -71,6 +72,10 @@ const ModalCampaignsOffer: Component = () => {
 
 	onMount(() => {
 		invokeHapticFeedbackImpact("soft");
+
+		navigator.modal(() => {
+			onClose();
+		});
 	});
 
 	const onClose = () => {
@@ -81,6 +86,10 @@ const ModalCampaignsOffer: Component = () => {
 				store.open = false;
 			}),
 		);
+
+		if (navigator.history[navigator.history.length - 1].path === "modal") {
+			navigator.history.pop();
+		}
 	};
 
 	const onClickButton = () => {
@@ -90,9 +99,9 @@ const ModalCampaignsOffer: Component = () => {
 
 		apiCampaignOffer(modals.campaignsOffer.campaignId!, {
 			entityId: form.entity,
-		}).then(() => {
-			popupManager
-				.openPopup({
+		})
+			.then(() => {
+				popupManager.openPopup({
 					title: t("modals.campaignsOffer.success.title"),
 					message: t("modals.campaignsOffer.success.message"),
 					buttons: [
@@ -101,20 +110,20 @@ const ModalCampaignsOffer: Component = () => {
 							type: "ok",
 						},
 					],
-				})
-				.catch((error) => {
-					invokeHapticFeedbackNotification("error");
-
-					if (error instanceof APIError) {
-						toastNotification({
-							text: error.message,
-							type: "error",
-						});
-					}
 				});
 
-			onClose();
-		});
+				onClose();
+			})
+			.catch((error) => {
+				invokeHapticFeedbackNotification("error");
+
+				if (error instanceof APIError) {
+					toastNotification({
+						text: error.message,
+						type: "error",
+					});
+				}
+			});
 	};
 
 	return (
@@ -141,6 +150,9 @@ const ModalCampaignsOffer: Component = () => {
 				<SectionList
 					type="default"
 					class="container-section-campaigns-create"
+					description={td("modals.campaignsOffer.hint", {
+						count: items().length - 1,
+					})}
 					items={[
 						{
 							label: t("modals.campaignsOffer.entity.label"),

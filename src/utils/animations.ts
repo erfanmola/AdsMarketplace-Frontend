@@ -2,10 +2,9 @@ import OutlineDuckAcceptMoney from "../assets/outlines/duck-accept-money-outline
 import OutlineDuckAuction from "../assets/outlines/duck-auction-outline.svg?raw";
 import OutlineDuckCelebrate from "../assets/outlines/duck-celebrate-outline.svg?raw";
 import OutlineDuckChartGrow from "../assets/outlines/duck-chart-grow-outline.svg?raw";
-import OutlineDuckChatting from "../assets/outlines/duck-chatting-outline.svg?raw";
 import OutlineDuckEgg from "../assets/outlines/duck-egg-outline.svg?raw";
+import OutlineDuckForbidden from "../assets/outlines/duck-forbidden-outline.svg?raw";
 import OutlineDuckGlassShine from "../assets/outlines/duck-glass-shine-outline.svg?raw";
-import OutlineDuckGlassStar from "../assets/outlines/duck-glass-star-outline.svg?raw";
 import OutlineDuckHashtags from "../assets/outlines/duck-hashtags-outline.svg?raw";
 import OutlineDuckLaunchPlane from "../assets/outlines/duck-launch-plane-outline.svg?raw";
 import OutlineDuckMoney from "../assets/outlines/duck-money-outline.svg?raw";
@@ -29,10 +28,6 @@ export const LottieAnimations: {
 		auction: {
 			url: "/assets/tgs/duck-auction.tgs",
 			outline: OutlineDuckAuction,
-		},
-		chatting: {
-			url: "/assets/tgs/duck-chatting.tgs",
-			outline: OutlineDuckChatting,
 		},
 		chartGrow: {
 			url: "/assets/tgs/duck-chart-grow.tgs",
@@ -66,13 +61,13 @@ export const LottieAnimations: {
 			url: "/assets/tgs/duck-premium-cloak.tgs",
 			outline: OutlineDuckPremiumCloak,
 		},
-		glassStar: {
-			url: "/assets/tgs/duck-glass-star.tgs",
-			outline: OutlineDuckGlassStar,
-		},
 		money: {
 			url: "/assets/tgs/duck-money.tgs",
 			outline: OutlineDuckMoney,
+		},
+		forbidden: {
+			url: "/assets/tgs/duck-forbidden.tgs",
+			outline: OutlineDuckForbidden,
 		},
 	},
 	emoji: {

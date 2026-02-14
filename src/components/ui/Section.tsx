@@ -24,7 +24,7 @@ type SectionProps = {
 	type?: "default" | "tint" | "glass";
 	class?: string;
 	title?: string;
-	subtitle?: string;
+	subtitle?: string | Component;
 	description?: string;
 };
 
@@ -43,7 +43,13 @@ export const Section: ParentComponent<SectionProps> = (props) => {
 					{props.title}
 
 					<Show when={props.subtitle}>
-						<span class="subtitle">{props.subtitle}</span>
+						<span class="subtitle">
+							{typeof props.subtitle === "string" ? (
+								props.subtitle
+							) : (
+								<Dynamic component={props.subtitle} />
+							)}
+						</span>
 					</Show>
 				</span>
 			</Show>

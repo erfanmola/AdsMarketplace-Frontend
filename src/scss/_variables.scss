@@ -50,6 +50,8 @@
    --switch-bg: #d0d0d0;
    --switch-thumb-passive: #ffffff;
    --switch-thumb-active: #35c759;
+
+   --range-slider-bg-color: #d1d1d6;
 }
 
 body[data-theme="dark"] {
@@ -93,4 +95,6 @@ body[data-theme="dark"] {
    --switch-bg: #2f2f2f;
    --switch-thumb-passive: #ffffff;
    --switch-thumb-active: #81cb72;
+
+   --range-slider-bg-color: #39393d;
 }

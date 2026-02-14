@@ -9,6 +9,11 @@ export type StoreUser = {
 };
 
 export type Store = {
+	balance?: {
+		total?: number;
+		real?: number;
+		pending?: number;
+	};
 	categories?: Record<string, string>;
 	languages?: Record<string, string>;
 	limits?: Record<string, any>;
