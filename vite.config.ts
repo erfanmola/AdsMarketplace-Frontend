@@ -140,6 +140,7 @@ export default defineConfig((config) => {
 						/^m/,
 						/^start/,
 						/^end/,
+						/swiper/,
 					],
 				},
 				defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],

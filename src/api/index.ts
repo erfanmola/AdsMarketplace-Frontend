@@ -1,4 +1,5 @@
 import { retrieveRawInitData } from "@telegram-apps/sdk-solid";
+import type { Gallery } from "../gallery";
 import { requestAPI } from "../utils/api";
 import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
@@ -118,3 +119,14 @@ export const apiCampaignOffer = async (
 ) => requestAPI(`/campaigns/${id}/offer`, data, "POST") as Promise<void>;
 
 // API Campaign
+
+// API Gallery
+//
+export type ResponseGallery = {
+	gallery: Gallery;
+};
+
+export const apiGallery = async () =>
+	requestAPI(`/gallery`, {}, "GET") as Promise<ResponseGallery>;
+
+// API Gallery

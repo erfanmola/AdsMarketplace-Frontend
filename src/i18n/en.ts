@@ -365,6 +365,11 @@ const dict = {
 				},
 			},
 		},
+		void: {
+			title: "This page is Void",
+			description:
+				"We don't have enough content to fill it yet, it's an MVP, For now let's enjoy these algorithmically generated pixel arts <3.",
+		},
 	},
 	components: {
 		bottomBar: {

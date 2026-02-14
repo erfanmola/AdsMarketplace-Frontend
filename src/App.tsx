@@ -27,8 +27,8 @@ import PageCampaign from "./pages/Campaign.tsx";
 import PageEntity from "./pages/Entity.tsx";
 import PageError from "./pages/Error";
 import PageHome from "./pages/Home.tsx";
-import PageProfile from "./pages/Profile.tsx";
 import PagePublishers from "./pages/Publishers.tsx";
+import PageVoid from "./pages/Void.tsx";
 import { setIsRTL } from "./utils/i18n.ts";
 import { initializeSettings, settings } from "./utils/settings.ts";
 import { initializeTMA, postEvent } from "./utils/telegram.ts";
@@ -160,7 +160,7 @@ const App = () => {
 
 									<Route path="/campaign/:id" component={PageCampaign} />
 
-									<Route path="/profile" component={PageProfile} />
+									<Route path="/void" component={PageVoid} />
 								</Router>
 							</LayoutAuthorize>
 						</LayoutNotifications>

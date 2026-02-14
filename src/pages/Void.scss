@@ -1,0 +1,27 @@
+#container-page-void {
+   > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+
+      > h1 {
+         font-size: 1.25rem;
+         font-weight: 600;
+      }
+
+      > p {
+         font-size: 1rem;
+         line-height: 1.5;
+         text-align: center;
+         color: var(--text-secondary);
+      }
+
+      > canvas {
+         width: 100%;
+         image-rendering: -moz-crisp-edges;
+         image-rendering: pixelated;
+      }
+   }
+}
