@@ -565,6 +565,13 @@ const dict = {
 				support: "Contact Support",
 			},
 		},
+		settings: {
+			title: "Settings",
+			language: "Language",
+			haptic: "Haptic Feedback",
+			click: "Click Me!",
+			footer: "$BUILD by Contest for Contest",
+		},
 	},
 };
 
