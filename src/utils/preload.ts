@@ -1,3 +1,8 @@
+import {
+	AiOutlineDribbble,
+	AiOutlineExperiment,
+	AiOutlineHeart,
+} from "solid-icons/ai";
 import { BiRegularStore } from "solid-icons/bi";
 import { CgSearch } from "solid-icons/cg";
 import { FaSolidChevronRight, FaSolidPlus } from "solid-icons/fa";
@@ -110,6 +115,18 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "OcDownload2",
 			component: OcDownload2,
+		},
+		{
+			id: "AiOutlineHeart",
+			component: AiOutlineHeart,
+		},
+		{
+			id: "AiOutlineDribbble",
+			component: AiOutlineDribbble,
+		},
+		{
+			id: "AiOutlineExperiment",
+			component: AiOutlineExperiment,
 		},
 	];
 

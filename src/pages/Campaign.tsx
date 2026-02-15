@@ -389,7 +389,14 @@ const PageCampaign: Component = () => {
 
 	const CampaignFooter = () => {
 		return (
-			<Show when={query.isFetched}>
+			<Show
+				when={query.isFetched}
+				fallback={
+					<Shimmer id="shimmer-campaign-button">
+						<div />
+					</Shimmer>
+				}
+			>
 				<Switch>
 					<Match
 						when={
