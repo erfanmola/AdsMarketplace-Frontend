@@ -250,6 +250,8 @@ const ModalEntitiesOffer: Component = () => {
 									<Datepicker
 										hideYear
 										withTime
+										pickerTitle={`${t("modals.entitiesOffer.start.label")} (UTC)`}
+										showUTC
 										value={form.date}
 										setValue={(value) => {
 											setForm("date", value);

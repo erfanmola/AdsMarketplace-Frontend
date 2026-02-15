@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import "./Datepicker.scss";
+
+import utc from "dayjs/plugin/utc";
 import {
 	type Component,
 	createEffect,
@@ -13,8 +15,11 @@ import { invokeHapticFeedbackImpact } from "../../utils/telegram";
 import Modal from "./Modal";
 import WheelPicker from "./WheelPicker";
 
+dayjs.extend(utc);
+
 type DatepickerProps = {
 	label?: string;
+	pickerTitle?: string;
 	pickerLabel?: string;
 	value: number;
 	setValue: (value: number) => void;
@@ -22,6 +27,7 @@ type DatepickerProps = {
 	maxDate?: string;
 	withTime?: boolean;
 	hideYear?: boolean;
+	showUTC?: boolean;
 };
 
 const months = [
@@ -43,14 +49,14 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 	const { t } = useTranslation();
 	const [modal, setModal] = createSignal(false);
 
-	const now = dayjs();
+	const now = dayjs.utc();
 
 	const dateRange = {
-		min: dayjs(props.minDate ?? "1970-01-01"),
-		max: dayjs(props.maxDate ?? `${now.year() + 10}-12-31`),
+		min: dayjs.utc(props.minDate ?? "1970-01-01"),
+		max: dayjs.utc(props.maxDate ?? `${now.year() + 10}-12-31`),
 	};
 
-	const base = dayjs(props.value || dateRange.min.valueOf());
+	const base = dayjs.utc(props.value || dateRange.min.valueOf());
 
 	const [dp, setDp] = createStore({
 		year: (props.hideYear ? now.year() : base.year()).toString(),
@@ -61,7 +67,7 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 	});
 
 	const selected = createMemo(() =>
-		dayjs(
+		dayjs.utc(
 			`${dp.year}-${Number(dp.month) + 1}-${dp.day} ${dp.hour}:${dp.minute}`,
 		),
 	);
@@ -90,7 +96,7 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 	const allowedDays = createMemo(() => {
 		const y = Number(dp.year);
 		const m = Number(dp.month);
-		const max = dayjs(`${y}-${m + 1}-1`).daysInMonth();
+		const max = dayjs.utc(`${y}-${m + 1}-1`).daysInMonth();
 
 		let start = 1,
 			end = max;
@@ -113,10 +119,10 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 		const h = Number(next.hour ?? dp.hour);
 		const min = Number(next.minute ?? dp.minute);
 
-		const maxDay = dayjs(`${y}-${m + 1}-1`).daysInMonth();
+		const maxDay = dayjs.utc(`${y}-${m + 1}-1`).daysInMonth();
 		if (d > maxDay) d = maxDay;
 
-		const cand = dayjs(`${y}-${m + 1}-${d} ${h}:${min}`);
+		const cand = dayjs.utc(`${y}-${m + 1}-${d} ${h}:${min}`);
 
 		if (cand.isBefore(dateRange.min)) return syncFrom(dateRange.min);
 		if (cand.isAfter(dateRange.max)) return syncFrom(dateRange.max);
@@ -180,11 +186,16 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 				<Show when={props.label}>
 					<span>{props.label}</span>
 				</Show>
-				<div class="text-secondary">
+				<div>
 					{props.value
-						? dayjs(props.value).format(
-								props.withTime ? "D MMM YYYY HH:mm" : "D MMM YYYY",
-							)
+						? [
+								dayjs
+									.utc(props.value)
+									.format(props.withTime ? "D MMM YYYY HH:mm" : "D MMM YYYY"),
+								props.showUTC && "UTC",
+							]
+								.filter(Boolean)
+								.join(" ")
 						: t("components.datepicker.notSet")}
 				</div>
 			</div>
@@ -202,6 +213,7 @@ const Datepicker: Component<DatepickerProps> = (props) => {
 						.join(" ")}
 					onClose={() => setModal(false)}
 					portalParent={document.querySelector("#modals")!}
+					title={props.pickerTitle}
 				>
 					<Show when={props.pickerLabel}>
 						<span class="text-hint">{props.pickerLabel}</span>
