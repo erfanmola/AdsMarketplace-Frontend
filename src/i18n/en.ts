@@ -366,9 +366,47 @@ const dict = {
 			},
 		},
 		void: {
-			title: "This page is Void",
+			title: "Void",
+			subtitle: "This page is Void",
 			description:
-				"We don't have enough content to fill it yet, it's an MVP, For now let's enjoy these algorithmically generated pixel arts <3.",
+				"We don’t have enough content to fill this page yet—it’s still an MVP. For now, enjoy these random algorithmically generated pixel artworks <3",
+		},
+		balance: {
+			title: "Balance",
+			wallet: {
+				connected: {
+					title: "Wallet Connected",
+					button: "Disconnect",
+				},
+				connect: {
+					title: "Connect Your Wallet",
+					button: "Connect",
+				},
+			},
+			balance: {
+				total: "Total Balance",
+				pending: "Pending Balance: {amount}",
+				description: "You can't withdraw pending balance.",
+			},
+			deposit: {
+				button: "Deposit",
+			},
+			withdraw: {
+				button: "Withdraw",
+			},
+			transactions: {
+				title: "Transactions History",
+			},
+			soon: {
+				title: "Coming Soon",
+				description:
+					"We currently work with internal balance system for testing purposes, not because I suck at blockchain or anything, we can copy-paste the Contest bot's payment system in the production when go live.",
+				buttons: {
+					ok: "Well, Ok",
+					ohok: "Oh, Ok",
+					okok: "Ok OK!",
+				},
+			},
 		},
 	},
 	components: {

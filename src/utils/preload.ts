@@ -8,6 +8,7 @@ import {
 	HiSolidRocketLaunch,
 } from "solid-icons/hi";
 import { IoClose } from "solid-icons/io";
+import { OcDownload2, OcUpload2 } from "solid-icons/oc";
 import {
 	RiBusinessMegaphoneLine,
 	RiSystemLoader2Fill,
@@ -101,6 +102,14 @@ const predefineSVGSymbols = async () => {
 		{
 			id: "BiRegularStore",
 			component: BiRegularStore,
+		},
+		{
+			id: "OcUpload2",
+			component: OcUpload2,
+		},
+		{
+			id: "OcDownload2",
+			component: OcDownload2,
 		},
 	];
 

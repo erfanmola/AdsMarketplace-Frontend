@@ -281,7 +281,7 @@ export const SectionGalleryEntityList: Component<
 			<swiper-container
 				ref={swiperEl}
 				init={false}
-				slides-per-view={1.25}
+				slides-per-view={1.1875}
 				space-between={16}
 				modules={[Grid]}
 				grid={true}
@@ -371,7 +371,7 @@ export const SectionGalleryCampaignList: Component<
 			<swiper-container
 				ref={swiperEl}
 				init={false}
-				slides-per-view={1.25}
+				slides-per-view={1.1875}
 				space-between={16}
 				modules={[Grid]}
 				grid={true}

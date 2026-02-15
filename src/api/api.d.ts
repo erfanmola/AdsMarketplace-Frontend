@@ -158,3 +158,9 @@ export type Campaign = {
 	is_active: boolean;
 	is_verified: boolean;
 };
+
+export type Transaction = {
+	id: string;
+	amount: number;
+	pending?: boolean;
+};

@@ -3,7 +3,13 @@ import type { Gallery } from "../gallery";
 import { requestAPI } from "../utils/api";
 import { urlParseQueryString } from "../utils/auth";
 import type { StoreUser } from "../utils/store";
-import type { Campaign, Entity, OwnedCampaign, OwnedEntity } from "./api";
+import type {
+	Campaign,
+	Entity,
+	OwnedCampaign,
+	OwnedEntity,
+	Transaction,
+} from "./api";
 
 // API User
 
@@ -130,3 +136,19 @@ export const apiGallery = async () =>
 	requestAPI(`/gallery`, {}, "GET") as Promise<ResponseGallery>;
 
 // API Gallery
+
+// API Transactions
+//
+export type ResponseTransactions = {
+	transactions: Partial<Transaction>[];
+	nextOffset: number;
+};
+
+export const apiTransactionsSelf = async (offset = 0) =>
+	requestAPI(
+		`/transactions/self/${offset}`,
+		{},
+		"GET",
+	) as Promise<ResponseTransactions>;
+
+// API Transactions

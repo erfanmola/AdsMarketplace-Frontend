@@ -23,6 +23,7 @@ import { LayoutAuthorize } from "./layouts/Authorize.tsx";
 import { LayoutNotifications } from "./layouts/Notifications.tsx";
 import { fetchDictionary, type Locale, localeDirections } from "./locale";
 import PageAdvertisers from "./pages/Advertisers.tsx";
+import PageBalance from "./pages/Balance.tsx";
 import PageCampaign from "./pages/Campaign.tsx";
 import PageEntity from "./pages/Entity.tsx";
 import PageError from "./pages/Error";
@@ -159,6 +160,8 @@ const App = () => {
 									<Route path="/entity/:id/:tab?" component={PageEntity} />
 
 									<Route path="/campaign/:id" component={PageCampaign} />
+
+									<Route path="/balance" component={PageBalance} />
 
 									<Route path="/void" component={PageVoid} />
 								</Router>

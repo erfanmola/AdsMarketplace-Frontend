@@ -5,6 +5,7 @@ type ClickableProps = {
 	class?: string;
 	id?: string;
 	onClick?: (e: MouseEvent) => void;
+	disabled?: boolean;
 };
 
 const Clickable: ParentComponent<ClickableProps> = (props) => {
@@ -12,6 +13,7 @@ const Clickable: ParentComponent<ClickableProps> = (props) => {
 		<div
 			id={props.id}
 			class={["clickable", props.class].filter(Boolean).join(" ")}
+			classList={{ disabled: props.disabled }}
 			onClick={props.onClick}
 		>
 			{props.children}

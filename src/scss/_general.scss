@@ -161,3 +161,19 @@ input[type="number"] {
 .safe-area-bottombar {
    padding-bottom: 5.5rem;
 }
+
+.text-secondary {
+   color: var(--text-secondary);
+}
+
+.text-semitransparent {
+   color: var(--text-semitransparent);
+}
+
+.text-success {
+   color: var(--text-green);
+}
+
+.text-danger {
+   color: var(--text-red);
+}

@@ -54,14 +54,14 @@ const PageVoid: Component = () => {
 		<>
 			<Page
 				id="container-page-void"
-				title="Void"
+				title={t("pages.void.title")}
 				headerPrepend={() => (
 					<RiUserFacesGhostSmileLine
 						style={{ "font-size": "2rem", color: "var(--accent)" }}
 					/>
 				)}
 			>
-				<h1>{t("pages.void.title")}</h1>
+				<h1>{t("pages.void.subtitle")}</h1>
 				<p>{t("pages.void.description")}</p>
 
 				<canvas ref={canvas} />

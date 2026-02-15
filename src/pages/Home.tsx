@@ -3,11 +3,17 @@ import { useTranslation } from "../contexts/TranslationContext";
 import Page from "../layouts/Page";
 import "./Home.scss";
 
+import { TbOutlineSettings } from "solid-icons/tb";
 import { type Component, Show, Suspense } from "solid-js";
 import { apiGallery } from "../api";
+import { SVGSymbol } from "../components/SVG";
+import Clickable from "../components/ui/Clickable";
 import SectionGallery from "../components/ui/Gallery";
 import Shimmer from "../components/ui/Shimmer";
 import useQueryFeedback from "../hooks/useQueryFeedback";
+import { setModals } from "../utils/modal";
+import { navigator } from "../utils/navigator";
+import { store } from "../utils/store";
 
 const PageHome: Component = () => {
 	const { t } = useTranslation();
@@ -28,7 +34,33 @@ const PageHome: Component = () => {
 	});
 
 	const headerAppend = () => {
-		return <div>Balance and stuff</div>;
+		return (
+			<div>
+				<Clickable
+					class="container-header-append-settings"
+					onClick={() => {
+						setModals("settings", "open", true);
+					}}
+				>
+					<TbOutlineSettings />
+				</Clickable>
+
+				<Clickable
+					class="container-header-append-balance"
+					onClick={() => {
+						navigator.go("/balance");
+					}}
+				>
+					<SVGSymbol id="TON" />
+
+					<span>{(store.balance?.total ?? 0).toLocaleString()}</span>
+
+					<span>
+						<SVGSymbol id="FaSolidPlus" />
+					</span>
+				</Clickable>
+			</div>
+		);
 	};
 
 	return (
