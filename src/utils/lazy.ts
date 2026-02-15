@@ -23,7 +23,7 @@ export const initializeTonConnect = async () => {
 			uiPreferences: {
 				theme: darkMode ? THEME.DARK : THEME.LIGHT,
 			},
-			restoreConnection: false,
+			restoreConnection: true,
 			walletsRequiredFeatures: {
 				sendTransaction: {
 					minMessages: 2,
@@ -31,6 +31,9 @@ export const initializeTonConnect = async () => {
 			},
 			actionsConfiguration: {
 				twaReturnUrl: `https://t.me/${import.meta.env.VITE_BOT_USERNAME}/${import.meta.env.VITE_MINIAPP_SLUG}`,
+			},
+			analytics: {
+				mode: "off",
 			},
 		});
 
