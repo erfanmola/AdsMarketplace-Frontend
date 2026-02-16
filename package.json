@@ -33,7 +33,7 @@
 		"twallpaper": "^2.1.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.0",
+		"@biomejs/biome": "^2.4.1",
 		"@tailwindcss/vite": "^4.1.18",
 		"autoprefixer": "^10.4.24",
 		"postcss": "^8.5.6",
