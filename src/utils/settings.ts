@@ -50,7 +50,7 @@ export const waitForSettings = () =>
 	});
 
 export const initializeSettings = async () => {
-	if (isTMA() && isVersionAtLeast("9.0")) {
+	if (isTMA() && isVersionAtLeast("9.0") && !isTMA()) {
 		settingsStorage = "DeviceStorage";
 
 		const req_id = (

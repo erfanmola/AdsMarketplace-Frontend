@@ -10,7 +10,7 @@ import {
 import { useTranslation } from "../contexts/TranslationContext";
 import { setModals } from "../utils/modal";
 import { setSettings, settings } from "../utils/settings";
-import { invokeHapticFeedbackImpact } from "../utils/telegram";
+import { invokeHapticFeedbackImpact, postEvent } from "../utils/telegram";
 
 const ModalSettings: Component = () => {
 	const { t, locale, setLocale } = useTranslation();
@@ -34,7 +34,10 @@ const ModalSettings: Component = () => {
 			() => {
 				setLocale(form.lang);
 				setSettings("language", form.lang);
-				location.reload();
+
+				setTimeout(() => {
+					location.reload();
+				});
 			},
 			{
 				defer: true,
@@ -114,6 +117,51 @@ const ModalSettings: Component = () => {
 									}}
 								/>
 							),
+						},
+						{
+							label: () => (
+								<span class="text-danger">{t("modals.settings.reset")}</span>
+							),
+							clickable: true,
+							onClick: async () => {
+								invokeHapticFeedbackImpact("heavy");
+
+								try {
+									localStorage.clear();
+								} catch (_) {}
+
+								try {
+									sessionStorage.clear();
+								} catch (_) {}
+
+								if ("caches" in window) {
+									try {
+										const names = await caches.keys();
+										await Promise.all(names.map((name) => caches.delete(name)));
+									} catch (_) {}
+								}
+
+								if ("serviceWorker" in navigator) {
+									try {
+										const regs =
+											await navigator.serviceWorker.getRegistrations();
+										await Promise.all(regs.map((r) => r.unregister()));
+									} catch (_) {}
+								}
+
+								postEvent("web_app_device_storage_clear", {
+									req_id: (
+										Date.now().toString(36) +
+										Math.random().toString(36).slice(2)
+									)
+										.slice(0, 16)
+										.padEnd(16, "0"),
+								});
+
+								setTimeout(() => {
+									postEvent("web_app_close");
+								}, 250);
+							},
 						},
 					]}
 				/>

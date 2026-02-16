@@ -561,6 +561,7 @@ const dict = {
 			title: "الإعدادات",
 			language: "اللغة",
 			haptic: "الاستجابة اللمسية",
+			reset: "إعادة تعيين بيانات التطبيق",
 			click: "اضغط علي!",
 			footer: "$BUILD من Contest لـ Contest",
 		},

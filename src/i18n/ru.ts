@@ -571,6 +571,7 @@ const dict = {
 			title: "Настройки",
 			language: "Язык",
 			haptic: "Тактильная обратная связь",
+			reset: "Сбросить данные приложения",
 			click: "Нажми меня!",
 			footer: "$СБОРКА от Contest для Contest",
 		},

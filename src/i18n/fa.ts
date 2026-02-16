@@ -569,6 +569,7 @@ const dict = {
 			title: "تنظیمات",
 			language: "زبان",
 			haptic: "بازخورد لمسی",
+			reset: "بازنشانی داده‌های برنامه",
 			click: "کلیک کن!",
 			footer: "$ساخته شده توسط Contest برای Contest",
 		},
