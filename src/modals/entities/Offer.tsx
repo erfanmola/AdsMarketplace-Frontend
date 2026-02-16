@@ -40,7 +40,7 @@ const ModalEntitiesOffer: Component = () => {
 	const [processing, setProcessing] = createSignal(false);
 	const [form, setForm] = createStore({
 		campaign: "none",
-		date: Date.now(),
+		date: Date.now() + 3600_000,
 	});
 
 	const price = createMemo(() => {

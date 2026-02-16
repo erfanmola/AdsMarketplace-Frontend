@@ -18,8 +18,8 @@
    background-color: var(--modal-bg) !important;
    padding-bottom: calc(
       max(
-         var(--tg-viewport-safe-area-inset-bottom) +
-            var(--tg-viewport-content-safe-area-inset-bottom),
+         var(--tg-viewport-safe-area-inset-bottom, 0px) +
+            var(--tg-viewport-content-safe-area-inset-bottom, 0px),
          1rem
       )
    );
@@ -115,8 +115,8 @@
       height: calc(
          100% -
             2rem - calc(
-               var(--tg-viewport-safe-area-inset-top) +
-                  var(--tg-viewport-content-safe-area-inset-top)
+               var(--tg-viewport-safe-area-inset-top, 0px) +
+                  var(--tg-viewport-content-safe-area-inset-top, 0px)
             )
       );
    }
@@ -143,8 +143,8 @@
       > div {
          height: 100%;
          padding-top: calc(
-            var(--tg-viewport-safe-area-inset-top) +
-               var(--tg-viewport-content-safe-area-inset-top)
+            var(--tg-viewport-safe-area-inset-top, 0px) +
+               var(--tg-viewport-content-safe-area-inset-top, 0px)
          );
 
          > div:last-child {

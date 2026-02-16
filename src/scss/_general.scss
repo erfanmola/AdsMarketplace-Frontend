@@ -78,8 +78,8 @@ svg {
    flex-grow: 1;
    position: relative;
    padding-top: calc(
-      var(--tg-viewport-safe-area-inset-top) +
-         var(--tg-viewport-content-safe-area-inset-top)
+      var(--tg-viewport-safe-area-inset-top, 0px) +
+         var(--tg-viewport-content-safe-area-inset-top, 0px)
    );
    background-color: var(--bg-color);
 }
@@ -142,8 +142,8 @@ input[type="number"] {
    padding-top: max(
       1rem,
       calc(
-         var(--tg-viewport-safe-area-inset-top, 0) +
-            var(--tg-viewport-content-safe-area-inset-top, 0)
+         var(--tg-viewport-safe-area-inset-top, 0px) +
+            var(--tg-viewport-content-safe-area-inset-top, 0px)
       )
    );
 }
@@ -152,8 +152,8 @@ input[type="number"] {
    padding-bottom: max(
       1rem,
       calc(
-         var(--tg-viewport-safe-area-inset-bottom, 0) +
-            var(--tg-viewport-content-safe-area-inset-bottom, 0)
+         var(--tg-viewport-safe-area-inset-bottom, 0px) +
+            var(--tg-viewport-content-safe-area-inset-bottom, 0px)
       )
    );
 }

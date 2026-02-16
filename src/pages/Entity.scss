@@ -10,8 +10,8 @@
       inset-inline-start: 0;
       inset-inline-end: 0;
       height: calc(
-         var(--tg-viewport-safe-area-inset-top) +
-            var(--tg-viewport-content-safe-area-inset-top) + 4rem
+         var(--tg-viewport-safe-area-inset-top, 0) +
+            var(--tg-viewport-content-safe-area-inset-top, 0) + 4rem
       );
       z-index: 15;
       pointer-events: none;
@@ -58,7 +58,7 @@
             z-index: 20;
             position: sticky;
             max-width: calc(100% - 12rem);
-            top: calc(var(--tg-viewport-safe-area-inset-top) + 0.5rem);
+            top: calc(var(--tg-viewport-safe-area-inset-top, 0px) + 0.5rem);
             border-radius: 10rem;
             background-color: var(--glass-bg);
             backdrop-filter: blur(0.25rem) saturate(180%);
@@ -108,7 +108,8 @@
             display: flex;
             flex-direction: column;
             width: 100%;
-            margin: calc(var(--tg-viewport-safe-area-inset-top) + 0.5rem) 0 0 0;
+            margin: calc(var(--tg-viewport-safe-area-inset-top, 0) + 0.5rem) 0 0
+               0;
 
             #entity-section-tabbar {
                overflow: unset;
@@ -159,8 +160,8 @@
             inset-inline-start: 0;
             inset-inline-end: 0;
             height: calc(
-               var(--tg-viewport-safe-area-inset-bottom) +
-                  var(--tg-viewport-content-safe-area-inset-bottom) + 4rem
+               var(--tg-viewport-safe-area-inset-bottom, 0) +
+                  var(--tg-viewport-content-safe-area-inset-bottom, 0) + 4rem
             );
             z-index: 15;
             background: linear-gradient(180deg, transparent, var(--bg-color));
@@ -293,7 +294,7 @@
             z-index: 20;
             position: sticky;
             max-width: calc(100% - 12rem);
-            top: calc(var(--tg-viewport-safe-area-inset-top) + 0.5rem);
+            top: calc(var(--tg-viewport-safe-area-inset-top, 0) + 0.5rem);
             border-radius: 10rem;
             background-color: var(--glass-bg);
             backdrop-filter: blur(0.25rem) saturate(180%);
@@ -341,7 +342,8 @@
             padding: 1.5rem 1rem 0;
             gap: 0.5rem;
             width: 100%;
-            margin: calc(var(--tg-viewport-safe-area-inset-top) + 0.5rem) 0 0 0;
+            margin: calc(var(--tg-viewport-safe-area-inset-top, 0) + 0.5rem) 0 0
+               0;
 
             > li {
                height: 6.25rem;

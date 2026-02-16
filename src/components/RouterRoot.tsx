@@ -123,9 +123,9 @@ const RouterRoot: Component<RouteSectionProps<unknown>> = (props) => {
 			<Portal mount={document.body}>
 				<Toaster
 					containerStyle={{
-						top: "max(calc(var(--tg-viewport-safe-area-inset-top) + var(--tg-viewport-content-safe-area-inset-top)), 1rem)",
+						top: "max(calc(var(--tg-viewport-safe-area-inset-top, 0px) + var(--tg-viewport-content-safe-area-inset-top, 0)), 1rem)",
 						bottom:
-							"max(calc(var(--tg-viewport-safe-area-inset-bottom) + var(--tg-viewport-content-safe-area-inset-bottom)), 1rem)",
+							"max(calc(var(--tg-viewport-safe-area-inset-bottom, 0px) + var(--tg-viewport-content-safe-area-inset-bottom, 0)), 1rem)",
 					}}
 				/>
 			</Portal>
