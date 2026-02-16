@@ -120,46 +120,6 @@ const PageEntity: Component = () => {
 		},
 	});
 
-	const [updateSignal, setUpdateSignal] = createSignal(0);
-
-	const initialHeight = window.visualViewport?.height || window.innerHeight;
-
-	const handleVisualViewport = () => {
-		const currentHeight = window.visualViewport?.height || window.innerHeight;
-
-		if (currentHeight < initialHeight) {
-			const activeEl = document.activeElement as HTMLElement | null;
-			if (!activeEl) return;
-
-			// find closest swiper slide
-			const slide = activeEl.closest(".swiper-slide") as HTMLElement | null;
-			if (!slide) return;
-
-			// find the scroll container inside the slide
-			const scrollParent = slide.querySelector(
-				"[data-scrollable], .scroll-container",
-			) as HTMLElement | null;
-
-			if (!scrollParent) return;
-
-			requestAnimationFrame(() => {
-				const rect = activeEl.getBoundingClientRect();
-				const parentRect = scrollParent.getBoundingClientRect();
-
-				const offset = rect.top - parentRect.top - parentRect.height / 2;
-
-				scrollParent.scrollTo({
-					top: scrollParent.scrollTop + offset,
-					behavior: "smooth",
-				});
-			});
-		}
-
-		setTimeout(() => {
-			setUpdateSignal((v) => v + 1);
-		}, 150);
-	};
-
 	const onBackButton = () => {
 		if (navigator.isBackable()) {
 			navigator.back();
