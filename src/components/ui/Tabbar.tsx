@@ -148,12 +148,12 @@ const Tabbar: Component<TabbarProps> = (props) => {
 		updateDistance();
 		updateIndicator();
 
-		window.addEventListener("resize", updateIndicator, {
-			passive: true,
-		});
-		window.addEventListener("resize", updateDistance, {
-			passive: true,
-		});
+		// window.addEventListener("resize", updateIndicator, {
+		// 	passive: true,
+		// });
+		// window.addEventListener("resize", updateDistance, {
+		// 	passive: true,
+		// });
 
 		slider.swiper.update();
 
@@ -162,8 +162,8 @@ const Tabbar: Component<TabbarProps> = (props) => {
 		});
 
 		onCleanup(() => {
-			window.removeEventListener("resize", updateIndicator);
-			window.removeEventListener("resize", updateDistance);
+			// window.removeEventListener("resize", updateIndicator);
+			// window.removeEventListener("resize", updateDistance);
 		});
 	});
 

@@ -111,6 +111,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 			);
 		};
 
+		// const updateDistanceDebounced = debounce(updateDistance, 500);
+
 		const updateIndicator = () => {
 			const active = ulRef.querySelector("li.active") as HTMLElement;
 			if (!active) return;
@@ -122,6 +124,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 			ulRef.style.setProperty("--pill-w", `${liRect.width}px`);
 			ulRef.style.setProperty("--pill-h", `${liRect.height}px`);
 		};
+
+		// const updateIndicatorDebounced = debounce(updateIndicator, 500);
 
 		const movePillToX = (x: number) => {
 			const ulRect = ulRef.getBoundingClientRect();
@@ -163,12 +167,12 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 		onMount(() => {
 			updateDistance();
 			updateIndicator();
-			window.addEventListener("resize", updateIndicator, {
-				passive: true,
-			});
-			window.addEventListener("resize", updateDistance, {
-				passive: true,
-			});
+			// window.addEventListener("resize", updateIndicatorDebounced, {
+			// 	passive: true,
+			// });
+			// window.addEventListener("resize", updateDistanceDebounced, {
+			// 	passive: true,
+			// });
 
 			const down = (e: PointerEvent) => {
 				pressed = true;
@@ -273,8 +277,8 @@ const BottomBar: Component<BottomBarProps> = (props) => {
 			});
 
 			onCleanup(() => {
-				window.removeEventListener("resize", updateIndicator);
-				window.removeEventListener("resize", updateDistance);
+				// window.removeEventListener("resize", updateIndicatorDebounced);
+				// window.removeEventListener("resize", updateDistanceDebounced);
 				ulRef.removeEventListener("pointerdown", down);
 				ulRef.removeEventListener("pointermove", move);
 				ulRef.removeEventListener("pointerup", up);
