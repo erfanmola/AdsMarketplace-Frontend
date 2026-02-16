@@ -90,7 +90,7 @@
                scale(var(--pill-sx), var(--pill-sy));
             border-radius: 10rem;
             backdrop-filter: saturate(180%);
-            background-color: rgba(var(--glass-text-color-rgb), 0.125);
+            background-color: rgba(var(--glass-active-rgb), 0.125);
             transition: transform calc(0.25s * var(--motion-multiplier))
                cubic-bezier(0.2, 0.8, 0.2, 1);
             will-change: transform;

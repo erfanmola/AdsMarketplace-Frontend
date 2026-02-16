@@ -42,8 +42,9 @@
 
    --motion-multiplier: 1;
 
-   --glass-bg: rgba(var(--bg-color-rgb), 0.5);
+   --glass-bg: rgba(var(--bg-color-rgb), 0.75);
    --glass-shadow: rgba(192, 192, 192, 0.25);
+   --glass-active-rgb: 0, 0, 0;
    --glass-text-color: #323232;
    --glass-text-color-rgb: 50, 50, 50;
 
@@ -92,6 +93,7 @@ body[data-theme="dark"] {
 
    --glass-bg: rgba(48, 48, 48, 0.5);
    --glass-shadow: rgba(64, 64, 64, 0.25);
+   --glass-active-rgb: var(--white-rgb);
    --glass-text-color: var(--white);
    --glass-text-color-rgb: var(--white-rgb);
 
