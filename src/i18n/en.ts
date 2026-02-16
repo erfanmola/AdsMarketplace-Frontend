@@ -114,8 +114,8 @@ const dict = {
 			},
 			overview: {
 				title: {
-					channel: "Channel Statistics",
-					group: "Group Statistics",
+					channel: "Channel Overview",
+					group: "Group Overview",
 				},
 				range: "{from} - {to}",
 				channel: {

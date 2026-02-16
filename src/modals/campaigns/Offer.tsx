@@ -1,7 +1,7 @@
 import "./Offer.scss";
 import { useInfiniteQuery } from "@tanstack/solid-query";
 import LottiePlayer from "lottix/solid/LottiePlayer";
-import { type Component, createMemo, onMount } from "solid-js";
+import { type Component, createMemo, createSignal, onMount } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 import { apiCampaignOffer, apiEntitiesOwned } from "../../api";
 import CustomMainButton from "../../components/ui/CustomMainButton";
@@ -23,6 +23,7 @@ import {
 const ModalCampaignsOffer: Component = () => {
 	const { t, td } = useTranslation();
 
+	const [processing, setProcessing] = createSignal(false);
 	const [form, setForm] = createStore({
 		entity: "none",
 	});
@@ -93,9 +94,11 @@ const ModalCampaignsOffer: Component = () => {
 	};
 
 	const onClickButton = () => {
-		if (buttonDisabled()) return;
+		if (buttonDisabled() || processing()) return;
 
 		invokeHapticFeedbackImpact("soft");
+
+		setProcessing(true);
 
 		apiCampaignOffer(modals.campaignsOffer.campaignId!, {
 			entityId: form.entity,
@@ -123,6 +126,9 @@ const ModalCampaignsOffer: Component = () => {
 						type: "error",
 					});
 				}
+			})
+			.finally(() => {
+				setProcessing(false);
 			});
 	};
 
