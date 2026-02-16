@@ -200,103 +200,105 @@ const ModalEntitiesOffer: Component = () => {
 			type="fullheight"
 			withCloseButton
 		>
-			<Show
-				when={isActive()}
-				fallback={
-					<>
-						<LottiePlayer
-							src={LottieAnimations.duck.forbidden.url}
-							outline={LottieAnimations.duck.forbidden.outline}
-							autoplay
-							loop
-						/>
+			<div>
+				<Show
+					when={isActive()}
+					fallback={
+						<>
+							<LottiePlayer
+								src={LottieAnimations.duck.forbidden.url}
+								outline={LottieAnimations.duck.forbidden.outline}
+								autoplay
+								loop
+							/>
 
-						<h1>{t("modals.entitiesOffer.unsupported.title")}</h1>
+							<h1>{t("modals.entitiesOffer.unsupported.title")}</h1>
 
-						<p>{t("modals.entitiesOffer.unsupported.message")}</p>
-					</>
-				}
-			>
-				<LottiePlayer
-					src={LottieAnimations.duck.auction.url}
-					outline={LottieAnimations.duck.auction.outline}
-					autoplay
-					loop
-				/>
+							<p>{t("modals.entitiesOffer.unsupported.message")}</p>
+						</>
+					}
+				>
+					<LottiePlayer
+						src={LottieAnimations.duck.auction.url}
+						outline={LottieAnimations.duck.auction.outline}
+						autoplay
+						loop
+					/>
 
-				<h1>
-					{t(`pages.entity.ads.types.${modals.entitiesOffer.ad!.type}.title`)}
-				</h1>
+					<h1>
+						{t(`pages.entity.ads.types.${modals.entitiesOffer.ad!.type}.title`)}
+					</h1>
 
-				<p>
-					{t(
-						`pages.entity.ads.types.${modals.entitiesOffer.ad!.type}.description`,
-					)}
-				</p>
-			</Show>
+					<p>
+						{t(
+							`pages.entity.ads.types.${modals.entitiesOffer.ad!.type}.description`,
+						)}
+					</p>
+				</Show>
 
-			<section class="container-section-campaigns-information">
-				<SectionList
-					type="default"
-					class="container-section-campaigns-create"
-					description={td("modals.entitiesOffer.hint", {
-						count: items().length - 1,
-					})}
-					items={[
-						{
-							label: t("modals.entitiesOffer.campaign.label"),
-							placeholder: () => (
-								<SectionListSelect
-									items={items()}
-									value={form.campaign}
-									setValue={(value) => {
-										setForm("campaign", value);
-									}}
-								/>
-							),
-						},
-						{
-							label: t("modals.entitiesOffer.start.label"),
-							placeholder: () => (
-								<span>
-									<Datepicker
-										hideYear
-										withTime
-										pickerTitle={`${t("modals.entitiesOffer.start.label")} (UTC)`}
-										showUTC
-										value={form.date}
+				<section class="container-section-campaigns-information">
+					<SectionList
+						type="default"
+						class="container-section-campaigns-create"
+						description={td("modals.entitiesOffer.hint", {
+							count: items().length - 1,
+						})}
+						items={[
+							{
+								label: t("modals.entitiesOffer.campaign.label"),
+								placeholder: () => (
+									<SectionListSelect
+										items={items()}
+										value={form.campaign}
 										setValue={(value) => {
-											setForm("date", value);
+											setForm("campaign", value);
 										}}
-										minDate={new Date().toISOString().slice(0, 10)}
-										maxDate={new Date(Date.now() + 7 * 86400 * 1000)
-											.toISOString()
-											.slice(0, 10)}
 									/>
-								</span>
-							),
-						},
-						{
-							label: t("modals.entitiesOffer.duration.label"),
-							placeholder: () => (
-								<span class="pe-4!">
-									{td("modals.entitiesOffer.duration.hours", {
-										hours: modals.entitiesOffer.duration,
-									})}
-								</span>
-							),
-						},
-						{
-							label: t("modals.entitiesOffer.price.label"),
-							placeholder: () => (
-								<span class="pe-4! flex items-center gap-2">
-									{price()} <SVGSymbol id="TON" />
-								</span>
-							),
-						},
-					]}
-				/>
-			</section>
+								),
+							},
+							{
+								label: t("modals.entitiesOffer.start.label"),
+								placeholder: () => (
+									<span>
+										<Datepicker
+											hideYear
+											withTime
+											pickerTitle={`${t("modals.entitiesOffer.start.label")} (UTC)`}
+											showUTC
+											value={form.date}
+											setValue={(value) => {
+												setForm("date", value);
+											}}
+											minDate={new Date().toISOString().slice(0, 10)}
+											maxDate={new Date(Date.now() + 7 * 86400 * 1000)
+												.toISOString()
+												.slice(0, 10)}
+										/>
+									</span>
+								),
+							},
+							{
+								label: t("modals.entitiesOffer.duration.label"),
+								placeholder: () => (
+									<span class="pe-4!">
+										{td("modals.entitiesOffer.duration.hours", {
+											hours: modals.entitiesOffer.duration,
+										})}
+									</span>
+								),
+							},
+							{
+								label: t("modals.entitiesOffer.price.label"),
+								placeholder: () => (
+									<span class="pe-4! flex items-center gap-2">
+										{price()} <SVGSymbol id="TON" />
+									</span>
+								),
+							},
+						]}
+					/>
+				</section>
+			</div>
 
 			<CustomMainButton
 				onClick={onClickButton}

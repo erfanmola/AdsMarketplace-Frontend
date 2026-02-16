@@ -110,114 +110,116 @@ const ModalCampaignsAdd: Component = () => {
 			type="fullheight"
 			withCloseButton
 		>
-			<LottiePlayer
-				src={LottieAnimations.duck.chartGrow.url}
-				outline={LottieAnimations.duck.chartGrow.outline}
-				autoplay
-				loop
-			/>
-
-			<h1>{t("modals.campaignsAdd.title.text")}</h1>
-
-			<section class="container-section-campaigns-information">
-				<Section>
-					<div>
-						<input
-							class="input"
-							type="text"
-							placeholder={t(
-								"modals.campaignsAdd.section.fields.name.placeholder",
-							)}
-							value={form.name}
-							onInput={(e) => setForm("name", e.currentTarget.value)}
-							onBlur={(e) => setForm("name", e.currentTarget.value.trim())}
-							onKeyDown={hideKeyboardOnEnter}
-							maxLength={store.limits!.campaigns.name.maxLength}
-						/>
-					</div>
-
-					<div>
-						<textarea
-							id="input-description"
-							placeholder={t(
-								"modals.campaignsAdd.section.fields.description.placeholder",
-							)}
-							value={form.description}
-							onInput={(e) => setForm("description", e.currentTarget.value)}
-							onChange={(e) => {
-								setForm("description", e.currentTarget.value.trim());
-							}}
-							maxLength={store.limits!.campaigns.description.maxLength}
-						/>
-					</div>
-				</Section>
-
-				<SectionList
-					type="default"
-					description={t("modals.campaignsAdd.section.description")}
-					class="container-section-campaigns-create"
-					items={[
-						{
-							label: t("pages.entity.options.section.category.label"),
-							placeholder: () => (
-								<SectionListPicker
-									label={t("pages.entity.options.section.category.picker")}
-									placeholder={t(
-										"pages.entity.options.section.category.undefined",
-									)}
-									items={[
-										{
-											label: t(
-												"pages.entity.options.section.category.undefined",
-											),
-											value: "none",
-										},
-										...Object.entries(store.categories!).map(
-											([value, label]) => ({
-												label,
-												value,
-											}),
-										),
-									]}
-									value={form.category}
-									setValue={(value) => {
-										setForm("category", value);
-									}}
-								/>
-							),
-						},
-						{
-							label: t("pages.entity.options.section.language.label"),
-							placeholder: () => (
-								<SectionListPicker
-									label={t("pages.entity.options.section.language.picker")}
-									placeholder={t(
-										"pages.entity.options.section.language.undefined",
-									)}
-									items={[
-										{
-											label: t(
-												"pages.entity.options.section.language.undefined",
-											),
-											value: "none",
-										},
-										...Object.entries(store.languages!).map(
-											([value, label]) => ({
-												label,
-												value,
-											}),
-										),
-									]}
-									value={form.language_code}
-									setValue={(value) => {
-										setForm("language_code", value);
-									}}
-								/>
-							),
-						},
-					]}
+			<div>
+				<LottiePlayer
+					src={LottieAnimations.duck.chartGrow.url}
+					outline={LottieAnimations.duck.chartGrow.outline}
+					autoplay
+					loop
 				/>
-			</section>
+
+				<h1>{t("modals.campaignsAdd.title.text")}</h1>
+
+				<section class="container-section-campaigns-information">
+					<Section>
+						<div>
+							<input
+								class="input"
+								type="text"
+								placeholder={t(
+									"modals.campaignsAdd.section.fields.name.placeholder",
+								)}
+								value={form.name}
+								onInput={(e) => setForm("name", e.currentTarget.value)}
+								onBlur={(e) => setForm("name", e.currentTarget.value.trim())}
+								onKeyDown={hideKeyboardOnEnter}
+								maxLength={store.limits!.campaigns.name.maxLength}
+							/>
+						</div>
+
+						<div>
+							<textarea
+								id="input-description"
+								placeholder={t(
+									"modals.campaignsAdd.section.fields.description.placeholder",
+								)}
+								value={form.description}
+								onInput={(e) => setForm("description", e.currentTarget.value)}
+								onChange={(e) => {
+									setForm("description", e.currentTarget.value.trim());
+								}}
+								maxLength={store.limits!.campaigns.description.maxLength}
+							/>
+						</div>
+					</Section>
+
+					<SectionList
+						type="default"
+						description={t("modals.campaignsAdd.section.description")}
+						class="container-section-campaigns-create"
+						items={[
+							{
+								label: t("pages.entity.options.section.category.label"),
+								placeholder: () => (
+									<SectionListPicker
+										label={t("pages.entity.options.section.category.picker")}
+										placeholder={t(
+											"pages.entity.options.section.category.undefined",
+										)}
+										items={[
+											{
+												label: t(
+													"pages.entity.options.section.category.undefined",
+												),
+												value: "none",
+											},
+											...Object.entries(store.categories!).map(
+												([value, label]) => ({
+													label,
+													value,
+												}),
+											),
+										]}
+										value={form.category}
+										setValue={(value) => {
+											setForm("category", value);
+										}}
+									/>
+								),
+							},
+							{
+								label: t("pages.entity.options.section.language.label"),
+								placeholder: () => (
+									<SectionListPicker
+										label={t("pages.entity.options.section.language.picker")}
+										placeholder={t(
+											"pages.entity.options.section.language.undefined",
+										)}
+										items={[
+											{
+												label: t(
+													"pages.entity.options.section.language.undefined",
+												),
+												value: "none",
+											},
+											...Object.entries(store.languages!).map(
+												([value, label]) => ({
+													label,
+													value,
+												}),
+											),
+										]}
+										value={form.language_code}
+										setValue={(value) => {
+											setForm("language_code", value);
+										}}
+									/>
+								),
+							},
+						]}
+					/>
+				</section>
+			</div>
 
 			<CustomMainButton
 				onClick={onClickButton}

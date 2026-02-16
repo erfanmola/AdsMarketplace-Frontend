@@ -165,7 +165,13 @@ export const initializeTMA = async () => {
 
 		const handleTheme = (isDark: boolean) => {
 			setTheme(isDark ? "dark" : "light");
+
 			document.body.setAttribute("data-theme", isDark ? "dark" : "light");
+
+			document.documentElement.setAttribute(
+				"data-theme",
+				isDark ? "dark" : "light",
+			);
 
 			const current = navigator.getCurrentHistory();
 
@@ -236,6 +242,11 @@ export const initializeTMA = async () => {
 	}
 
 	document.body.setAttribute(
+		"data-platform",
+		lp?.tgWebAppPlatform.toLowerCase() ?? "unknown",
+	);
+
+	document.documentElement.setAttribute(
 		"data-platform",
 		lp?.tgWebAppPlatform.toLowerCase() ?? "unknown",
 	);

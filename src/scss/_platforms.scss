@@ -1,0 +1,26 @@
+html[data-platform="android"] {
+}
+
+html[data-platform="ios"] {
+}
+
+html[data-platform="macos"] {
+}
+
+html[data-platform="tdesktop"] {
+   font-size: 15px;
+
+   .container-entity {
+      > div {
+         > header {
+            max-width: calc(100% - 2rem) !important;
+         }
+      }
+   }
+}
+
+html[data-platform="weba"] {
+}
+
+html[data-platform="web"] {
+}

@@ -123,4 +123,14 @@
          }
       }
    }
+
+   &.swiping {
+      &.tabbar-glass {
+         > ul {
+            &::before {
+               transition: none;
+            }
+         }
+      }
+   }
 }

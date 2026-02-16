@@ -40,6 +40,7 @@ const Tabbar: Component<TabbarProps> = (props) => {
 	let slider: any;
 
 	const [mode, setMode] = createSignal(props.mode ?? "glass");
+	const [swiping, setSwiping] = createSignal(false);
 
 	createEffect(() => {
 		setMode(props.mode ?? "glass");
@@ -193,6 +194,7 @@ const Tabbar: Component<TabbarProps> = (props) => {
 
 	const onSliderTouchStart = () => {
 		directionLocked = null; // reset at the start
+		setSwiping(true);
 	};
 
 	const onSliderTouchMove = (swiper: any) => {
@@ -211,6 +213,7 @@ const Tabbar: Component<TabbarProps> = (props) => {
 	const onSliderTouchEnd = () => {
 		props?.setScrollingState?.(false); // always re-enable pull-to-refresh
 		directionLocked = null;
+		setSwiping(false);
 	};
 
 	onMount(() => {
@@ -250,6 +253,9 @@ const Tabbar: Component<TabbarProps> = (props) => {
 			]
 				.filter(Boolean)
 				.join(" ")}
+			classList={{
+				swiping: swiping(),
+			}}
 		>
 			<ul ref={ulRef}>
 				<For each={props.items}>

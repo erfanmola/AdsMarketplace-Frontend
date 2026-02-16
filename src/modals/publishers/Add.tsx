@@ -145,79 +145,81 @@ const ModalPublishersAdd: Component = () => {
 			type="fullheight"
 			withCloseButton
 		>
-			<LottiePlayer
-				src={LottieAnimations.duck.premiumCloak.url}
-				outline={LottieAnimations.duck.premiumCloak.outline}
-				autoplay
-				loop
-			/>
+			<div>
+				<LottiePlayer
+					src={LottieAnimations.duck.premiumCloak.url}
+					outline={LottieAnimations.duck.premiumCloak.outline}
+					autoplay
+					loop
+				/>
 
-			<AnimatedText text={state.title} />
+				<AnimatedText text={state.title} />
 
-			<p>{t("modals.publishersAdd.description")}</p>
+				<p>{t("modals.publishersAdd.description")}</p>
 
-			<ul>
-				<li>
-					<Switch>
-						<Match when={state.state === "channel"}>
-							<TbOutlineEdit style={{ color: "#3b86f6" }} />
-						</Match>
+				<ul>
+					<li>
+						<Switch>
+							<Match when={state.state === "channel"}>
+								<TbOutlineEdit style={{ color: "#3b86f6" }} />
+							</Match>
 
-						<Match when={state.state === "group"}>
-							<TbOutlinePinned style={{ color: "#3b86f6" }} />
-						</Match>
-					</Switch>
+							<Match when={state.state === "group"}>
+								<TbOutlinePinned style={{ color: "#3b86f6" }} />
+							</Match>
+						</Switch>
 
-					<div>
-						<AnimatedText text={state.rowOne.title} />
-						<AnimatedText text={state.rowOne.description} />
-					</div>
-				</li>
+						<div>
+							<AnimatedText text={state.rowOne.title} />
+							<AnimatedText text={state.rowOne.description} />
+						</div>
+					</li>
 
-				<li>
-					<Switch>
-						<Match when={state.state === "channel"}>
-							<TbOutlineSubtitlesEdit style={{ color: "#a267eb" }} />
-						</Match>
+					<li>
+						<Switch>
+							<Match when={state.state === "channel"}>
+								<TbOutlineSubtitlesEdit style={{ color: "#a267eb" }} />
+							</Match>
 
-						<Match when={state.state === "group"}>
-							<TbOutlineLifebuoy style={{ color: "#a267eb" }} />
-						</Match>
-					</Switch>
+							<Match when={state.state === "group"}>
+								<TbOutlineLifebuoy style={{ color: "#a267eb" }} />
+							</Match>
+						</Switch>
 
-					<div>
-						<AnimatedText text={state.rowTwo.title} />
-						<AnimatedText text={state.rowTwo.description} />
-					</div>
-				</li>
+						<div>
+							<AnimatedText text={state.rowTwo.title} />
+							<AnimatedText text={state.rowTwo.description} />
+						</div>
+					</li>
 
-				<li>
-					<TbOutlineTrash style={{ color: "#d8664d" }} />
+					<li>
+						<TbOutlineTrash style={{ color: "#d8664d" }} />
 
-					<div>
-						<AnimatedText text={state.rowThree.title} />
-						<AnimatedText text={state.rowThree.description} />
-					</div>
-				</li>
+						<div>
+							<AnimatedText text={state.rowThree.title} />
+							<AnimatedText text={state.rowThree.description} />
+						</div>
+					</li>
 
-				<li>
-					<TbOutlineUserStar style={{ color: "#db374b" }} />
+					<li>
+						<TbOutlineUserStar style={{ color: "#db374b" }} />
 
-					<div>
-						<AnimatedText text={state.rowFour.title} />
-						<AnimatedText text={state.rowFour.description} />
-					</div>
-				</li>
-			</ul>
+						<div>
+							<AnimatedText text={state.rowFour.title} />
+							<AnimatedText text={state.rowFour.description} />
+						</div>
+					</li>
+				</ul>
 
-			<Clickable
-				onClick={() => {
-					invokeHapticFeedbackImpact("soft");
-					setState("state", state.state === "channel" ? "group" : "channel");
-				}}
-			>
-				<AnimatedText text={state.toggle} />
-			</Clickable>
+				<Clickable
+					onClick={() => {
+						invokeHapticFeedbackImpact("soft");
+						setState("state", state.state === "channel" ? "group" : "channel");
+					}}
+				>
+					<AnimatedText text={state.toggle} />
+				</Clickable>
+			</div>
 
 			<CustomMainButton onClick={onClickButton} text={state.button} />
 		</Modal>

@@ -141,40 +141,42 @@ const ModalCampaignsOffer: Component = () => {
 			type="fullheight"
 			withCloseButton
 		>
-			<LottiePlayer
-				src={LottieAnimations.duck.glassShine.url}
-				outline={LottieAnimations.duck.glassShine.outline}
-				autoplay
-				loop
-			/>
-
-			<h1>{t("modals.campaignsOffer.title")}</h1>
-
-			<p>{t("modals.campaignsOffer.description")}</p>
-
-			<section class="container-section-campaigns-information">
-				<SectionList
-					type="default"
-					class="container-section-campaigns-create"
-					description={td("modals.campaignsOffer.hint", {
-						count: items().length - 1,
-					})}
-					items={[
-						{
-							label: t("modals.campaignsOffer.entity.label"),
-							placeholder: () => (
-								<SectionListSelect
-									items={items()}
-									value={form.entity}
-									setValue={(value) => {
-										setForm("entity", value);
-									}}
-								/>
-							),
-						},
-					]}
+			<div>
+				<LottiePlayer
+					src={LottieAnimations.duck.glassShine.url}
+					outline={LottieAnimations.duck.glassShine.outline}
+					autoplay
+					loop
 				/>
-			</section>
+
+				<h1>{t("modals.campaignsOffer.title")}</h1>
+
+				<p>{t("modals.campaignsOffer.description")}</p>
+
+				<section class="container-section-campaigns-information">
+					<SectionList
+						type="default"
+						class="container-section-campaigns-create"
+						description={td("modals.campaignsOffer.hint", {
+							count: items().length - 1,
+						})}
+						items={[
+							{
+								label: t("modals.campaignsOffer.entity.label"),
+								placeholder: () => (
+									<SectionListSelect
+										items={items()}
+										value={form.entity}
+										setValue={(value) => {
+											setForm("entity", value);
+										}}
+									/>
+								),
+							},
+						]}
+					/>
+				</section>
+			</div>
 
 			<CustomMainButton
 				onClick={onClickButton}

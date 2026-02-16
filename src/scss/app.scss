@@ -9,5 +9,6 @@
 @include meta.load-css("fonts");
 @include meta.load-css("general");
 @include meta.load-css("rtl");
+@include meta.load-css("platforms");
 @include meta.load-css("responsive");
 @include meta.load-css("reduced-motion");
